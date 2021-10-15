@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Matcha_Editor</RootNamespace>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>matcha.ico</ApplicationIcon>
+    <Win32Resource />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Icons\matcha.ico" />
+    <None Remove="Icons\matcha.png" />
+    <None Remove="Resources\Splash.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MVVM\Model\Viewport\" />
+    <Folder Include="Themes\Inspector\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icons\matcha.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Splash.png" />
+  </ItemGroup>
+
+</Project>

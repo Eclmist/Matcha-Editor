@@ -1,0 +1,15 @@
+﻿<Application x:Class="Matcha_Editor.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Matcha_Editor"
+             Startup="Application_Startup" Exit="Application_Exit"
+             >
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Themes/Common/Colors.xaml"/>
+                <ResourceDictionary Source="./Themes/Common/PanelTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
