@@ -1,6 +1,9 @@
-﻿using Matcha_Editor.MVVM.Model;
+﻿using Matcha_Editor.Core.IPC;
+using Matcha_Editor.Core.IPC.Command;
+using Matcha_Editor.MVVM.Model;
 using Matcha_Editor.MVVM.ViewModel;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Matcha_Editor.MVVM.View
 {
@@ -12,13 +15,18 @@ namespace Matcha_Editor.MVVM.View
         {
             InitializeComponent();
 
-            HierarchyNode rootnode = new HierarchyNode { Name = "Dummy Nested Entity" };
-            rootnode.Children.Add(new HierarchyNode { Name = "Nested Entity 1" });
-            rootnode.Children.Add(new HierarchyNode { Name = "Nested Entity 2" });
-            rootnode.Children.Add(new HierarchyNode { Name = "Nested Entity 3" });
+            HierarchyNode rootnode = new HierarchyNode { Name = "Default World" };
+            rootnode.Children.Add(new HierarchyNode { Name = "Dummy Nested Entity" });
 
-            rootnode.Children[2].Children.Add(new HierarchyNode { Name = "Deeply Nested Entity 1" });
-            rootnode.Children[2].Children.Add(new HierarchyNode { Name = "Deeply Nested Entity 2" });
+            rootnode.Children[0].Children.Add(new HierarchyNode { Name = "Deeply Nested Entity 1" });
+            rootnode.Children[0].Children.Add(new HierarchyNode { Name = "Deeply Nested Entity 2" });
+
+            var result = new GetTopLevelEntitiesCommand.Response(IPCManager.Instance.Get(new GetTopLevelEntitiesCommand()));
+            foreach (var entity in result.ResponseData.Args.Entities)
+                rootnode.Children.Add(new HierarchyNode { 
+                    Name = entity.Name, 
+                    Guid = entity.Guid
+                });
 
             m_TreeViewModel = new HierarchyTreeViewModel(rootnode);
             base.DataContext = m_TreeViewModel;

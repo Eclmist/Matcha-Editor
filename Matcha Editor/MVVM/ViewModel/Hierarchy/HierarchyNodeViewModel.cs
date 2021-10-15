@@ -20,10 +20,6 @@ namespace Matcha_Editor.MVVM.ViewModel
             m_Current = nodeModel;
             m_Parent = parent;
 
-            //Children = new ReadOnlyCollection<HierarchyNodeViewModel>();
-            //foreach (var child in nodeModel.Children)
-            //    Children.Add(new HierarchyNodeViewModel(child, this));
-
             Children = new ReadOnlyCollection<HierarchyNodeViewModel>(
                 (from child in nodeModel.Children
                  select new HierarchyNodeViewModel(child, this))

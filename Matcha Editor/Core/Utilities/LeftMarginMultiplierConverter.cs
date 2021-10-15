@@ -17,7 +17,7 @@ namespace Matcha_Editor.Core.Utilities
             if (item == null)
                 return new Thickness(0);
 
-            return new Thickness(Length * item.GetDepth(), 0, 0, 0);
+            return new Thickness(Length * item.GetDepth(), 2, 0, 2);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icons\Labels\cube.png" />
     <None Remove="Icons\matcha.ico" />
     <None Remove="Icons\matcha.png" />
     <None Remove="Resources\Splash.png" />
@@ -21,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Icons\Labels\cube.png" />
     <Resource Include="Icons\matcha.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
