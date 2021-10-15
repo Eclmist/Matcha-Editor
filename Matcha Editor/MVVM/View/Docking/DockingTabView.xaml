@@ -6,12 +6,12 @@
              xmlns:local="clr-namespace:Matcha_Editor.MVVM.View"
              mc:Ignorable="d" 
              >
-    <Border Style="{StaticResource RoundedBorder}" Width="Auto" Padding="8,2,8,2">
+    <Border Style="{StaticResource PanelTabStyle}" Width="Auto" Padding="8,2,8,2">
         <Grid Width="Auto">
             <StackPanel Orientation="Horizontal">
                 <Border CornerRadius="5" Width="12" Height="12" Background="{StaticResource Editor.Window.PrimaryBrush}">
                 </Border>
-                <Label x:Name="Title" Content="Hierarchy" Foreground="{StaticResource Editor.Window.FontBrush}" 
+                <Label x:Name="Title" Content="Hierarchy" Foreground="{StaticResource Editor.Window.SystemFontBrush}" 
                        FontSize="12" Padding="0,0,0,0" Margin="4,0,0,0" HorizontalAlignment="Left"/>
             </StackPanel>
         </Grid>

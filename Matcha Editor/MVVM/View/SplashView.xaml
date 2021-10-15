@@ -20,19 +20,19 @@
         <Label HorizontalAlignment="Left"
                VerticalAlignment="Bottom"
                Margin="15,0,0,10"
-               Foreground="{StaticResource Editor.Window.FontBrush}"
+               Foreground="{StaticResource Editor.Window.SystemFontBrush}"
                Content="Version: "
                />
         <Label HorizontalAlignment="Left"
                VerticalAlignment="Bottom"
                Margin="60,0,0,10"
-               Foreground="{StaticResource Editor.Window.FontBrush}"
+               Foreground="{StaticResource Editor.Window.SystemFontBrush}"
                Content="{Binding Splash.Version}"
                />
         <Label HorizontalAlignment="Right"
                VerticalAlignment="Bottom"
                Margin="0,0,15,10"
-               Foreground="{StaticResource Editor.Window.FontBrush}"
+               Foreground="{StaticResource Editor.Window.SystemFontBrush}"
                Content="{Binding Splash.Status}"
                />
 

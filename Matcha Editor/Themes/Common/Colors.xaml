@@ -7,7 +7,11 @@
     <Color x:Key="Editor.Window.GrayColor5">#686868</Color>
     <Color x:Key="Editor.Window.GrayColor6">#9E9E9E</Color>
     <Color x:Key="Editor.Window.FontColor">#dddddd</Color>
+    <Color x:Key="Editor.Window.FontColorDark">#aaaaaa</Color>
+
     <Color x:Key="Editor.Window.PrimaryColor">#CEF4A5</Color>
+    <Color x:Key="Editor.Window.PrimaryColorDark">#85AE5B</Color>
+    <Color x:Key="Editor.Window.PrimaryColorDarkest">#668943</Color>
 
     <SolidColorBrush Color="{StaticResource Editor.Window.GrayColor1}" x:Key="Editor.Window.GrayBrush1"/>
     <SolidColorBrush Color="{StaticResource Editor.Window.GrayColor2}" x:Key="Editor.Window.GrayBrush2"/>
@@ -15,7 +19,10 @@
     <SolidColorBrush Color="{StaticResource Editor.Window.GrayColor4}" x:Key="Editor.Window.GrayBrush4"/>
     <SolidColorBrush Color="{StaticResource Editor.Window.GrayColor5}" x:Key="Editor.Window.GrayBrush5"/>
     <SolidColorBrush Color="{StaticResource Editor.Window.GrayColor6}" x:Key="Editor.Window.GrayBrush6"/>
-    <SolidColorBrush Color="{StaticResource Editor.Window.FontColor}" x:Key="Editor.Window.FontBrush"/>
+    <SolidColorBrush Color="{StaticResource Editor.Window.FontColor}" x:Key="Editor.Window.SystemFontBrush"/>
+    <SolidColorBrush Color="{StaticResource Editor.Window.FontColorDark}" x:Key="Editor.Window.InputFontBrush"/>
     <SolidColorBrush Color="{StaticResource Editor.Window.PrimaryColor}" x:Key="Editor.Window.PrimaryBrush"/>
+    <SolidColorBrush Color="{StaticResource Editor.Window.PrimaryColorDark}" x:Key="Editor.Window.PrimaryDarkBrush"/>
+    <SolidColorBrush Color="{StaticResource Editor.Window.PrimaryColorDarkest}" x:Key="Editor.Window.PrimaryDarkestBrush"/>
 
 </ResourceDictionary>

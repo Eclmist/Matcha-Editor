@@ -3,20 +3,13 @@ using System.Text.Json.Serialization;
 
 namespace Matcha_Editor.Core.IPC.Command
 {
-    class InitializeCommand : CommandBase
+    class GetTopLevelEntitiesCommand : CommandBase
     {
         public CommandLayout m_Command { get; }
 
         public class CommandLayout
         {
             public string Command { get; set; }
-
-            public ArgumentLayout Args { get; set; }
-
-            public class ArgumentLayout
-            {
-                public long Hwnd { get; set; }
-            }
         }
 
         public class Response
@@ -30,26 +23,37 @@ namespace Matcha_Editor.Core.IPC.Command
 
             public class ResponseLayout
             {
-                public string command { get; set; } // Not used but required for backwards compatibility with Cauldron.
-                                                    // TODO: Remove?
+                [JsonPropertyName("command")]
+                public string Command { get; set; }
 
-                public ArgumentLayout args { get; set; }
+                [JsonPropertyName("args")]
+                public ArgumentLayout Args { get; set; }
 
                 public class ArgumentLayout
                 {
-                    public long childhwnd { get; set; }
+                    [JsonPropertyName("entities")]
+                    public EntityLayout[] Entities { get; set; }
+
+                    public class EntityLayout
+                    {
+                        [JsonPropertyName("name")]
+                        public string Name { get; set; }
+                        [JsonPropertyName("guid")]
+                        public string Guid { get; set; }
+                        [JsonPropertyName("parent")]
+                        public string Parent { get; set; }
+                        [JsonPropertyName("enabled")]
+                        public bool Enabled { get; set; }
+                    }    
                 }
             }
         }
 
-        public InitializeCommand(System.IntPtr viewportHostHwnd)
+        public GetTopLevelEntitiesCommand()
         {
             m_Command = new CommandLayout
             {
-                Command = "initialize",
-                Args = new CommandLayout.ArgumentLayout {
-                    Hwnd = viewportHostHwnd.ToInt64() 
-                } 
+                Command = "gettoplevelentities"
             };
         }
 

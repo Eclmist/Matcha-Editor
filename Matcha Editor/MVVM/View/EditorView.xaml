@@ -74,8 +74,7 @@
 
                     <!-- World Viewer View -->
                     <Grid Grid.Column="2">
-                        <custom:DockingContainerView/>
-                        <!--<custom:ViewportView x:Name="Viewport"/>-->
+                        <custom:ViewportView x:Name="Viewport"/>
                     </Grid>
                 </Grid>
 
@@ -91,7 +90,7 @@
 
             <!-- Inspector View -->
             <Grid Grid.Column="2">
-                <custom:InspectorView/>
+                <custom:InspectorView Loaded="InspectorView_Loaded"/>
             </Grid>
         </Grid>
     </Grid>

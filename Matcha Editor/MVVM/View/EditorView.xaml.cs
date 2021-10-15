@@ -13,5 +13,10 @@ namespace Matcha_Editor.MVVM.View
             Application.Current.MainWindow = this;
             SplashView.Instance.Close();
         }
+
+        private void InspectorView_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

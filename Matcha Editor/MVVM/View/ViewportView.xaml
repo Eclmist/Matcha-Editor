@@ -6,7 +6,7 @@
              xmlns:custom="clr-namespace:Matcha_Editor.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000">
-    <Border Style="{StaticResource RoundedBorder}">
+    <Border Style="{StaticResource PanelTabStyle}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="23"/>

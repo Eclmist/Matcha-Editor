@@ -24,6 +24,11 @@ namespace Matcha_Editor.Core.IPC
         private TcpClient m_TCPClient;
         private NetworkStream m_NetworkStream;
 
+        public bool HasActiveConnection
+        {
+            get { return m_TCPClient.Connected; }
+        }
+
         public void Initialize()
         {
             Console.WriteLine("Initializing IPC Manager");
@@ -38,12 +43,18 @@ namespace Matcha_Editor.Core.IPC
 
         public void Post(CommandBase command)
         {
+            if (!HasActiveConnection)
+                return;
+
             Send(command.ToBytes());
             Console.WriteLine($"Command Sent { command.ToJson() }");
         }
 
         public string Get(CommandBase command)
         {
+            if (!HasActiveConnection)
+                return "";
+
             Post(command);
             return WaitForReply();
         }

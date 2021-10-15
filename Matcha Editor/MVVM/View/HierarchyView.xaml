@@ -3,21 +3,52 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:custom="clr-namespace:Matcha_Editor.MVVM.View" 
              mc:Ignorable="d" 
+             Margin="2,2,2,2"
              d:DesignHeight="600" d:DesignWidth="400">
-    <Border Style="{StaticResource RoundedBorder}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="23"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+    <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <custom:DockingTabView DockPanel.Dock="Top" Panel.ZIndex="2" Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,0"/>
+        <Border DockPanel.Dock="Bottom" Panel.ZIndex="1" Margin="0,-1,0,0" Style="{StaticResource PanelContentStyle}">
+            <Grid Background="{StaticResource Editor.Window.GrayBrush2}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <Grid HorizontalAlignment="Stretch">
-                <Label Content="Hierarchy" Foreground="#CCCCCC" FontSize="12" Padding="0,3,0,0" Margin="6,0,0,0"/>
+                <Border Grid.Row="0" 
+                        BorderBrush="{StaticResource Editor.Window.GrayBrush1}"
+                        BorderThickness="0,0,0,1"
+                        Padding="4"
+                        Background="{StaticResource Editor.Window.GrayBrush3}">
+
+                    <DockPanel>
+                        <Button DockPanel.Dock="Left">Create</Button>
+                        <Separator Opacity="0" Width="4"/>
+                        <TextBox></TextBox>
+                    </DockPanel>
+                </Border>
+
+                <ScrollViewer Grid.Row="1"
+                              HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Auto"
+                              Background="Transparent" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                    <Border
+                            BorderBrush="{StaticResource Editor.Window.GrayBrush1}"
+                            BorderThickness="0,1,0,0"
+                            Padding="4"
+                            Background="{StaticResource Editor.Window.GrayBrush2}">
+
+                        <TreeView ItemsSource="{Binding RootNode}">
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                    <TextBlock Text="{Binding Name}" />
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </Border>
+                </ScrollViewer>
             </Grid>
-
-            <StackPanel Background="#252526" Grid.Row="1">
-            </StackPanel>
-        </Grid>
-    </Border>
+        </Border>
+    </DockPanel>
 </UserControl>

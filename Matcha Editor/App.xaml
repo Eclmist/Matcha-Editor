@@ -8,7 +8,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="./Themes/Common/Colors.xaml"/>
+                <ResourceDictionary Source="./Themes/Common/Global.xaml"/>
                 <ResourceDictionary Source="./Themes/Common/PanelTheme.xaml"/>
+                <ResourceDictionary Source="./Themes/Common/ScrollBar.xaml"/>
+                <ResourceDictionary Source="./Themes/Common/TreeView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
