@@ -74,7 +74,8 @@
 
                     <!-- World Viewer View -->
                     <Grid Grid.Column="2">
-                        <custom:ViewportView x:Name="Viewport"/>
+                        <custom:DockingContainerView/>
+                        <!--<custom:ViewportView x:Name="Viewport"/>-->
                     </Grid>
                 </Grid>
 
