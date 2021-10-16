@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Matcha_Editor.Core.Docking;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -18,6 +19,7 @@ namespace Matcha_Editor.MVVM.View
         public DockingPanelView()
         {
             InitializeComponent();
+            Tab.ParentPanel = this;
         }
     }
 }

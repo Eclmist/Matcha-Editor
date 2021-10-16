@@ -13,14 +13,18 @@ using System.Windows.Shapes;
 
 namespace Matcha_Editor.MVVM.View
 {
-    /// <summary>
-    /// Interaction logic for DockingTabView.xaml
-    /// </summary>
     public partial class DockingTabView : UserControl
     {
+        public DockingPanelView ParentPanel { get; set; }
+
         public DockingTabView()
         {
             InitializeComponent();
+        }
+        
+        public void ToggleVisibility(bool visible)
+        {
+            this.Opacity = visible ? 1 : 0;
         }
     }
 }

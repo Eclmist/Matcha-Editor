@@ -1,0 +1,4 @@
+[BUG] Update Horizontally Stacked Var
+[BUG] Should not be able to dock to itself.
+[BUG] Tab name not updating
+[BUG] Tab should disappear outside of horizontal bound

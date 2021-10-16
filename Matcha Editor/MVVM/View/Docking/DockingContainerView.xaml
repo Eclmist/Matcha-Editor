@@ -6,6 +6,9 @@
              xmlns:local="clr-namespace:Matcha_Editor.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Canvas x:Name="LayoutRoot">
+    <Canvas x:Name="LayoutRoot" 
+            Loaded="LayoutRoot_Loaded" 
+            PreviewMouseMove="LayoutRoot_PreviewMouseMove"
+            PreviewMouseUp="LayoutRoot_PreviewMouseUp" SizeChanged="LayoutRoot_SizeChanged">
     </Canvas>
 </UserControl>

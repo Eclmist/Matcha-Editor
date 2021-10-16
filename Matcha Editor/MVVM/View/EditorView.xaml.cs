@@ -14,9 +14,9 @@ namespace Matcha_Editor.MVVM.View
             SplashView.Instance.Close();
         }
 
-        private void InspectorView_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Deactivated(object sender, System.EventArgs e)
         {
-
+            LayoutRoot.AbortDockingPreview();
         }
     }
 }

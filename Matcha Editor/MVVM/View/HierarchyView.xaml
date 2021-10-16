@@ -5,11 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:custom="clr-namespace:Matcha_Editor.MVVM.View" 
              mc:Ignorable="d" 
-             Margin="2,2,2,2"
              d:DesignHeight="600" d:DesignWidth="400">
     <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <custom:DockingTabView DockPanel.Dock="Top" Panel.ZIndex="2" Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,0"/>
-        <Border DockPanel.Dock="Bottom" Panel.ZIndex="1" Margin="0,-1,0,0" Style="{StaticResource PanelContentStyle}">
+        <Border DockPanel.Dock="Bottom" Panel.ZIndex="1" BorderThickness="0" Margin="0,-1,0,0" Style="{StaticResource PanelContentStyle}">
             <Grid Background="{StaticResource Editor.Window.GrayBrush2}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
