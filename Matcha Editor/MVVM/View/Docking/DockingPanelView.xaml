@@ -9,7 +9,12 @@
     <DockPanel Margin="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <custom:DockingTabView x:Name="Tab" DockPanel.Dock="Top" Panel.ZIndex="2" Grid.Row="0" HorizontalAlignment="Left" Margin="0"/>
         <Border DockPanel.Dock="Bottom" Panel.ZIndex="1" Margin="0,-1,0,0" Style="{StaticResource PanelContentStyle}">
-            <ContentControl BorderThickness="0" BorderBrush="Transparent" Margin="0" Padding="0" x:Name="Container" Background="{StaticResource Editor.Window.GrayBrush2}">
+            <ContentControl 
+                BorderThickness="0" 
+                BorderBrush="Transparent" 
+                Margin="0" Padding="0" 
+                x:Name="Container" 
+                Background="{StaticResource Editor.Window.GrayBrush2}">
             </ContentControl>
         </Border>
     </DockPanel>

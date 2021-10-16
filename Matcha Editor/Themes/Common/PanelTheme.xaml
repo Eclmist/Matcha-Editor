@@ -11,5 +11,6 @@
         <Setter Property="Background" Value="{StaticResource Editor.Window.GrayBrush3}"/>
         <Setter Property="BorderThickness" Value="1,2,1,1"/>
         <Setter Property="BorderBrush" Value="{StaticResource Editor.Window.GrayBrush4}"/>
+        <Setter Property="CornerRadius" Value="0,5,5,5"/>
     </Style>
 </ResourceDictionary>
