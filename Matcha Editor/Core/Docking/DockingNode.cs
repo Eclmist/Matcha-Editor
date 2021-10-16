@@ -139,6 +139,8 @@ namespace Matcha_Editor.Core.Docking
             if (LeftChild.IsHorizontallyStacked)
             {
                 double totalWidth = LeftChild.Rect.Width + (RightChild == null ? 0 : RightChild.Rect.Width);
+                // TODO: Force this assert when ugly base case is removed
+                //Debug.Assert(totalWidth == LeftChild.Parent.Rect.Width);
                 newLeftRect.Width = (int)(LeftChild.Rect.Width / totalWidth * newRect.Width);
                 newRightRect.Width = (int)newRect.Width - newLeftRect.Width;
                 newRightRect.Offset(newLeftRect.Width, 0);
@@ -146,6 +148,7 @@ namespace Matcha_Editor.Core.Docking
             else
             {
                 double totalHeight = LeftChild.Rect.Height + (RightChild == null ? 0 : RightChild.Rect.Height);
+                //Debug.Assert(totalHeight == LeftChild.Parent.Rect.Height);
                 newLeftRect.Height = (int)(LeftChild.Rect.Height / totalHeight * newRect.Height);
                 newRightRect.Height = (int)newRect.Height - newLeftRect.Height;
                 newRightRect.Offset(0, newLeftRect.Height);

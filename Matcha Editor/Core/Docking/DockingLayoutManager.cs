@@ -64,51 +64,53 @@ namespace Matcha_Editor.Core.Docking
             m_RootNode.RecursiveResize(m_RootNode.Rect);
         }
 
-        private void DockNode(DockingNode nodeToDock)
+        private void DockNode(DockingNode newNode)
         {
-            Debug.Assert(!nodeToDock.HasChildren());
-            Debug.Assert(nodeToDock.Parent != null);
-            Debug.Assert(!nodeToDock.Parent.HasChildren());
+            Debug.Assert(!newNode.HasChildren());
+            Debug.Assert(newNode.Parent != null);
+            Debug.Assert(!newNode.Parent.HasChildren());
 
-            if (nodeToDock.Parent.IsAncestor()) // Attaching first node to root node, special case
+            if (newNode.Parent.IsAncestor()) // Attaching first node to root node, special case
             {
-                nodeToDock.Parent.LeftChild = nodeToDock;
-                nodeToDock.Rect = nodeToDock.Parent.Rect;
+                newNode.Parent.LeftChild = newNode;
+                newNode.Rect = newNode.Parent.Rect;
                 return;
             }
 
             DockingNode newSibling = new DockingNode();
-            newSibling.Rect = nodeToDock.Parent.Rect;
-            newSibling.Parent = nodeToDock.Parent;
-            newSibling.AttachedPanel = nodeToDock.Parent.AttachedPanel;
-            nodeToDock.Parent.AttachedPanel = null;
-            Debug.Assert((newSibling.Rect.Width == nodeToDock.Rect.Width) || (newSibling.Rect.Height == nodeToDock.Rect.Height));
+            newSibling.Parent = newNode.Parent;
+            newSibling.AttachedPanel = newNode.Parent.AttachedPanel;
+            newNode.Parent.AttachedPanel = null;
 
-            bool newNodeOnTopOrLeft = true;
+            bool newNodeOnTopOrLeft = newNode.Rect.Top < newSibling.Rect.Top || newNode.Rect.Left < newSibling.Rect.Left;
+            bool isHorizontallyStacked = newSibling.Rect.Top == newNode.Rect.Top;
+            newSibling.IsHorizontallyStacked = isHorizontallyStacked;
+            newNode.IsHorizontallyStacked = isHorizontallyStacked;
 
-            if (newSibling.Rect.Width == nodeToDock.Rect.Width)
+            Rect newNodeRect = newNode.Parent.Rect;
+            Rect newSiblingRect = newNodeRect;
+
+            if (isHorizontallyStacked)
             {
-                newSibling.IsHorizontallyStacked = false;
-                nodeToDock.IsHorizontallyStacked = false;
-                newSibling.Rect.Inflate(0, -nodeToDock.Rect.Height);
-                if (newSibling.Rect.Top >= nodeToDock.Rect.Top)
-                    newSibling.Rect.Offset(0, nodeToDock.Rect.Width);
-                else
-                    newNodeOnTopOrLeft = false;
+                newNodeRect.Width /= 2;
+                newSiblingRect.Width /= 2;
+
+                newNodeRect.X += newNodeOnTopOrLeft ? 0 : newSiblingRect.Width;
+                newSiblingRect.X += newNodeOnTopOrLeft ? newNodeRect.Width : 0;
             }
             else
             {
-                newSibling.IsHorizontallyStacked = true;
-                nodeToDock.IsHorizontallyStacked = true;
-                newSibling.Rect.Inflate(-nodeToDock.Rect.Width, 0);
-                if (newSibling.Rect.Left >= nodeToDock.Rect.Left)
-                    newSibling.Rect.Offset(nodeToDock.Rect.Width, 0);
-                else
-                    newNodeOnTopOrLeft = false;
+                newNodeRect.Height /= 2;
+                newSiblingRect.Height /= 2;
+
+                newNodeRect.Y += newNodeOnTopOrLeft ? 0 : newSiblingRect.Height;
+                newSiblingRect.Y += newNodeOnTopOrLeft ? newNodeRect.Height : 0;
             }
 
-            nodeToDock.Parent.LeftChild = newNodeOnTopOrLeft ? nodeToDock : newSibling;
-            nodeToDock.Parent.RightChild = newNodeOnTopOrLeft ? newSibling : nodeToDock;
+            newNode.Rect = newNodeRect;
+            newSibling.Rect = newSiblingRect;
+            newNode.Parent.LeftChild = newNodeOnTopOrLeft ? newNode : newSibling;
+            newNode.Parent.RightChild = newNodeOnTopOrLeft ? newSibling : newNode;
         }
 
         public void UndockNode(DockingNode node)
