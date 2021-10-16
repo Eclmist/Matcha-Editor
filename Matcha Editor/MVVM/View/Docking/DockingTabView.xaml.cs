@@ -16,10 +16,12 @@ namespace Matcha_Editor.MVVM.View
     public partial class DockingTabView : UserControl
     {
         public DockingPanelView ParentPanel { get; set; }
+        public string TitleText { get; set; }
 
         public DockingTabView()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
         
         public void ToggleVisibility(bool visible)

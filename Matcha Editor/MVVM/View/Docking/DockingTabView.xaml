@@ -11,7 +11,7 @@
             <StackPanel Orientation="Horizontal">
                 <Border CornerRadius="5" Width="12" Height="12" Background="{StaticResource Editor.Window.PrimaryBrush}">
                 </Border>
-                <Label x:Name="Title" Content="$TabTitle" Foreground="{StaticResource Editor.Window.SystemFontBrush}" 
+                <Label x:Name="Title" Content="{Binding TitleText}" Foreground="{StaticResource Editor.Window.SystemFontBrush}" 
                        FontSize="12" Padding="0,0,0,0" Margin="4,0,0,0" HorizontalAlignment="Left"/>
             </StackPanel>
         </Grid>

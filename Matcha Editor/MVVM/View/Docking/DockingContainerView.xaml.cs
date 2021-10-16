@@ -20,25 +20,25 @@ namespace Matcha_Editor.MVVM.View
         {
 
             DockingPanelView hierarchyPanel = new DockingPanelView();
-            hierarchyPanel.Tab.Title.Content = "Hierarchy";
+            hierarchyPanel.Tab.TitleText = "Hierarchy";
             hierarchyPanel.Tab.PreviewMouseDown += OnTabMouseDown;
             hierarchyPanel.Container.Content = new HierarchyView();
             LayoutRoot.Children.Add(hierarchyPanel);
 
             DockingPanelView viewportPanel = new DockingPanelView();
-            viewportPanel.Tab.Title.Content = "World Viewer";
+            viewportPanel.Tab.TitleText = "World Viewer";
             viewportPanel.Tab.PreviewMouseDown += OnTabMouseDown;
             viewportPanel.Container.Content = new ViewportView();
             LayoutRoot.Children.Add(viewportPanel);
 
             DockingPanelView componentPanel = new DockingPanelView();
-            componentPanel.Tab.Title.Content = "Inspector";
+            componentPanel.Tab.TitleText = "Inspector";
             componentPanel.Tab.PreviewMouseDown += OnTabMouseDown;
             componentPanel.Container.Content = new InspectorView();
             LayoutRoot.Children.Add(componentPanel);
 
             //DockingPanelView consolePanel = new DockingPanelView();
-            //consolePanel.Tab.Title.Content = "Debug Console";
+            //consolePanel.Tab.TitleText = "Debug Console";
             //consolePanel.Tab.PreviewMouseDown += OnTabMouseDown;
             //consolePanel.Container.Content = new ConsoleView();
             //LayoutRoot.Children.Add(consolePanel);
@@ -98,7 +98,10 @@ namespace Matcha_Editor.MVVM.View
                 m_DraggedTab.Margin = new Thickness(0);
             }
 
-            if (Math.Abs(position.Y - m_TabClickStartPoint.Y) > m_DetachThreshold)
+            if (Math.Abs(position.Y - m_TabClickStartPoint.Y) > m_DetachThreshold ||
+                m_DraggedTab.Margin.Left < 0 || // TODO: Remove this hack! We should be looking for the position of the tab instead.
+                m_DraggedTab.Margin.Left + 100 > m_DraggedTab.ParentPanel.ActualWidth
+                )
             {
                 m_DetachThresholdCleared = true;
                 m_DraggedTab.ToggleVisibility(false);
@@ -119,12 +122,12 @@ namespace Matcha_Editor.MVVM.View
             if (m_DetachThresholdCleared && m_TargetDockingNode != null)
             {
                 // Can't dock to itself. Doesn't make sense to, and it breaks the tree logic
-                if (m_TargetDockingNode.Parent == m_SelectedDockingNode)
-                    return;
-
-                Debug.Assert(m_SelectedDockingNode != null);
-                m_LayoutManager.AddNewNode(m_DraggedTab.ParentPanel, position);
-                m_LayoutManager.RemoveNode(m_SelectedDockingNode);
+                if (m_TargetDockingNode.Parent != m_SelectedDockingNode)
+                {
+                    Debug.Assert(m_SelectedDockingNode != null);
+                    m_LayoutManager.AddNewNode(m_DraggedTab.ParentPanel, position);
+                    m_LayoutManager.RemoveNode(m_SelectedDockingNode);
+                }
             }
 
 
@@ -161,6 +164,7 @@ namespace Matcha_Editor.MVVM.View
             m_PreviewWindow.ShowInTaskbar = false;
             m_PreviewWindow.IsEnabled = false;
             m_PreviewWindow.Owner = App.Current.MainWindow;
+            m_PreviewWindow.Tab.TitleText = m_DraggedTab.TitleText;
         }
 
         private void CloseDockingPreview()
