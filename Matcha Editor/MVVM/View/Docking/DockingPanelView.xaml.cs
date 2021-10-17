@@ -1,25 +1,33 @@
 ﻿using Matcha_Editor.Core.Docking;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Matcha_Editor.MVVM.View
 {
     public partial class DockingPanelView : UserControl
     {
-        public DockingPanelView()
+        public DockingNode DockingNode { get; set; }
+
+        public DockingPanelView(DockingNode dockingNode)
         {
             InitializeComponent();
+            DockingNode = dockingNode;
             Tab.ParentPanel = this;
+
+            Binding canvasTopBinding = new Binding("Top");
+            Binding canvasLeftBinding = new Binding("Left");
+            Binding widthBinding = new Binding("Width");
+            Binding heightBinding = new Binding("Height");
+
+            canvasTopBinding.Source = DockingNode;
+            canvasLeftBinding.Source = DockingNode;
+            widthBinding.Source = DockingNode;
+            heightBinding.Source = DockingNode;
+
+            SetBinding(Canvas.TopProperty, canvasTopBinding);
+            SetBinding(Canvas.LeftProperty, canvasLeftBinding);
+            SetBinding(WidthProperty, widthBinding);
+            SetBinding(HeightProperty, heightBinding);
         }
     }
 }

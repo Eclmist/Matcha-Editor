@@ -1,0 +1,23 @@
+============== INSPECTOR ===============
+[TODO] Create property templates (vector3, floatslider, colorpicker, textbox)
+[TODO] Create component template
+[TODO] Create actual inspector view
+
+============== HIERARCHY ===============
+[TODO] Support context menu
+[TODO] Support entity creation
+[TODO] Support entity draggin (reparent)
+[TODO] Support entity deletion
+[TODO] Support multi-selection
+
+=============== DOCKING ================
+[TODO] Support variable root node (delete old hacks)
+[TODO] Support panel resizing
+[TODO] Support adding/closing of panels
+[TODO] Support rightclick context menu
+[TODO] Support tabs
+[TODO] Fix margin hack for tab movement
+[TODO] Make tab not binding to panel content
+[TODO] Write unit tests
+
+[TODO] Uncle bob's big refactor

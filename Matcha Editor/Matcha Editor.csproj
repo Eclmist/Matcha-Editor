@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MVVM\ViewModel\NewFolder\**" />
+    <EmbeddedResource Remove="MVVM\ViewModel\NewFolder\**" />
+    <None Remove="MVVM\ViewModel\NewFolder\**" />
+    <Page Remove="MVVM\ViewModel\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Icons\Labels\cube.png" />
     <None Remove="Icons\matcha.ico" />
     <None Remove="Icons\matcha.png" />

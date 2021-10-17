@@ -1,21 +1,121 @@
 ﻿using Matcha_Editor.MVVM.View;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace Matcha_Editor.Core.Docking
 {
-    public class DockingNode
+    public class DockingNode : INotifyPropertyChanged
     {
-        public Rect Rect { get; set; }
-        public DockingNode Parent { get; set; }
-        public DockingNode LeftChild { get; set; }
-        public DockingNode RightChild { get; set; }
-        public DockingPanelView AttachedPanel { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private Rect m_Rect;
+        private double m_Left, m_Top, m_Width, m_Height;
+
+        public Rect Rect { 
+            get { return m_Rect; }
+            set
+            {
+                m_Rect = value;
+                Left = value.Left;
+                Top = value.Top;
+                Width = value.Width;
+                Height = value.Height;
+            }
+        }
+
+        public double Left
+        {
+            get { return m_Left; }
+            set
+            {
+                if (value != m_Left)
+                {
+                    m_Left = value;
+                    m_Rect.X = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public double Top
+        {
+            get { return m_Top; }
+            set
+            {
+                if (value != m_Top)
+                {
+                    m_Top = value;
+                    m_Rect.Y = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public double Width
+        {
+            get { return m_Width; }
+            set
+            {
+                if (value != m_Width)
+                {
+                    m_Width = value;
+                    m_Rect.Width = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public double Height
+        {
+            get { return m_Height; }
+            set
+            {
+                if (value != m_Height)
+                {
+                    m_Height = value;
+                    m_Rect.Height = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private DockingNode m_LeftChild, m_RightChild;
+
+        public DockingNode Parent { get; private set; }
+
+        public DockingNode LeftChild
+        {
+            get { return m_LeftChild; }
+            set 
+            {
+                m_LeftChild = value;
+                if (m_LeftChild != null)
+                    m_LeftChild.Parent = this;
+            }
+        }
+
+        public DockingNode RightChild
+        {
+            get { return m_RightChild; }
+            set 
+            {
+                m_RightChild = value;
+                if (m_RightChild != null)
+                    m_RightChild.Parent = this;
+            }
+        }
+
         public bool IsHorizontallyStacked { get; set; }
 
-        private const double m_SubzoneRatio = 0.3;
+        public const double m_SubzoneRatio = 0.3;
 
         public DockingNode(Rect rect = new Rect())
         {
@@ -31,36 +131,35 @@ namespace Matcha_Editor.Core.Docking
 
         public bool IsAncestor() => Parent == null;
 
-        public bool HasUIAttached() => AttachedPanel != null;
+        public bool IsChild(DockingNode node) => node == LeftChild || node == RightChild;
 
-        public DockingNode OtherChild(DockingNode child) => LeftChild == child ? RightChild : LeftChild;
+        public bool IsRightChild(DockingNode child) => IsChild(child) && child == RightChild;
 
-        public void ReplaceChild(DockingNode oldChild, DockingNode newChild)
+        public bool IsLeftChild(DockingNode child) => IsChild(child) && child == LeftChild;
+
+        public DockingNode GetFirstChild() => LeftChild != null ? LeftChild : RightChild;
+
+        public void ClearParent()
         {
-            Debug.Assert(oldChild == LeftChild || oldChild == RightChild);
-
-            if (oldChild == LeftChild)
-                LeftChild = newChild;
-            else
-                RightChild = newChild;
-
-            if (newChild != null)
-                newChild.Parent = this;
+            if (Parent != null)
+            {
+                if (Parent.IsLeftChild(this))
+                    Parent.LeftChild = null;
+                else
+                    Parent.RightChild = null;
+            }
+                
+            Parent = null;
         }
 
-        public DockingNode RecursivelyFindNode(DockingPanelView targetView)
+        public DockingNode GetSibling()
         {
-            if (AttachedPanel == targetView)
-                return this;
-
-            if (!HasChildren())
+            if (Parent == null)
+                return null;
+            if (Parent.HasSingleChildren())
                 return null;
 
-            DockingNode node = LeftChild.RecursivelyFindNode(targetView);
-            if (node != null)
-                return node;
-            else 
-                return RightChild?.RecursivelyFindNode(targetView);
+            return Parent.LeftChild == this ? Parent.RightChild : Parent.LeftChild;
         }
 
         public DockingNode GetSubzone(Point position)
@@ -74,64 +173,21 @@ namespace Matcha_Editor.Core.Docking
             double distanceToRight = Rect.Right - position.X;
             double shortestDistance = Math.Min(distanceToTop, Math.Min(distanceToLeft, Math.Min(distanceToBottom, distanceToRight)));
 
-            if (shortestDistance > Math.Min(Rect.Width, Rect.Height) * m_SubzoneRatio)
+            if (!IsInPaddingZone(position))
                 return null;
-
-            Rect subzone = Rect;
-
-            if (shortestDistance == distanceToLeft)
-            {
-                subzone.Width *= m_SubzoneRatio;
-            }
-            else if (shortestDistance == distanceToRight)
-            {
-                subzone.Width *= m_SubzoneRatio;
-                subzone.Offset(Rect.Width - subzone.Width, 0);
-            }
-            else if (shortestDistance == distanceToTop)
-            {
-                subzone.Height *= m_SubzoneRatio;
-            }
-            else if (shortestDistance == distanceToBottom)
-            {
-                subzone.Height *= m_SubzoneRatio;
-                subzone.Offset(0, Rect.Height - subzone.Height);
-            }
-
-            return new DockingNode { Rect = subzone, Parent = this };
-        }
-
-        public void Collapse()
-        {
-            Debug.Assert(!HasChildren());
-            Debug.Assert(!IsAncestor());
-
-            if (Parent.IsAncestor())
-                return; // Tree is now empty
-
-            DockingNode remainingChild = Parent.LeftChild != null ? Parent.LeftChild : Parent.RightChild;
-            remainingChild.RecursiveResize(Parent.Rect);
-            remainingChild.IsHorizontallyStacked = Parent.IsHorizontallyStacked;
-            Parent.Parent.ReplaceChild(Parent, remainingChild);
-        }
-
-        private void ResizeAttachedUIPanel()
-        {
-            if (AttachedPanel != null)
-            {
-                Canvas.SetLeft(AttachedPanel, Rect.Left);
-                Canvas.SetTop(AttachedPanel, Rect.Top);
-                AttachedPanel.Width = Rect.Width;
-                AttachedPanel.Height = Rect.Height;
-            }
+            if (shortestDistance == distanceToLeft) 
+                return GetLeftSubzone();
+            else if (shortestDistance == distanceToRight) 
+                return GetRightSubzone();
+            else if (shortestDistance == distanceToTop) 
+                return GetTopSubzone();
+            else
+                return GetBottomSubzone();
         }
 
         public void RecursiveResize(Rect newRect)
         {
-            Rect oldRect = Rect;
             Rect = newRect;
-
-            ResizeAttachedUIPanel();
 
             if (!HasChildren())
                 return;
@@ -145,8 +201,6 @@ namespace Matcha_Editor.Core.Docking
             if (LeftChild.IsHorizontallyStacked)
             {
                 double totalWidth = LeftChild.Rect.Width + (RightChild == null ? 0 : RightChild.Rect.Width);
-                // TODO: Force this assert when ugly base case is removed
-                //Debug.Assert(totalWidth == LeftChild.Parent.Rect.Width);
                 newLeftRect.Width = (int)(LeftChild.Rect.Width / totalWidth * newRect.Width);
                 newRightRect.Width = (int)newRect.Width - newLeftRect.Width;
                 newRightRect.Offset(newLeftRect.Width, 0);
@@ -154,7 +208,6 @@ namespace Matcha_Editor.Core.Docking
             else
             {
                 double totalHeight = LeftChild.Rect.Height + (RightChild == null ? 0 : RightChild.Rect.Height);
-                //Debug.Assert(totalHeight == LeftChild.Parent.Rect.Height);
                 newLeftRect.Height = (int)(LeftChild.Rect.Height / totalHeight * newRect.Height);
                 newRightRect.Height = (int)newRect.Height - newLeftRect.Height;
                 newRightRect.Offset(0, newLeftRect.Height);
@@ -163,5 +216,71 @@ namespace Matcha_Editor.Core.Docking
             LeftChild.RecursiveResize(newLeftRect);
             RightChild?.RecursiveResize(newRightRect);
         }
+
+        public void Collapse()
+        {
+            if (!HasChildren())
+                return;
+
+            if (HasBothChildren())
+            {
+                LeftChild.Collapse();
+                RightChild.Collapse();
+                return;
+            }
+
+            if (Parent != null)
+            {
+                GetFirstChild().IsHorizontallyStacked = IsHorizontallyStacked;
+
+                if (Parent.IsLeftChild(this))
+                    Parent.LeftChild = GetFirstChild();
+                else
+                    Parent.RightChild = GetFirstChild();
+            }
+
+            GetFirstChild().Collapse();
+        }
+
+        private DockingNode GetLeftSubzone()
+        {
+            Rect subzone = Rect;
+            subzone.Width *= m_SubzoneRatio;
+            return new DockingNode { Rect = subzone, Parent = this };
+        }
+
+        private DockingNode GetRightSubzone()
+        {
+            Rect subzone = Rect;
+            subzone.Width *= m_SubzoneRatio;
+            subzone.Offset(Rect.Width - subzone.Width, 0);
+            return new DockingNode { Rect = subzone, Parent = this };
+        }
+
+        private DockingNode GetTopSubzone()
+        {
+            Rect subzone = Rect;
+            subzone.Height *= m_SubzoneRatio;
+            return new DockingNode { Rect = subzone, Parent = this };
+        }
+
+        private DockingNode GetBottomSubzone()
+        {
+            Rect subzone = Rect;
+            subzone.Height *= m_SubzoneRatio;
+            subzone.Offset(0, Rect.Height - subzone.Height);
+            return new DockingNode { Rect = subzone, Parent = this };
+        }
+        
+        private bool IsInPaddingZone(Point position)
+        {
+            bool inLeft = position.X - Left < m_SubzoneRatio * Width;
+            bool inRight = position.X - Left > (1 - m_SubzoneRatio) * Width;
+            bool inTop = position.Y - Top < m_SubzoneRatio * Height;
+            bool inBottom = position.Y - Top > (1 - m_SubzoneRatio) * Height;
+
+            return inLeft || inRight || inTop || inBottom;
+        }
+
     }
 }

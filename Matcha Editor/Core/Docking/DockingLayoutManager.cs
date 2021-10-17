@@ -9,41 +9,76 @@ namespace Matcha_Editor.Core.Docking
 {
     public class DockingLayoutManager
     {
+        public struct StackingProperties
+        {
+            public bool IsHorizontallyStacked { get; set; }
+            public bool IsNewNodeFirst { get; set; }
+        }
+
         private DockingNode m_RootNode;
+
+        public Size Size
+        {
+            get { return m_Size; }
+            set
+            {
+                m_Size = value;
+                RefreshTreeSize();
+            }
+        } 
+
+        private Size m_Size;
 
         public DockingLayoutManager(Size size)
         {
-            m_RootNode = new DockingNode{ 
-                Rect = new Rect(size)
-            };
+            Size = size;
         }
 
-        public void AddNewNode(DockingPanelView panel, Point position = new Point())
+        public DockingNode AddNewNode(Point position = new Point())
         {
+            if (m_RootNode == null)
+            {
+                m_RootNode = new DockingNode(new Rect(Size));
+                return m_RootNode;
+            }
+
             DockingNode newNode = GetPreviewNode(position);
-            newNode.AttachedPanel = panel;
-            DockNode(newNode);
-            RefreshLayout();
+            DockNode(newNode, newNode.Parent);
+            RefreshTreeSize();
+            return newNode;
+        }
+        
+        public void MoveNode(DockingNode originalNode, DockingNode previewNode)
+        {
+            originalNode.Rect = previewNode.Rect;
+            DockNode(originalNode, previewNode.Parent);
+            RefreshTreeSize();
         }
 
         public void RemoveNode(DockingNode node)
         {
             Debug.Assert(!node.HasChildren());
-            Debug.Assert(!node.IsAncestor());
-            Debug.Assert(node.HasUIAttached());
+
+            if (node.IsAncestor())
+            {
+                m_RootNode = null;
+                return;
+            }
 
             if (node.Parent.IsAncestor())
-                node.Parent.LeftChild = null;
+            {
+                SetRootNode(node.GetSibling());
+            }
             else
-                node.Parent.ReplaceChild(node, null);
+            {
+                DockingNode grandparent = node.Parent.Parent;
+                if (grandparent.IsLeftChild(node.Parent))
+                    grandparent.LeftChild = node.GetSibling();
+                else
+                    grandparent.RightChild = node.GetSibling();
+            }
 
-            node.Collapse();
-            RefreshLayout();
-        }
-
-        public DockingNode FindNode(DockingPanelView panel)
-        {
-            return m_RootNode.RecursivelyFindNode(panel);
+            RefreshTreeSize();
         }
 
         public DockingNode GetPreviewNode(Point position)
@@ -54,78 +89,95 @@ namespace Matcha_Editor.Core.Docking
 
         public void Resize(Size newSize)
         {
+            Size = newSize;
+
+            if (m_RootNode == null)
+                return;
+
             Rect newRect = new Rect(newSize);
             m_RootNode.Rect = newRect;
-            RefreshLayout();
+            RefreshTreeSize();
         }
 
-        private void RefreshLayout()
+        private void RefreshTreeSize()
         {
-            m_RootNode.RecursiveResize(m_RootNode.Rect);
+            m_RootNode?.RecursiveResize(new Rect(Size));
         }
 
-        private void DockNode(DockingNode newNode)
+        private void SetRootNode(DockingNode node)
         {
-            Debug.Assert(!newNode.HasChildren());
-            Debug.Assert(newNode.Parent != null);
-            Debug.Assert(!newNode.Parent.HasChildren());
+            m_RootNode = node;
+            m_RootNode.ClearParent();
+        }
 
-            if (newNode.Parent.IsAncestor()) // Attaching first node to root node, special case
+        private void DockNode(DockingNode node, DockingNode targetParent)
+        {
+            Debug.Assert(!node.HasChildren());
+            Debug.Assert(targetParent != null);
+            Debug.Assert(!targetParent.HasChildren());
+
+            DockingNode newParentNode = new DockingNode();
+            newParentNode.IsHorizontallyStacked = targetParent.IsHorizontallyStacked;
+            newParentNode.Rect = targetParent.Rect;
+
+            if (targetParent.IsAncestor())
+                SetRootNode(newParentNode);
+
+            DockingNode grandParent = targetParent.Parent;
+            if (grandParent != null)
             {
-                newNode.Parent.LeftChild = newNode;
-                newNode.Rect = newNode.Parent.Rect;
-                return;
+                if (grandParent.IsLeftChild(targetParent))
+                    grandParent.LeftChild = newParentNode;
+                else
+                    grandParent.RightChild = newParentNode;
             }
 
-            DockingNode newSibling = new DockingNode();
-            newSibling.Parent = newNode.Parent;
-            newSibling.AttachedPanel = newNode.Parent.AttachedPanel;
-            newNode.Parent.AttachedPanel = null;
+            DockingNode op = node.Parent;
+            DockingNode siblingNode = targetParent;
+            StackingProperties props = ComputeStackingProperties(node, newParentNode);
+            siblingNode.IsHorizontallyStacked = props.IsHorizontallyStacked;
+            node.IsHorizontallyStacked = props.IsHorizontallyStacked;
 
-            bool isHorizontallyStacked = newNode.Rect.Width < newNode.Parent.Rect.Width;
-            bool newNodeOnTopOrLeft = 
-                (!isHorizontallyStacked && newNode.Rect.Top == newNode.Parent.Rect.Top) ||
-                (isHorizontallyStacked && newNode.Rect.Left == newNode.Parent.Rect.Left);
-            newSibling.IsHorizontallyStacked = isHorizontallyStacked;
-            newNode.IsHorizontallyStacked = isHorizontallyStacked;
-
-            Rect newNodeRect = newNode.Parent.Rect;
-            Rect newSiblingRect = newNodeRect;
-
-            if (isHorizontallyStacked)
+            if (props.IsHorizontallyStacked)
             {
-                newNodeRect.Width *= 0.3;
-                newSiblingRect.Width *= 0.7;
+                siblingNode.Width = newParentNode.Width - node.Width;
+                siblingNode.Left += props.IsNewNodeFirst ? node.Width : 0;
+                node.Left += props.IsNewNodeFirst ? 0 : siblingNode.Left;
 
-                newNodeRect.X += newNodeOnTopOrLeft ? 0 : newSiblingRect.Width;
-                newSiblingRect.X += newNodeOnTopOrLeft ? newNodeRect.Width : 0;
             }
             else
             {
-                newNodeRect.Height *= 0.3;
-                newSiblingRect.Height *= 0.7;
-
-                newNodeRect.Y += newNodeOnTopOrLeft ? 0 : newSiblingRect.Height;
-                newSiblingRect.Y += newNodeOnTopOrLeft ? newNodeRect.Height : 0;
+                siblingNode.Height = newParentNode.Height - node.Height;
+                siblingNode.Top += props.IsNewNodeFirst ? node.Height : 0;
+                node.Top += props.IsNewNodeFirst ? 0 : siblingNode.Top;
             }
 
-            newNode.Rect = newNodeRect;
-            newSibling.Rect = newSiblingRect;
-            newNode.Parent.LeftChild = newNodeOnTopOrLeft ? newNode : newSibling;
-            newNode.Parent.RightChild = newNodeOnTopOrLeft ? newSibling : newNode;
+            newParentNode.LeftChild = props.IsNewNodeFirst ? node : siblingNode;
+            newParentNode.RightChild = props.IsNewNodeFirst ? siblingNode : node;
+
+            if (op.IsAncestor())
+                SetRootNode(op.IsLeftChild(node) ? op.RightChild : op.LeftChild);
+
+            if (op.IsLeftChild(node))
+                op.LeftChild = null;
+            else
+                op.RightChild = null;
+
+            m_RootNode.Collapse();
         }
 
-        public void UndockNode(DockingNode node)
+        private StackingProperties ComputeStackingProperties(DockingNode node, DockingNode parent)
         {
-            Debug.Assert(!node.HasChildren());
+            bool isHorizontallyStacked = node.Rect.Width < parent.Rect.Width;
+            bool newNodeFirst =
+                (!isHorizontallyStacked && node.Rect.Top == parent.Rect.Top) ||
+                (isHorizontallyStacked && node.Rect.Left == parent.Rect.Left);
 
-            if (node.Parent.IsAncestor())
+            return new StackingProperties
             {
-                node.Parent.LeftChild = null;
-                return;
-            }
-
-            node.Parent.Parent.ReplaceChild(node.Parent, node.Parent.OtherChild(node));
+                IsHorizontallyStacked = isHorizontallyStacked,
+                IsNewNodeFirst = newNodeFirst
+            };
         }
 
         private DockingNode GetLeafNode(Point position)
