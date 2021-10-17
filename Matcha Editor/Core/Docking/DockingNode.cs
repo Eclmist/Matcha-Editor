@@ -106,6 +106,7 @@ namespace Matcha_Editor.Core.Docking
 
             DockingNode remainingChild = Parent.LeftChild != null ? Parent.LeftChild : Parent.RightChild;
             remainingChild.RecursiveResize(Parent.Rect);
+            remainingChild.IsHorizontallyStacked = Parent.IsHorizontallyStacked;
             Parent.Parent.ReplaceChild(Parent, remainingChild);
         }
 

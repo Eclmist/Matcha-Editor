@@ -82,8 +82,10 @@ namespace Matcha_Editor.Core.Docking
             newSibling.AttachedPanel = newNode.Parent.AttachedPanel;
             newNode.Parent.AttachedPanel = null;
 
-            bool newNodeOnTopOrLeft = newNode.Rect.Top < newSibling.Rect.Top || newNode.Rect.Left < newSibling.Rect.Left;
-            bool isHorizontallyStacked = newSibling.Rect.Top == newNode.Rect.Top;
+            bool isHorizontallyStacked = newNode.Rect.Width < newNode.Parent.Rect.Width;
+            bool newNodeOnTopOrLeft = 
+                (!isHorizontallyStacked && newNode.Rect.Top == newNode.Parent.Rect.Top) ||
+                (isHorizontallyStacked && newNode.Rect.Left == newNode.Parent.Rect.Left);
             newSibling.IsHorizontallyStacked = isHorizontallyStacked;
             newNode.IsHorizontallyStacked = isHorizontallyStacked;
 
