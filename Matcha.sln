@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matcha Editor", "Matcha Editor\Matcha Editor.csproj", "{2740E5CC-0AA6-46C7-A032-64F79A538ABF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matcha Editor", "Matcha Editor\Matcha Editor.csproj", "{2740E5CC-0AA6-46C7-A032-64F79A538ABF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{1105563A-5266-47CE-93BE-0CB3E6ED9674}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2740E5CC-0AA6-46C7-A032-64F79A538ABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2740E5CC-0AA6-46C7-A032-64F79A538ABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2740E5CC-0AA6-46C7-A032-64F79A538ABF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1105563A-5266-47CE-93BE-0CB3E6ED9674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1105563A-5266-47CE-93BE-0CB3E6ED9674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1105563A-5266-47CE-93BE-0CB3E6ED9674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1105563A-5266-47CE-93BE-0CB3E6ED9674}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
