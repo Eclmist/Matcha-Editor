@@ -17,6 +17,11 @@ namespace Matcha_Editor.Core.Docking
 
         private const double m_SubzoneRatio = 0.3;
 
+        public DockingNode(Rect rect = new Rect())
+        {
+            Rect = rect;
+        }
+
         public bool HasChildren() => LeftChild != null || RightChild != null;
         
         public bool HasBothChildren() => LeftChild != null && RightChild != null;

@@ -5,19 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="1400">
-    <Border Style="{StaticResource PanelTabStyle}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="23"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+    <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Border DockPanel.Dock="Bottom" Panel.ZIndex="1" BorderThickness="0" Margin="0,-1,0,0" Style="{StaticResource PanelContentStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <!--<RowDefinition Height="23"/>-->
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-            <Grid HorizontalAlignment="Stretch">
-                <Label Content="Debug Console" Foreground="#CCCCCC" FontSize="12" Padding="0,3,0,0" Margin="6,0,0,0"/>
+                <!--<Grid HorizontalAlignment="Stretch">
+                    <Label Content="Debug Console" Foreground="#CCCCCC" FontSize="12" Padding="0,3,0,0" Margin="6,0,0,0"/>
+                </Grid>-->
+
+                <StackPanel Background="#252526" Grid.Row="1">
+                </StackPanel>
             </Grid>
-
-            <StackPanel Background="#252526" Grid.Row="1">
-            </StackPanel>
-        </Grid>
-    </Border>
+        </Border>
+    </DockPanel>
 </UserControl>

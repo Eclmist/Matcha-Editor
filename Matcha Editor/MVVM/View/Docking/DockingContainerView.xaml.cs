@@ -37,16 +37,16 @@ namespace Matcha_Editor.MVVM.View
             componentPanel.Container.Content = new InspectorView();
             LayoutRoot.Children.Add(componentPanel);
 
-            //DockingPanelView consolePanel = new DockingPanelView();
-            //consolePanel.Tab.TitleText = "Debug Console";
-            //consolePanel.Tab.PreviewMouseDown += OnTabMouseDown;
-            //consolePanel.Container.Content = new ConsoleView();
-            //LayoutRoot.Children.Add(consolePanel);
+            DockingPanelView consolePanel = new DockingPanelView();
+            consolePanel.Tab.TitleText = "Debug Console";
+            consolePanel.Tab.PreviewMouseDown += OnTabMouseDown;
+            consolePanel.Container.Content = new ConsoleView();
+            LayoutRoot.Children.Add(consolePanel);
 
             m_LayoutManager.AddNewNode(viewportPanel);
             m_LayoutManager.AddNewNode(hierarchyPanel);
             m_LayoutManager.AddNewNode(componentPanel);
-            //m_LayoutManager.AddNewNode(consolePanel);
+            m_LayoutManager.AddNewNode(consolePanel);
         }
 
         private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
@@ -62,7 +62,7 @@ namespace Matcha_Editor.MVVM.View
 
         #region Drag-docking of Panels
         private DockingPreviewWindowView m_PreviewWindow;
-        private DockingTabView m_DraggedTab;
+        private DockingTabView m_SelectedTab;
         private Point m_TabClickStartPoint;
         private DockingNode m_TargetDockingNode;
         private DockingNode m_SelectedDockingNode;
@@ -74,15 +74,22 @@ namespace Matcha_Editor.MVVM.View
 
         private void OnTabMouseDown(object sender, MouseButtonEventArgs e)
         {
+            m_SelectedTab = sender as DockingTabView;
+            m_SelectedDockingNode = m_LayoutManager.FindNode(m_SelectedTab.ParentPanel);
+
+            //if (e.MiddleButton == MouseButtonState.Pressed)
+            //{
+            //    m_LayoutManager.RemoveNode(m_SelectedDockingNode);
+            //    return;
+            //}
+
+            m_SelectedTab.CaptureMouse();
             m_TabClickStartPoint = e.GetPosition(this.LayoutRoot);
-            m_DraggedTab = sender as DockingTabView;
-            m_DraggedTab.CaptureMouse();
-            m_SelectedDockingNode = m_LayoutManager.FindNode(m_DraggedTab.ParentPanel);
         }
 
         private void LayoutRoot_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (m_DraggedTab == null)
+            if (m_SelectedTab == null)
                 return;
 
             Point position = e.GetPosition(sender as IInputElement);
@@ -90,27 +97,27 @@ namespace Matcha_Editor.MVVM.View
             if ((position - m_TabClickStartPoint).Length > m_SlidingThreshold)
             {
                 m_SlidingThresholdCleared = true;
-                m_DraggedTab.Margin = new Thickness(position.X - m_TabClickStartPoint.X, 0,0,0);
+                m_SelectedTab.Margin = new Thickness(position.X - m_TabClickStartPoint.X, 0,0,0);
             }
             else
             {
                 m_SlidingThresholdCleared = false;
-                m_DraggedTab.Margin = new Thickness(0);
+                m_SelectedTab.Margin = new Thickness(0);
             }
 
             if (Math.Abs(position.Y - m_TabClickStartPoint.Y) > m_DetachThreshold ||
-                m_DraggedTab.Margin.Left < 0 || // TODO: Remove this hack! We should be looking for the position of the tab instead.
-                m_DraggedTab.Margin.Left + 100 > m_DraggedTab.ParentPanel.ActualWidth
+                m_SelectedTab.Margin.Left < 0 || // TODO: Remove this hack! We should be looking for the position of the tab instead.
+                m_SelectedTab.Margin.Left + 100 > m_SelectedTab.ParentPanel.ActualWidth
                 )
             {
                 m_DetachThresholdCleared = true;
-                m_DraggedTab.ToggleVisibility(false);
+                m_SelectedTab.ToggleVisibility(false);
                 ShowDockingPreview(position);
             }
             else
             {
                 m_DetachThresholdCleared = false;
-                m_DraggedTab.ToggleVisibility(true);
+                m_SelectedTab.ToggleVisibility(true);
                 CloseDockingPreview();
             }
         }
@@ -125,7 +132,7 @@ namespace Matcha_Editor.MVVM.View
                 if (m_TargetDockingNode.Parent != m_SelectedDockingNode)
                 {
                     Debug.Assert(m_SelectedDockingNode != null);
-                    m_LayoutManager.AddNewNode(m_DraggedTab.ParentPanel, position);
+                    m_LayoutManager.AddNewNode(m_SelectedTab.ParentPanel, position);
                     m_LayoutManager.RemoveNode(m_SelectedDockingNode);
                 }
             }
@@ -139,13 +146,13 @@ namespace Matcha_Editor.MVVM.View
 
         public void AbortDockingPreview()
         {
-            if (m_DraggedTab != null)
+            if (m_SelectedTab != null)
             {
                 Debug.WriteLine("Released");
-                m_DraggedTab.ReleaseMouseCapture();
-                m_DraggedTab.ToggleVisibility(true);
-                m_DraggedTab.Margin = new Thickness(0);
-                m_DraggedTab = null;
+                m_SelectedTab.ReleaseMouseCapture();
+                m_SelectedTab.ToggleVisibility(true);
+                m_SelectedTab.Margin = new Thickness(0);
+                m_SelectedTab = null;
 
                 m_SelectedDockingNode = null;
 
@@ -164,7 +171,7 @@ namespace Matcha_Editor.MVVM.View
             m_PreviewWindow.ShowInTaskbar = false;
             m_PreviewWindow.IsEnabled = false;
             m_PreviewWindow.Owner = App.Current.MainWindow;
-            m_PreviewWindow.Tab.TitleText = m_DraggedTab.TitleText;
+            m_PreviewWindow.Tab.TitleText = m_SelectedTab.TitleText;
         }
 
         private void CloseDockingPreview()
@@ -183,7 +190,7 @@ namespace Matcha_Editor.MVVM.View
             m_PreviewWindow.Top = mouseScreenPos.Y - (m_PreviewWindow.Height / 2);
             m_PreviewWindow.Width = 200;
             m_PreviewWindow.Height = 160;
-            m_PreviewWindow.Tab.Title = m_DraggedTab.Title;
+            m_PreviewWindow.Tab.Title = m_SelectedTab.Title;
             m_PreviewWindow.Show();
         }
 
@@ -194,7 +201,7 @@ namespace Matcha_Editor.MVVM.View
             m_PreviewWindow.Top = previewNodeScreenPos.Y;
             m_PreviewWindow.Width = previewSubzone.Rect.Width;
             m_PreviewWindow.Height = previewSubzone.Rect.Height;
-            m_PreviewWindow.Tab.Title = m_DraggedTab.Title;
+            m_PreviewWindow.Tab.Title = m_SelectedTab.Title;
             m_PreviewWindow.Show();
         }
 

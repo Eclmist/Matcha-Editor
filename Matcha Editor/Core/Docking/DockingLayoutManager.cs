@@ -94,16 +94,16 @@ namespace Matcha_Editor.Core.Docking
 
             if (isHorizontallyStacked)
             {
-                newNodeRect.Width /= 2;
-                newSiblingRect.Width /= 2;
+                newNodeRect.Width *= 0.3;
+                newSiblingRect.Width *= 0.7;
 
                 newNodeRect.X += newNodeOnTopOrLeft ? 0 : newSiblingRect.Width;
                 newSiblingRect.X += newNodeOnTopOrLeft ? newNodeRect.Width : 0;
             }
             else
             {
-                newNodeRect.Height /= 2;
-                newSiblingRect.Height /= 2;
+                newNodeRect.Height *= 0.3;
+                newSiblingRect.Height *= 0.7;
 
                 newNodeRect.Y += newNodeOnTopOrLeft ? 0 : newSiblingRect.Height;
                 newSiblingRect.Y += newNodeOnTopOrLeft ? newNodeRect.Height : 0;
