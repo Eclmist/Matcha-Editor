@@ -71,13 +71,13 @@ namespace Matcha_Editor.Core.Docking
             }
             else
             {
-                DockingNode grandparent = node.Parent.Parent;
-                if (grandparent.IsLeftChild(node.Parent))
-                    grandparent.LeftChild = node.GetSibling();
+                if (node.Parent.IsLeftChild(node))
+                    node.Parent.LeftChild = null;
                 else
-                    grandparent.RightChild = node.GetSibling();
+                    node.Parent.RightChild = null;
             }
 
+            m_RootNode.Collapse();
             RefreshTreeSize();
         }
 
@@ -107,7 +107,7 @@ namespace Matcha_Editor.Core.Docking
         private void SetRootNode(DockingNode node)
         {
             m_RootNode = node;
-            m_RootNode.ClearParent();
+            m_RootNode?.ClearParent();
         }
 
         private void DockNode(DockingNode node, DockingNode targetParent)

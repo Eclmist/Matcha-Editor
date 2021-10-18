@@ -72,16 +72,16 @@ namespace Matcha_Editor.MVVM.View
 
         private void OnTabMouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (e.MiddleButton == MouseButtonState.Pressed && m_SelectedTab == null)
+            {
+                m_LayoutManager.RemoveNode(((DockingTabView)sender).ParentPanel.DockingNode);
+                LayoutRoot.Children.Remove((DockingTabView)sender);
+                return;
+            }
+
             m_SelectedTab = sender as DockingTabView;
-            m_SelectedDockingNode = m_SelectedTab.ParentPanel.DockingNode;
-
-            //if (e.MiddleButton == MouseButtonState.Pressed)
-            //{
-            //    m_LayoutManager.RemoveNode(m_SelectedDockingNode);
-            //    return;
-            //}
-
             m_SelectedTab.CaptureMouse();
+            m_SelectedDockingNode = m_SelectedTab.ParentPanel.DockingNode;
             m_TabClickStartPoint = e.GetPosition(this.LayoutRoot);
         }
 

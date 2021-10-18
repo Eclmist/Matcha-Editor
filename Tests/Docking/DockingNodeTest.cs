@@ -34,7 +34,7 @@ namespace Tests.Docking
             
             node.RightChild = new DockingNode();
             Assert.IsTrue(node.HasChildren());
-            Assert.IsTrue(node.HasSingleChildren());
+            Assert.IsFalse(node.HasSingleChildren());
             Assert.IsTrue(node.HasBothChildren());
 
             node.LeftChild = null;

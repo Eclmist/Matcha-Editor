@@ -127,7 +127,7 @@ namespace Matcha_Editor.Core.Docking
         public bool HasBothChildren() => LeftChild != null && RightChild != null;
 
         // This should only be true when the node is right about to be collapsed.
-        public bool HasSingleChildren() => HasChildren() || HasBothChildren();
+        public bool HasSingleChildren() => HasChildren() && !HasBothChildren();
 
         public bool IsAncestor() => Parent == null;
 
