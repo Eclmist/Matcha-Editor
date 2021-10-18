@@ -74,7 +74,7 @@
                                 </Border>
                                 <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
                                     <StackPanel>
-                                        <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
+                                    <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Graphics  ]</Label>
                                     <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Starting Shader Daemon thread</Label>
                                     </StackPanel>
                                 </Border>
@@ -95,7 +95,7 @@
 
                                 <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
                                     <StackPanel>
-                                        <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
+                                        <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Graphics  ]</Label>
                                         <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Compiling Shaders</Label>
                                     </StackPanel>
                                 </Border>
