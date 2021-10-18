@@ -2,9 +2,9 @@
 
 namespace Matcha_Editor.MVVM.View
 {
-    public partial class InspectorView : UserControl
+    public partial class ComponentView : UserControl
     {
-        public InspectorView()
+        public ComponentView()
         {
             InitializeComponent();
         }

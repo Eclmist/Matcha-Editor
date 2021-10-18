@@ -31,6 +31,14 @@ namespace Matcha_Editor.MVVM.ViewModel
         {
             get { return m_Current.Name; }
         }
+        public string Guid
+        {
+            get { return m_Current.Guid; }
+        }
+        public bool Enabled
+        {
+            get { return m_Current.Enabled; }
+        }
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {

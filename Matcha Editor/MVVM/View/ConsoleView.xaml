@@ -7,18 +7,102 @@
              d:DesignHeight="400" d:DesignWidth="1400">
     <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Border DockPanel.Dock="Bottom" Panel.ZIndex="1" BorderThickness="0" Margin="0,-1,0,0" Style="{StaticResource PanelContentStyle}">
-            <Grid>
+            <Grid Background="{StaticResource Editor.Window.GrayBrush2}">
                 <Grid.RowDefinitions>
-                    <!--<RowDefinition Height="23"/>-->
-                    <RowDefinition/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!--<Grid HorizontalAlignment="Stretch">
-                    <Label Content="Debug Console" Foreground="#CCCCCC" FontSize="12" Padding="0,3,0,0" Margin="6,0,0,0"/>
-                </Grid>-->
+                <Border Grid.Row="0" 
+                        BorderBrush="{StaticResource Editor.Window.GrayBrush1}"
+                        BorderThickness="0,0,0,1"
+                        Padding="4"
+                        Background="{StaticResource Editor.Window.GrayBrush3}">
 
-                <StackPanel Background="#252526" Grid.Row="1">
-                </StackPanel>
+                    <DockPanel>
+                        <Button DockPanel.Dock="Left">Clear</Button>
+                        <Separator Opacity="0" Width="4"/>
+                        <Button DockPanel.Dock="Left">Collapse</Button>
+                        <Separator Opacity="0" Width="4"/>
+                        <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}" Margin="0,0,5,0" Padding="3">Filters</Label>
+                        <Separator Opacity="0" Width="4"/>
+                        <TextBox Style="{StaticResource RoundedTextBox}"></TextBox>
+                    </DockPanel>
+                </Border>
+
+                <ScrollViewer Grid.Row="1"
+                              HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Auto"
+                              Background="Transparent">
+                    <Border
+                            BorderBrush="{StaticResource Editor.Window.GrayBrush1}"
+                            BorderThickness="0,1,0,0"
+                            Padding="0,1,0,0"
+                            Background="{StaticResource Editor.Window.GrayBrush2}">
+
+                            <StackPanel>
+
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                    <StackPanel>
+                                        <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Engine  ]</Label>
+                                        <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Starting Ether v0.1.0</Label>
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                    <StackPanel>
+                                        <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Engine  ]</Label>
+                                    <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Initializing Application: Ether Toolmode</Label>
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                    <StackPanel>
+                                    <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
+                                    <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Initializing IPC Manager</Label>
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                    <StackPanel>
+                                    <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
+                                    <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Initializing network socket for IPC</Label>
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                    <StackPanel>
+                                    <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
+                                    <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">IPC network socket listening on port 2134</Label>
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                    <StackPanel>
+                                        <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
+                                    <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Starting Shader Daemon thread</Label>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                    <StackPanel>
+                                        <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
+                                    <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Waiting for incoming editor connection</Label>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                    <StackPanel>
+                                        <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
+                                    <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">IPC network socket connected on port 2134</Label>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                    <StackPanel>
+                                        <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
+                                        <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Compiling Shaders</Label>
+                                    </StackPanel>
+                                </Border>
+
+                        </StackPanel>
+                    </Border>
+                </ScrollViewer>
             </Grid>
         </Border>
     </DockPanel>

@@ -8,9 +8,13 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="./Themes/Common/Colors.xaml"/>
-                <ResourceDictionary Source="./Themes/Common/Global.xaml"/>
+
+                <ResourceDictionary Source="./Themes/Common/Button.xaml"/>
+                <ResourceDictionary Source="./Themes/Common/CheckBox.xaml"/>
+                <ResourceDictionary Source="./Themes/Common/Expander.xaml"/>
                 <ResourceDictionary Source="./Themes/Common/PanelTheme.xaml"/>
                 <ResourceDictionary Source="./Themes/Common/ScrollBar.xaml"/>
+                <ResourceDictionary Source="./Themes/Common/TextBox.xaml"/>
                 <ResourceDictionary Source="./Themes/Common/TreeView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

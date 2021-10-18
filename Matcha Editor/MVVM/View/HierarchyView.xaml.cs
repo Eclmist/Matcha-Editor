@@ -1,7 +1,9 @@
-﻿using Matcha_Editor.Core.IPC;
+﻿using Matcha_Editor.Core;
+using Matcha_Editor.Core.IPC;
 using Matcha_Editor.Core.IPC.Command;
 using Matcha_Editor.MVVM.Model;
 using Matcha_Editor.MVVM.ViewModel;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -37,6 +39,20 @@ namespace Matcha_Editor.MVVM.View
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta / 5.0);
             e.Handled = true;
+        }
+
+        private void TreeView_SelectedItemChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
+        {
+            IList<UserControl> inspectors = EditorWindowManager.Instance.GetWindowsOfType<InspectorView>();
+            foreach (UserControl inspector in inspectors)
+            {
+                HierarchyNodeViewModel selectedItem = e.NewValue as HierarchyNodeViewModel;
+                InspectorView view = inspector as InspectorView;
+                view.Show(selectedItem.Guid);
+                view.ViewModel.SelectedItemName = selectedItem.Name;
+                view.ViewModel.SelectedItemID = selectedItem.Guid;
+                view.ViewModel.SelectedItemEnabled = selectedItem.Enabled;
+            }
         }
     }
 }

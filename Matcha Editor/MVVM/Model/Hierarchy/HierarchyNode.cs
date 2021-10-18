@@ -10,6 +10,7 @@ namespace Matcha_Editor.MVVM.Model
         public IList<HierarchyNode> Children { get; set; }
         public string Name { get; set; }
         public string Guid { get; set; }
+        public bool Enabled { get; set; }
 
         public HierarchyNode()
         {

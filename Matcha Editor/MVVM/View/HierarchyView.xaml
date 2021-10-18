@@ -23,7 +23,7 @@
                     <DockPanel>
                         <Button DockPanel.Dock="Left">Create</Button>
                         <Separator Opacity="0" Width="4"/>
-                        <TextBox></TextBox>
+                        <TextBox Style="{StaticResource RoundedTextBox}"></TextBox>
                     </DockPanel>
                 </Border>
 
@@ -37,7 +37,7 @@
                             Padding="4"
                             Background="{StaticResource Editor.Window.GrayBrush2}">
 
-                        <TreeView ItemsSource="{Binding RootNode}">
+                        <TreeView ItemsSource="{Binding RootNode}" SelectedItemChanged="TreeView_SelectedItemChanged" >
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                                     <TextBlock Text="{Binding Name}" />

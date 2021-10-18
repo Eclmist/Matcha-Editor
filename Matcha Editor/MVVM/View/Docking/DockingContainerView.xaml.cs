@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Diagnostics;
 using System;
+using Matcha_Editor.Core;
 
 namespace Matcha_Editor.MVVM.View
 {
@@ -18,33 +19,21 @@ namespace Matcha_Editor.MVVM.View
 
         private void AddDefaultPanels()
         {
-            DockingNode viewportNode = m_LayoutManager.AddNewNode();
-            DockingPanelView viewportPanel = new DockingPanelView(viewportNode);
-            viewportPanel.Tab.TitleText = "World Viewer";
-            viewportPanel.Tab.PreviewMouseDown += OnTabMouseDown;
-            viewportPanel.Container.Content = new ViewportView();
-            LayoutRoot.Children.Add(viewportPanel);
+            AddPanel(new ViewportView(), "World Viewer");
+            AddPanel(new HierarchyView(), "Hierarchy");
+            AddPanel(new InspectorView(), "Inspector");
+            AddPanel(new ConsoleView(), "DebugConsole");
+        }
 
-            DockingNode hierarchyNode = m_LayoutManager.AddNewNode();
-            DockingPanelView hierarchyPanel = new DockingPanelView(hierarchyNode);
-            hierarchyPanel.Tab.TitleText = "Hierarchy";
-            hierarchyPanel.Tab.PreviewMouseDown += OnTabMouseDown;
-            hierarchyPanel.Container.Content = new HierarchyView();
-            LayoutRoot.Children.Add(hierarchyPanel);
-
-            DockingNode componentNode = m_LayoutManager.AddNewNode();
-            DockingPanelView componentPanel = new DockingPanelView(componentNode);
-            componentPanel.Tab.TitleText = "Inspector";
-            componentPanel.Tab.PreviewMouseDown += OnTabMouseDown;
-            componentPanel.Container.Content = new InspectorView();
-            LayoutRoot.Children.Add(componentPanel);
-
-            DockingNode consoleNode = m_LayoutManager.AddNewNode();
-            DockingPanelView consolePanel = new DockingPanelView(consoleNode);
-            consolePanel.Tab.TitleText = "Debug Console";
-            consolePanel.Tab.PreviewMouseDown += OnTabMouseDown;
-            consolePanel.Container.Content = new ConsoleView();
-            LayoutRoot.Children.Add(consolePanel);
+        private void AddPanel<T>(T contentView, string tabtitle) where T : UserControl
+        {
+            EditorWindowManager.Instance.RegisterWindow(contentView);
+            DockingNode dockingNode = m_LayoutManager.AddNewNode();
+            DockingPanelView panelView = new DockingPanelView(dockingNode);
+            panelView.Tab.TitleText = tabtitle;
+            panelView.Tab.PreviewMouseDown += OnTabMouseDown;
+            panelView.Container.Content = contentView;
+            LayoutRoot.Children.Add(panelView);
         }
 
         private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
@@ -76,6 +65,7 @@ namespace Matcha_Editor.MVVM.View
             {
                 m_LayoutManager.RemoveNode(((DockingTabView)sender).ParentPanel.DockingNode);
                 LayoutRoot.Children.Remove((DockingTabView)sender);
+                EditorWindowManager.Instance.DeregisterWindow(((DockingTabView)sender).ParentPanel.Content as UserControl);
                 return;
             }
 

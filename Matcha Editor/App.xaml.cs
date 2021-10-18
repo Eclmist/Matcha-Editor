@@ -10,6 +10,8 @@ namespace Matcha_Editor
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            Resources.Add(SystemParameters.VerticalScrollBarWidthKey, 10.0);
+            Resources.Add(SystemParameters.HorizontalScrollBarHeightKey, 10.0);
             SplashView splashScreen = new SplashView();
             splashScreen.Show();
         }

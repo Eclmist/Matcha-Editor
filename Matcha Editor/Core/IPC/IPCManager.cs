@@ -23,6 +23,7 @@ namespace Matcha_Editor.Core.IPC
 
         private TcpClient m_TCPClient;
         private NetworkStream m_NetworkStream;
+        private IPCManager() {}
 
         public bool HasActiveConnection
         {

@@ -1,5 +1,5 @@
-﻿using Matcha_Editor.MVVM.Model.Inspector;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using Matcha_Editor.MVVM.Model;
 
 namespace Matcha_Editor.MVVM.ViewModel
 {

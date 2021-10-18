@@ -23,6 +23,8 @@ namespace Matcha_Editor.Core
             }
         }
 
+        private MatchaEditor() { }
+
         public void PreInitialize()
         {
             if (!ConnectToEngine())
