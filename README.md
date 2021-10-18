@@ -20,6 +20,8 @@
 
 Matcha Editor was built to be used with the DX12 rendering engine <a href="https://github.com/Eclmist/Ether">Ether</a>.
 
+This project was only created few days ago (as of 19 Oct 2021) and still lacks many critical features, come back later!
+
 <h1 align="center">
     <img src="https://github.com/Eclmist/Matcha-Editor/blob/41b00273b9b921c74da62ccec34ea48e58771ddb/Matcha%20Editor/Resources/Interface.png" alt="Image" width="700" />
 </h1>
