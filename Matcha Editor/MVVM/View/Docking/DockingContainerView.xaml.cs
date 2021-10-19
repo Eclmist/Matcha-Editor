@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Diagnostics;
 using System;
+using System.Collections.Generic;
 using Matcha_Editor.Core;
 
 namespace Matcha_Editor.MVVM.View
@@ -11,6 +12,8 @@ namespace Matcha_Editor.MVVM.View
     public partial class DockingContainerView : UserControl
     {
         private DockingLayoutManager m_LayoutManager;
+
+        private Dictionary<DockingNode, DockingSplitterView> m_NodeToSplitterMap;
 
         public DockingContainerView()
         {
@@ -34,11 +37,33 @@ namespace Matcha_Editor.MVVM.View
             panelView.Tab.PreviewMouseDown += OnTabMouseDown;
             panelView.Container.Content = contentView;
             LayoutRoot.Children.Add(panelView);
+            CreateSplitter(dockingNode);
+        }
+
+        private void CreateSplitter(DockingNode node)
+        {
+            if (node.IsAncestor())
+                return;
+
+            DockingSplitterView splitter = new DockingSplitterView(node.Parent);
+            m_NodeToSplitterMap[node.Parent] = splitter;
+            LayoutRoot.Children.Add(splitter);
+        }
+
+        private void DestroySplitter(DockingNode node)
+        {
+            if (node.IsAncestor())
+                return;
+
+            LayoutRoot.Children.Remove(m_NodeToSplitterMap[node.Parent]);
+            m_NodeToSplitterMap.Remove(node.Parent);
         }
 
         private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
         {
             m_LayoutManager = new DockingLayoutManager(new Size(ActualWidth, ActualHeight));
+            m_NodeToSplitterMap = new Dictionary<DockingNode, DockingSplitterView>();
+
             AddDefaultPanels();
         }
 
@@ -51,8 +76,8 @@ namespace Matcha_Editor.MVVM.View
         private DockingPreviewWindowView m_PreviewWindow;
         private DockingTabView m_SelectedTab;
         private Point m_TabClickStartPoint;
-        private DockingNode m_PreviewDockingNode;
-        private DockingNode m_SelectedDockingNode;
+        private DockingNode m_PreviewNode;
+        private DockingNode m_SelectedNode;
         private double m_DetachThreshold = 60;
         private double m_SlidingThreshold = 40;
         private bool m_SlidingThresholdCleared;
@@ -63,15 +88,20 @@ namespace Matcha_Editor.MVVM.View
         {
             if (e.MiddleButton == MouseButtonState.Pressed && m_SelectedTab == null)
             {
-                m_LayoutManager.RemoveNode(((DockingTabView)sender).ParentPanel.DockingNode);
-                LayoutRoot.Children.Remove((DockingTabView)sender);
-                EditorWindowManager.Instance.DeregisterWindow(((DockingTabView)sender).ParentPanel.Content as UserControl);
+                DockingTabView tabToRemove = (DockingTabView) sender;
+                DockingNode nodeToRemove = tabToRemove.ParentPanel.DockingNode;
+
+                m_LayoutManager.RemoveNode(nodeToRemove);
+                LayoutRoot.Children.Remove(tabToRemove.ParentPanel);
+                EditorWindowManager.Instance.DeregisterWindow(tabToRemove.ParentPanel.Content as UserControl);
+
+                DestroySplitter(nodeToRemove);
                 return;
             }
 
             m_SelectedTab = sender as DockingTabView;
             m_SelectedTab.CaptureMouse();
-            m_SelectedDockingNode = m_SelectedTab.ParentPanel.DockingNode;
+            m_SelectedNode = m_SelectedTab.ParentPanel.DockingNode;
             m_TabClickStartPoint = e.GetPosition(this.LayoutRoot);
         }
 
@@ -113,13 +143,15 @@ namespace Matcha_Editor.MVVM.View
         {
             Point position = e.GetPosition(sender as IInputElement);
 
-            if (m_DetachThresholdCleared && m_PreviewDockingNode != null)
+            if (m_DetachThresholdCleared && m_PreviewNode != null)
             {
                 // Can't dock to itself. Doesn't make sense to, and it breaks the tree logic
-                if (m_PreviewDockingNode.Parent != m_SelectedDockingNode)
+                if (m_PreviewNode.Parent != m_SelectedNode)
                 {
-                    Debug.Assert(m_SelectedDockingNode != null);
-                    m_LayoutManager.MoveNode(m_SelectedDockingNode, m_PreviewDockingNode);
+                    Debug.Assert(m_SelectedNode != null);
+                    DestroySplitter(m_SelectedNode);
+                    m_LayoutManager.MoveNode(m_SelectedNode, m_PreviewNode);
+                    CreateSplitter(m_SelectedNode);
                 }
             }
 
@@ -140,7 +172,7 @@ namespace Matcha_Editor.MVVM.View
             m_SelectedTab.Margin = new Thickness(0);
             m_SelectedTab = null;
 
-            m_SelectedDockingNode = null;
+            m_SelectedNode = null;
 
             CloseDockingPreview();
 
@@ -148,7 +180,7 @@ namespace Matcha_Editor.MVVM.View
             m_DetachThresholdCleared = false;
         }
 
-        private void CreateDockingWindow()
+        private void CreatePreviewWindow()
         {
             m_PreviewWindow = new DockingPreviewWindowView();
             m_PreviewWindow.ShowActivated = false;
@@ -193,17 +225,17 @@ namespace Matcha_Editor.MVVM.View
         private void ShowDockingPreview(Point mouseLocalPosition)
         {
             if (m_PreviewWindow == null)
-                CreateDockingWindow();
+                CreatePreviewWindow();
 
-            m_PreviewDockingNode = m_LayoutManager.GetPreviewNode(mouseLocalPosition);
+            m_PreviewNode = m_LayoutManager.GetPreviewNode(mouseLocalPosition);
 
-            if (m_PreviewDockingNode == null || m_PreviewDockingNode.Parent == m_SelectedDockingNode)
+            if (m_PreviewNode == null || m_PreviewNode.Parent == m_SelectedNode)
             {
                 ShowCursorPreview(mouseLocalPosition);
                 return;
             }
 
-            ShowSubzonePreview(m_PreviewDockingNode);
+            ShowSubzonePreview(m_PreviewNode);
         }
 
         #endregion

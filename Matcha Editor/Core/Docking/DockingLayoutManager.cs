@@ -71,7 +71,7 @@ namespace Matcha_Editor.Core.Docking
             }
             else
             {
-                if (node.Parent.IsLeftChild(node))
+                if (node.IsLeftChild())
                     node.Parent.LeftChild = null;
                 else
                     node.Parent.RightChild = null;
@@ -123,14 +123,10 @@ namespace Matcha_Editor.Core.Docking
             if (targetParent.IsAncestor())
                 SetRootNode(newParentNode);
 
-            DockingNode grandParent = targetParent.Parent;
-            if (grandParent != null)
-            {
-                if (grandParent.IsLeftChild(targetParent))
-                    grandParent.LeftChild = newParentNode;
-                else
-                    grandParent.RightChild = newParentNode;
-            }
+            if (targetParent.IsLeftChild())
+                targetParent.Parent.LeftChild = newParentNode;
+            else if (targetParent.IsRightChild())
+                targetParent.Parent.RightChild = newParentNode;
 
             DockingNode op = node.Parent;
             DockingNode siblingNode = targetParent;
@@ -156,9 +152,9 @@ namespace Matcha_Editor.Core.Docking
             newParentNode.RightChild = props.IsNewNodeFirst ? siblingNode : node;
 
             if (op.IsAncestor())
-                SetRootNode(op.IsLeftChild(node) ? op.RightChild : op.LeftChild);
+                SetRootNode(op.LeftChild == node ? op.RightChild : op.LeftChild);
 
-            if (op.IsLeftChild(node))
+            if (op.LeftChild == node)
                 op.LeftChild = null;
             else
                 op.RightChild = null;

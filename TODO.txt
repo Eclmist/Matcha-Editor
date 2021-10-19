@@ -11,13 +11,11 @@
 [TODO] Support multi-selection
 
 =============== DOCKING ================
-[TODO] Support variable root node (delete old hacks)
-[TODO] Support panel resizing
 [TODO] Support adding/closing of panels
 [TODO] Support rightclick context menu
 [TODO] Support tabs
 [TODO] Fix margin hack for tab movement
 [TODO] Make tab not binding to panel content
-[TODO] Write unit tests
+[TODO] Support pop-out window
 
 [TODO] Uncle bob's big refactor

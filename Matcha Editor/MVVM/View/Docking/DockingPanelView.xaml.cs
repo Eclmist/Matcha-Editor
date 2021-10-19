@@ -1,4 +1,5 @@
-﻿using Matcha_Editor.Core.Docking;
+﻿using System.Windows;
+using Matcha_Editor.Core.Docking;
 using System.Windows.Controls;
 using System.Windows.Data;
 

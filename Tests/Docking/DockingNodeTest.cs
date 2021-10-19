@@ -52,10 +52,10 @@ namespace Tests.Docking
             node.LeftChild = leftChild;
             node.RightChild = rightChild;
 
-            Assert.IsFalse(node.IsChild(null));
-            Assert.IsFalse(node.IsChild(new DockingNode()));
-            Assert.IsTrue(node.IsChild(leftChild));
-            Assert.IsTrue(node.IsChild(rightChild));
+            Assert.IsFalse((new DockingNode()).IsChild());
+            Assert.IsTrue(leftChild.IsChild());
+            Assert.IsTrue(rightChild.IsChild());
+            Assert.IsFalse(node.IsChild());
         }
 
         [TestMethod]
@@ -67,17 +67,15 @@ namespace Tests.Docking
             node.LeftChild = leftChild;
             node.RightChild = rightChild;
 
-            Assert.IsTrue(node.IsLeftChild(leftChild));
-            Assert.IsFalse(node.IsLeftChild(rightChild));
-            Assert.IsFalse(node.IsLeftChild(new DockingNode()));
-            Assert.IsFalse(node.IsLeftChild(null));
-            Assert.IsFalse(node.IsLeftChild(node));
+            Assert.IsTrue(leftChild.IsLeftChild());
+            Assert.IsFalse(rightChild.IsLeftChild());
+            Assert.IsFalse((new DockingNode()).IsLeftChild());
+            Assert.IsFalse(node.IsLeftChild());
 
-            Assert.IsTrue(node.IsRightChild(rightChild));
-            Assert.IsFalse(node.IsRightChild(leftChild));
-            Assert.IsFalse(node.IsRightChild(new DockingNode()));
-            Assert.IsFalse(node.IsRightChild(null));
-            Assert.IsFalse(node.IsRightChild(node));
+            Assert.IsTrue(rightChild.IsRightChild());
+            Assert.IsFalse(leftChild.IsRightChild());
+            Assert.IsFalse((new DockingNode()).IsRightChild());
+            Assert.IsFalse(node.IsRightChild());
         }
 
         [TestMethod]

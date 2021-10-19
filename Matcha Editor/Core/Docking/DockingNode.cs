@@ -14,6 +14,16 @@ namespace Matcha_Editor.Core.Docking
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            GetRootNode().NotifySplitterPropertiesChanged();
+        }
+        private void NotifySplitterPropertiesChanged()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SplitterPositionX"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SplitterPositionY"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SplitterWidth"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SplitterHeight"));
+            LeftChild?.NotifySplitterPropertiesChanged();
+            RightChild?.NotifySplitterPropertiesChanged();
         }
 
         private Rect m_Rect;
@@ -87,6 +97,26 @@ namespace Matcha_Editor.Core.Docking
             }
         }
 
+        public const int SplitterThickness = 8;
+
+        public double SplitterPositionX
+        {
+            get { return LeftChild.IsHorizontallyStacked ? Left + LeftChild.Width - SplitterThickness / 2 : Left; }
+        }
+
+        public double SplitterPositionY
+        {
+            get { return LeftChild.IsHorizontallyStacked ? Top : Top + LeftChild.Height - SplitterThickness / 2; }
+        }
+        public double SplitterWidth
+        {
+            get { return LeftChild.IsHorizontallyStacked ? SplitterThickness : Width; }
+        }
+        public double SplitterHeight
+        {
+            get { return LeftChild.IsHorizontallyStacked ? Height : SplitterThickness; }
+        }
+
         private DockingNode m_LeftChild, m_RightChild;
 
         public DockingNode Parent { get; private set; }
@@ -98,7 +128,9 @@ namespace Matcha_Editor.Core.Docking
             {
                 m_LeftChild = value;
                 if (m_LeftChild != null)
+                {
                     m_LeftChild.Parent = this;
+                }
             }
         }
 
@@ -109,7 +141,9 @@ namespace Matcha_Editor.Core.Docking
             {
                 m_RightChild = value;
                 if (m_RightChild != null)
+                {
                     m_RightChild.Parent = this;
+                }
             }
         }
 
@@ -131,19 +165,19 @@ namespace Matcha_Editor.Core.Docking
 
         public bool IsAncestor() => Parent == null;
 
-        public bool IsChild(DockingNode node) => node == LeftChild || node == RightChild;
+        public bool IsChild() => !IsAncestor();
 
-        public bool IsRightChild(DockingNode child) => IsChild(child) && child == RightChild;
+        public bool IsRightChild() => IsChild() && Parent.RightChild == this;
 
-        public bool IsLeftChild(DockingNode child) => IsChild(child) && child == LeftChild;
+        public bool IsLeftChild() => IsChild() && Parent.LeftChild == this;
 
-        public DockingNode GetFirstChild() => LeftChild != null ? LeftChild : RightChild;
+        public DockingNode GetFirstNonNullChild() => LeftChild != null ? LeftChild : RightChild;
 
         public void ClearParent()
         {
-            if (Parent != null)
+            if (!IsAncestor())
             {
-                if (Parent.IsLeftChild(this))
+                if (IsLeftChild())
                     Parent.LeftChild = null;
                 else
                     Parent.RightChild = null;
@@ -154,16 +188,24 @@ namespace Matcha_Editor.Core.Docking
 
         public DockingNode GetSibling()
         {
-            if (Parent == null)
+            if (IsAncestor())
                 return null;
             if (Parent.HasSingleChildren())
                 return null;
 
-            return Parent.LeftChild == this ? Parent.RightChild : Parent.LeftChild;
+            return IsLeftChild() ? Parent.RightChild : Parent.LeftChild;
+        }
+
+        public DockingNode GetRootNode()
+        {
+            if (IsAncestor())
+                return this;
+
+            return this.Parent.GetRootNode();
         }
 
         public DockingNode GetSubzone(Point position)
-        {
+         {
             if (!Rect.Contains(position))
                 return null;
 
@@ -229,17 +271,17 @@ namespace Matcha_Editor.Core.Docking
                 return;
             }
 
-            if (Parent != null)
+            if (!IsAncestor())
             {
-                GetFirstChild().IsHorizontallyStacked = IsHorizontallyStacked;
+                GetFirstNonNullChild().IsHorizontallyStacked = IsHorizontallyStacked;
 
-                if (Parent.IsLeftChild(this))
-                    Parent.LeftChild = GetFirstChild();
+                if (this.IsLeftChild())
+                    Parent.LeftChild = this.GetFirstNonNullChild();
                 else
-                    Parent.RightChild = GetFirstChild();
+                    Parent.RightChild = this.GetFirstNonNullChild();
             }
 
-            GetFirstChild().Collapse();
+            this.GetFirstNonNullChild().Collapse();
         }
 
         private DockingNode GetLeftSubzone()
@@ -274,10 +316,10 @@ namespace Matcha_Editor.Core.Docking
         
         private bool IsInPaddingZone(Point position)
         {
-            bool inLeft = position.X - Left < m_SubzoneRatio * Width;
-            bool inRight = position.X - Left > (1 - m_SubzoneRatio) * Width;
-            bool inTop = position.Y - Top < m_SubzoneRatio * Height;
-            bool inBottom = position.Y - Top > (1 - m_SubzoneRatio) * Height;
+            bool inLeft = position.X - Left <= m_SubzoneRatio * Width;
+            bool inRight = position.X - Left >= (1 - m_SubzoneRatio) * Width;
+            bool inTop = position.Y - Top <= m_SubzoneRatio * Height;
+            bool inBottom = position.Y - Top >= (1 - m_SubzoneRatio) * Height;
 
             return inLeft || inRight || inTop || inBottom;
         }
