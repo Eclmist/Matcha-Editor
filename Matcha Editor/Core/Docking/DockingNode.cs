@@ -230,6 +230,11 @@ namespace Matcha_Editor.Core.Docking
 
         public bool RecursiveResize(Rect newRect)
         {
+            newRect.X = Math.Ceiling(newRect.X);
+            newRect.Y = Math.Ceiling(newRect.Y);
+            newRect.Width = Math.Ceiling(newRect.Width);
+            newRect.Height = Math.Ceiling(newRect.Height);
+
             if (!CanBeOfSize(newRect.Size))
                 return false;
 
@@ -256,8 +261,9 @@ namespace Matcha_Editor.Core.Docking
 
             GetNewChildRects(newRect, out newLeftRect, out newRightRect);
 
-            LeftChild.RecursiveResize(newLeftRect);
-            RightChild.RecursiveResize(newRightRect);
+            Debug.Assert(LeftChild.RecursiveResize(newLeftRect));
+            Debug.Assert(RightChild.RecursiveResize(newRightRect));
+
             return true;
         }
 
@@ -304,9 +310,6 @@ namespace Matcha_Editor.Core.Docking
             if (!HasBothChildren())
                 return false;
 
-            deltaX = !LeftChild.IsHorizontallyStacked ? 0 : deltaX;
-            deltaY = LeftChild.IsHorizontallyStacked ? 0 : deltaY;
-
             if (deltaX == 0 && deltaY == 0)
                 return true;
 
@@ -315,18 +318,71 @@ namespace Matcha_Editor.Core.Docking
             Rect leftRectTarget = oldLeftRect;
             Rect rightRectTarget = oldRightRect;
 
-            leftRectTarget.Width = Math.Max(leftRectTarget.Width + deltaX, 0);
-            leftRectTarget.Height = Math.Max(leftRectTarget.Height + deltaY, 0);
+            if (LeftChild.IsHorizontallyStacked)
+            {
+                leftRectTarget.Width = Math.Max(leftRectTarget.Width + deltaX, 0);
+                rightRectTarget.Width = Math.Max(rightRectTarget.Width - deltaX, 0);
+                rightRectTarget.Offset(deltaX, 0);
+            }
+            else
+            {
+                leftRectTarget.Height = Math.Max(leftRectTarget.Height + deltaY, 0);
+                rightRectTarget.Height = Math.Max(rightRectTarget.Height - deltaY, 0);
+                rightRectTarget.Offset(0, deltaY);
+            }
 
-            rightRectTarget.Width = Math.Max(rightRectTarget.Width - deltaX, 0);
-            rightRectTarget.Height = Math.Max(rightRectTarget.Height - deltaY, 0);
-            rightRectTarget.Offset(deltaX, deltaY);
+            bool leftResized = LeftChild.RecursiveResize(leftRectTarget);
+            bool rightResized = RightChild.RecursiveResize(rightRectTarget);
 
-            if (LeftChild.RecursiveResize(leftRectTarget))
-                if (RightChild.RecursiveResize(rightRectTarget))
-                    return true;
+            if (leftResized && rightResized)
+                return true;
 
-            // Revert to old rects because resize failed (one side was too small)
+            // Reset and attempt to have parent shift instead
+            RightChild.RecursiveResize(oldRightRect);
+            LeftChild.RecursiveResize(oldLeftRect);
+
+            bool towardsRight = LeftChild.IsHorizontallyStacked && deltaX > 0 ||
+                                !LeftChild.IsHorizontallyStacked && deltaY > 0;
+            bool stackmode = LeftChild.IsHorizontallyStacked;
+            DockingNode parent = Parent;
+            DockingNode previous = this;
+            if (towardsRight)
+            {
+                LeftChild.RecursiveResize(oldLeftRect);
+
+                while (parent != null)
+                {
+                    if (parent.LeftChild == previous)
+                        if (parent.LeftChild.IsHorizontallyStacked == stackmode)
+                            if (parent.ShiftSplitter(deltaX, deltaY))
+                                return ShiftSplitter(deltaX, deltaY);
+
+                    previous = parent;
+                    parent = parent.Parent;
+                }
+            }
+            else
+            {
+                // Left side is getting smaller. Right side will definitely have passed.
+                // Undo right
+
+                while (parent != null)
+                {
+                    if (parent.RightChild == previous)
+                    {
+                        if (parent.LeftChild.IsHorizontallyStacked == stackmode)
+                        {
+                            if (parent.ShiftSplitter(deltaX, deltaY))
+                                return ShiftSplitter(deltaX, deltaY);
+                        }
+                    }
+                    previous = parent;
+                    parent = parent.Parent;
+                }
+            }
+
+
+            // End attempt
             LeftChild.RecursiveResize(oldLeftRect);
             RightChild.RecursiveResize(oldRightRect);
             return false;

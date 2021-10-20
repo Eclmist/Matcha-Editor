@@ -22,17 +22,17 @@ namespace Matcha_Editor.MVVM.View
 
         private void AddDefaultPanels()
         {
-            //AddPanel(new ViewportView(), "World Viewer");
+            AddPanel(new ViewportView(), "World Viewer");
             AddPanel(new HierarchyView(), "Hierarchy");
-            AddPanel(new HierarchyView(), "Hierarchy");
-            AddPanel(new InspectorView(), "Inspector");
-            AddPanel(new ConsoleView(), "DebugConsole");
+            AddPanel(new HierarchyView(), "Hierarchy", new Point(1800, 500));
+            AddPanel(new InspectorView(), "Inspector", new Point(0, 900));
+            AddPanel(new ConsoleView(), "DebugConsole", new Point (900, 1000));
         }
 
-        private void AddPanel<T>(T contentView, string tabtitle) where T : UserControl
+        private void AddPanel<T>(T contentView, string tabtitle, Point pos = new Point()) where T : UserControl
         {
             EditorWindowManager.Instance.RegisterWindow(contentView);
-            DockingNode dockingNode = m_LayoutManager.AddNewNode();
+            DockingNode dockingNode = m_LayoutManager.AddNewNode(pos);
             DockingPanelView panelView = new DockingPanelView(dockingNode);
             panelView.Tab.TitleText = tabtitle;
             panelView.Tab.PreviewMouseDown += OnTabMouseDown;
@@ -70,7 +70,13 @@ namespace Matcha_Editor.MVVM.View
 
         private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            m_LayoutManager?.Resize(e.NewSize);
+            if (m_LayoutManager != null)
+            {
+                m_LayoutManager.Resize(e.NewSize);
+                Size minSize = m_LayoutManager.GetMinSize();
+                Application.Current.MainWindow.MinWidth = Math.Max(DockingNode.MinimumSize, minSize.Width + 16); //TODO: Remove padding hack
+                Application.Current.MainWindow.MinHeight = Math.Max(DockingNode.MinimumSize, minSize.Height + 59);
+            }
         }
 
         #region Drag-docking of Panels

@@ -99,6 +99,11 @@ namespace Matcha_Editor.Core.Docking
             RefreshTreeSize();
         }
 
+        public Size GetMinSize()
+        {
+            return m_RootNode != null ? m_RootNode.GetMinimumSize() : Size.Empty;
+        }
+
         private void RefreshTreeSize()
         {
             m_RootNode?.RecursiveResize(new Rect(Size));

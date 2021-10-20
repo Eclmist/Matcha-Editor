@@ -8,7 +8,6 @@
         xmlns:custom="clr-namespace:Matcha_Editor.MVVM.View"
         mc:Ignorable="d"
         Title="Matcha Editor" Height="1080" Width="1920"
-        MinWidth="1280" MinHeight="768"
         Background="#1E1E1E"
         Icon="/Icons/matcha.ico"
         WindowStartupLocation="CenterScreen"
