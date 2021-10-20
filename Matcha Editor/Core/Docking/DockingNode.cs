@@ -229,6 +229,9 @@ namespace Matcha_Editor.Core.Docking
 
         public void RecursiveResize(Rect newRect)
         {
+            if (newRect.Width < 200 || newRect.Height < 200)
+                return;
+
             Rect = newRect;
 
             if (!HasChildren())

@@ -18,7 +18,6 @@ namespace Matcha_Editor.Core.RenderSurface
             InitializeCommand initializeCommand = new InitializeCommand(hwndParent.Handle);
             var response = new InitializeCommand.Response(IPCManager.Instance.Get(initializeCommand));
             m_ClientHwnd = (IntPtr)response.ResponseData.Args.ChildHwnd;
-            Debug.Assert(m_ClientHwnd != IntPtr.Zero);
             return new HandleRef(this, m_ClientHwnd);
         }
 
