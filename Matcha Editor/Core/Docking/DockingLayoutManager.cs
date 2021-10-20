@@ -138,14 +138,11 @@ namespace Matcha_Editor.Core.Docking
             {
                 siblingNode.Width = newParentNode.Width - node.Width;
                 siblingNode.Left += props.IsNewNodeFirst ? node.Width : 0;
-                node.Left += props.IsNewNodeFirst ? 0 : siblingNode.Left;
-
             }
             else
             {
                 siblingNode.Height = newParentNode.Height - node.Height;
                 siblingNode.Top += props.IsNewNodeFirst ? node.Height : 0;
-                node.Top += props.IsNewNodeFirst ? 0 : siblingNode.Top;
             }
 
             newParentNode.LeftChild = props.IsNewNodeFirst ? node : siblingNode;

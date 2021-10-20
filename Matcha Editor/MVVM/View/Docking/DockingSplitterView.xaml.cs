@@ -42,6 +42,7 @@ namespace Matcha_Editor.MVVM.View
 
         private bool m_IsMouseDown;
         private Point m_MouseDownPos;
+        private bool disposedValue;
 
         private void Splitter_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -76,36 +77,28 @@ namespace Matcha_Editor.MVVM.View
             if ((newPosition - m_MouseDownPos).Length <= 0)
                 return;
 
-            double deltaX = newPosition.X - m_MouseDownPos.X;
-            double deltaY = newPosition.Y - m_MouseDownPos.Y;
+            double deltaX = !DockingNode.LeftChild.IsHorizontallyStacked ? 0 : newPosition.X - m_MouseDownPos.X;
+            double deltaY = DockingNode.LeftChild.IsHorizontallyStacked ? 0 : newPosition.Y - m_MouseDownPos.Y;
 
+            Rect oldLeftRect = DockingNode.LeftChild.Rect;
+            Rect oldRightRect = DockingNode.RightChild.Rect;
+            Rect leftRectTarget = oldLeftRect;
+            Rect rightRectTarget = oldRightRect;
 
-            if (DockingNode.LeftChild.IsHorizontallyStacked)
-            {
-                double newLeftWidth = DockingNode.LeftChild.Width;
-                double newRightWidth = DockingNode.RightChild.Width;
+            leftRectTarget.Width = Math.Max(leftRectTarget.Width + deltaX, 0);
+            leftRectTarget.Height = Math.Max(leftRectTarget.Height + deltaY, 0);
 
-                newLeftWidth += deltaX;
-                newRightWidth -= deltaX;
+            rightRectTarget.Width = Math.Max(rightRectTarget.Width - deltaX, 0);
+            rightRectTarget.Height = Math.Max(rightRectTarget.Height - deltaY, 0);
+            rightRectTarget.Offset(deltaX, deltaY);
 
-                DockingNode.LeftChild.Width = newLeftWidth;
-                DockingNode.RightChild.Width = newRightWidth;
+            if (DockingNode.LeftChild.RecursiveResize(leftRectTarget))
+                if (DockingNode.RightChild.RecursiveResize(rightRectTarget))
+                    return;
 
-                DockingNode.RecursiveResize(DockingNode.Rect);
-            }
-            else
-            {
-                double newLeftWidth = DockingNode.LeftChild.Height;
-                double newRightWidth = DockingNode.RightChild.Height;
-
-                newLeftWidth += deltaY;
-                newRightWidth -= deltaY;
-
-                DockingNode.LeftChild.Height = newLeftWidth;
-                DockingNode.RightChild.Height = newRightWidth;
-
-                DockingNode.RecursiveResize(DockingNode.Rect);
-            }
+            // Revert to old rects because resize failed (one side was too small)
+            DockingNode.LeftChild.RecursiveResize(oldLeftRect);
+            DockingNode.RightChild.RecursiveResize(oldRightRect);
         }
     }
 }

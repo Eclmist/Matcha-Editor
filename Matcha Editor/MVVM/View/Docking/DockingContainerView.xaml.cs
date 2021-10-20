@@ -83,7 +83,6 @@ namespace Matcha_Editor.MVVM.View
         private bool m_SlidingThresholdCleared;
         private bool m_DetachThresholdCleared;
 
-
         private void OnTabMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.MiddleButton == MouseButtonState.Pressed && m_SelectedTab == null)
@@ -239,6 +238,5 @@ namespace Matcha_Editor.MVVM.View
         }
 
         #endregion
-
     }
 }

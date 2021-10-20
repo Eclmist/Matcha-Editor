@@ -79,89 +79,104 @@ namespace Tests.Docking
         }
 
         [TestMethod]
-        public void CanQuerySubzone()
+        public void CanBeResized()
         {
-            double widthHeight = DockingNode.m_SubzoneRatio * 100;
-            double padding = DockingNode.m_SubzoneRatio * widthHeight;
+            DockingNode node = new DockingNode(new Rect(0, 0, 5000, 5000));
+            DockingNode leftChild = new DockingNode { Rect = new Rect(0, 0, 1000, 5000), IsHorizontallyStacked = true };
+            DockingNode rightChild = new DockingNode { Rect = new Rect(100, 0, 4000, 5000), IsHorizontallyStacked = true };
+            node.LeftChild = leftChild;
+            node.RightChild = rightChild;
 
-            DockingNode node = new DockingNode(new Rect(0, 0, widthHeight, widthHeight));
-            DockingNode subzone;
+            node.RecursiveResize(new Rect(0, 0, 1000, 1000));
+            Assert.AreEqual(leftChild.Rect, new Rect(0, 0, 200, 1000));
+            Assert.AreEqual(rightChild.Rect, new Rect(200, 0, 800, 1000));
 
-            for (int x = 0; x < widthHeight; ++x)
-            {
-                for (int y = 0; y < widthHeight; ++y)
-                {
-                    subzone = node.GetSubzone(new Point(x, y));
-                    double distanceToTop = y;
-                    double distanceToLeft = x;
-                    double distanceToBottom = widthHeight- y;
-                    double distanceToRight = widthHeight- x;
-                    double shortestDistance = Math.Min(distanceToTop, Math.Min(distanceToLeft, Math.Min(distanceToBottom, distanceToRight)));
+            node.RecursiveResize(new Rect(0, 0, 1000, 2000));
+            Assert.AreEqual(leftChild.Rect, new Rect(0, 0, 200, 2000));
+            Assert.AreEqual(rightChild.Rect, new Rect(200, 0, 800, 2000));
 
-                    if (shortestDistance > padding)
-                    {
-                        Assert.IsNull(subzone);
-                        continue;
-                    }
+            node = new DockingNode(new Rect(0, 0, 5000, 5000));
+            leftChild = new DockingNode { Rect = new Rect(0, 0, 5000, 1000), IsHorizontallyStacked = false };
+            rightChild = new DockingNode { Rect = new Rect(0, 1000, 5000, 4000), IsHorizontallyStacked = false };
+            node.LeftChild = leftChild;
+            node.RightChild = rightChild;
 
-                    if (shortestDistance == distanceToLeft)
-                    {
-                        Assert.IsTrue(subzone.Rect.TopLeft == new Point(0,0));
-                        Assert.IsTrue(subzone.Rect.BottomRight == new Point(padding, widthHeight));
-                    }
-                    else if (shortestDistance == distanceToRight)
-                    {
-                        Assert.IsTrue(subzone.Rect.TopLeft == new Point(widthHeight - padding, 0));
-                        Assert.IsTrue(subzone.Rect.BottomRight == new Point(widthHeight, widthHeight));
-                    }
-                    else if (shortestDistance == distanceToTop)
-                    {
-                        Assert.IsTrue(subzone.Rect.TopLeft == new Point(0 ,0));
-                        Assert.IsTrue(subzone.Rect.BottomRight == new Point(widthHeight, padding));
-                    }
-                    else if (shortestDistance == distanceToBottom)
-                    {
-                        Assert.IsTrue(subzone.Rect.TopLeft == new Point(0, widthHeight - padding));
-                        Assert.IsTrue(subzone.Rect.BottomRight == new Point(widthHeight, widthHeight));
-                    }
-                }
-            }
+            node.RecursiveResize(new Rect(0, 0, 1000, 1000));
+            Assert.AreEqual(leftChild.Rect, new Rect(0, 0, 1000, 200));
+            Assert.AreEqual(rightChild.Rect, new Rect(0, 200, 1000, 800));
+
+            node.RecursiveResize(new Rect(0, 0, 1000, 2000));
+            Assert.AreEqual(leftChild.Rect, new Rect(0, 0, 1000, 400));
+            Assert.AreEqual(rightChild.Rect, new Rect(0, 400, 1000, 1600));
+
+            node.RecursiveResize(new Rect(0, 0, 2000, 2000));
+            Assert.AreEqual(leftChild.Rect, new Rect(0, 0, 2000, 400));
+            Assert.AreEqual(rightChild.Rect, new Rect(0, 400, 2000, 1600));
         }
 
         [TestMethod]
-        public void CanBeResized()
+        public void CanGetMinSize()
         {
-            DockingNode node = new DockingNode(new Rect(0, 0, 500, 500));
-            DockingNode leftChild = new DockingNode { Rect = new Rect(0, 0, 100, 500), IsHorizontallyStacked = true };
-            DockingNode rightChild = new DockingNode { Rect = new Rect(100, 0, 400, 500), IsHorizontallyStacked = true };
-            node.LeftChild = leftChild;
-            node.RightChild = rightChild;
+            DockingNode a = new DockingNode(new Rect(0, 0, 800, 600));
+            DockingNode b = new DockingNode(new Rect(0, 0, 400, 600));
+            DockingNode c = new DockingNode(new Rect(0, 0, 400, 300));
+            DockingNode d = new DockingNode(new Rect(0, 300, 400, 300));
+            DockingNode e = new DockingNode(new Rect(0, 300, 200, 300));
+            DockingNode f = new DockingNode(new Rect(200, 300, 300, 300 ));
+            DockingNode g = new DockingNode(new Rect(400, 0, 400, 600));
 
-            node.RecursiveResize(new Rect(0, 0, 100, 100));
-            Assert.AreEqual(leftChild.Rect, new Rect(0, 0, 20, 100));
-            Assert.AreEqual(rightChild.Rect, new Rect(20, 0, 80, 100));
+            a.LeftChild = b;
+            a.RightChild = g;
+            b.LeftChild = c;
+            b.RightChild = d;
+            d.LeftChild = e;
+            d.RightChild = f;
 
-            node.RecursiveResize(new Rect(0, 0, 100, 200));
-            Assert.AreEqual(leftChild.Rect, new Rect(0, 0, 20, 200));
-            Assert.AreEqual(rightChild.Rect, new Rect(20, 0, 80, 200));
+            b.IsHorizontallyStacked = true;
+            g.IsHorizontallyStacked = b.IsHorizontallyStacked;
 
-            node = new DockingNode(new Rect(0, 0, 500, 500));
-            leftChild = new DockingNode { Rect = new Rect(0, 0, 500, 100), IsHorizontallyStacked = false };
-            rightChild = new DockingNode { Rect = new Rect(0, 100, 500, 400), IsHorizontallyStacked = false };
-            node.LeftChild = leftChild;
-            node.RightChild = rightChild;
+            c.IsHorizontallyStacked = false;
+            d.IsHorizontallyStacked = c.IsHorizontallyStacked;
 
-            node.RecursiveResize(new Rect(0, 0, 100, 100));
-            Assert.AreEqual(leftChild.Rect, new Rect(0, 0, 100, 20));
-            Assert.AreEqual(rightChild.Rect, new Rect(0, 20, 100, 80));
+            e.IsHorizontallyStacked = true;
+            f.IsHorizontallyStacked = e.IsHorizontallyStacked;
 
-            node.RecursiveResize(new Rect(0, 0, 100, 200));
-            Assert.AreEqual(leftChild.Rect, new Rect(0, 0, 100, 40));
-            Assert.AreEqual(rightChild.Rect, new Rect(0, 40, 100, 160));
+            Assert.AreEqual(a.GetMinimumSize(), new Size(600, 400));
+        }
 
-            node.RecursiveResize(new Rect(0, 0, 200, 200));
-            Assert.AreEqual(leftChild.Rect, new Rect(0, 0, 200, 40));
-            Assert.AreEqual(rightChild.Rect, new Rect(0, 40, 200, 160));
+        [TestMethod]
+        public void CanTestMinSize()
+        {
+            DockingNode a = new DockingNode(new Rect(0, 0, 800, 600));
+            DockingNode b = new DockingNode(new Rect(0, 0, 400, 600));
+            DockingNode c = new DockingNode(new Rect(0, 0, 400, 300));
+            DockingNode d = new DockingNode(new Rect(0, 300, 400, 300));
+            DockingNode e = new DockingNode(new Rect(0, 300, 200, 300));
+            DockingNode f = new DockingNode(new Rect(200, 300, 300, 300 ));
+            DockingNode g = new DockingNode(new Rect(400, 0, 400, 600));
+
+            a.LeftChild = b;
+            a.RightChild = g;
+            b.LeftChild = c;
+            b.RightChild = d;
+            d.LeftChild = e;
+            d.RightChild = f;
+
+            b.IsHorizontallyStacked = true;
+            g.IsHorizontallyStacked = b.IsHorizontallyStacked;
+
+            c.IsHorizontallyStacked = false;
+            d.IsHorizontallyStacked = c.IsHorizontallyStacked;
+
+            e.IsHorizontallyStacked = true;
+            f.IsHorizontallyStacked = e.IsHorizontallyStacked;
+
+            Assert.IsTrue(a.CanBeOfSize(new Size(600, 400))); 
+            Assert.IsFalse(a.CanBeOfSize(new Size(599, 400))); 
+            Assert.IsFalse(a.CanBeOfSize(new Size(600, 399))); 
+            Assert.IsFalse(a.CanBeOfSize(new Size(0, 0))); 
+            Assert.IsTrue(a.CanBeOfSize(new Size(601, 400))); 
+            Assert.IsTrue(a.CanBeOfSize(new Size(600, 401))); 
         }
     }
 }
