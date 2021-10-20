@@ -242,25 +242,35 @@ namespace Matcha_Editor.Core.Docking
             Debug.Assert(Parent == null || HasBothChildren(), "Single child node detected during recursive resize. Why was it not collapsed?");
             Debug.Assert(HasSingleChildren() || LeftChild.IsHorizontallyStacked == RightChild.IsHorizontallyStacked);
 
-            Rect oldLeftRect = LeftChild.Rect;
-            Rect oldRightRect = RightChild.Rect;
-            Rect newLeftRect = LeftChild.Rect;
-            Rect newRightRect = RightChild.Rect;
+            Rect newLeftRect, newRightRect;
+            GetNewChildRects(newRect, out newLeftRect, out newRightRect);
 
-            newLeftRect.Union(newRect.TopLeft);
-            newLeftRect.Union(LeftChild.IsHorizontallyStacked ? newRect.BottomLeft : newRect.TopRight);
-            newLeftRect.Intersect(newRect);
-            newRightRect.Union(newRect.BottomRight);
-            newRightRect.Union(LeftChild.IsHorizontallyStacked ? newRect.TopRight : newRect.BottomLeft);
-            newRightRect.Intersect(newRect);
+            Size minLeftSize = LeftChild.GetMinimumSize();
+            Size minRightSize = RightChild.GetMinimumSize();
 
-            if (LeftChild.RecursiveResize(newLeftRect))
-                if (RightChild.RecursiveResize(newRightRect))
-                    return true;
+            ShiftSplitter(Math.Max(0, minLeftSize.Width - newLeftRect.Width),
+                Math.Max(0, minLeftSize.Height - newLeftRect.Height));
 
-            LeftChild.RecursiveResize(oldLeftRect);
-            RightChild.RecursiveResize(oldRightRect);
-            return false;
+            ShiftSplitter(-Math.Max(0, minRightSize.Width - newRightRect.Width),
+                -Math.Max(0, minRightSize.Height - newRightRect.Height));
+
+            GetNewChildRects(newRect, out newLeftRect, out newRightRect);
+
+            LeftChild.RecursiveResize(newLeftRect);
+            RightChild.RecursiveResize(newRightRect);
+            return true;
+        }
+
+        private void GetNewChildRects(Rect newParentRect, out Rect newLeftRect, out Rect newRightRect)
+        {
+            newLeftRect = LeftChild.Rect;
+            newRightRect = RightChild.Rect;
+            newLeftRect.Union(newParentRect.TopLeft);
+            newLeftRect.Union(LeftChild.IsHorizontallyStacked ? newParentRect.BottomLeft : newParentRect.TopRight);
+            newLeftRect.Intersect(newParentRect);
+            newRightRect.Union(newParentRect.BottomRight);
+            newRightRect.Union(LeftChild.IsHorizontallyStacked ? newParentRect.TopRight : newParentRect.BottomLeft);
+            newRightRect.Intersect(newParentRect);
         }
 
         public void Collapse()
@@ -287,6 +297,39 @@ namespace Matcha_Editor.Core.Docking
             }
 
             this.GetFirstNonNullChild().Collapse();
+        }
+
+        public bool ShiftSplitter(double deltaX, double deltaY)
+        {
+            if (!HasBothChildren())
+                return false;
+
+            deltaX = !LeftChild.IsHorizontallyStacked ? 0 : deltaX;
+            deltaY = LeftChild.IsHorizontallyStacked ? 0 : deltaY;
+
+            if (deltaX == 0 && deltaY == 0)
+                return true;
+
+            Rect oldLeftRect = LeftChild.Rect;
+            Rect oldRightRect = RightChild.Rect;
+            Rect leftRectTarget = oldLeftRect;
+            Rect rightRectTarget = oldRightRect;
+
+            leftRectTarget.Width = Math.Max(leftRectTarget.Width + deltaX, 0);
+            leftRectTarget.Height = Math.Max(leftRectTarget.Height + deltaY, 0);
+
+            rightRectTarget.Width = Math.Max(rightRectTarget.Width - deltaX, 0);
+            rightRectTarget.Height = Math.Max(rightRectTarget.Height - deltaY, 0);
+            rightRectTarget.Offset(deltaX, deltaY);
+
+            if (LeftChild.RecursiveResize(leftRectTarget))
+                if (RightChild.RecursiveResize(rightRectTarget))
+                    return true;
+
+            // Revert to old rects because resize failed (one side was too small)
+            LeftChild.RecursiveResize(oldLeftRect);
+            RightChild.RecursiveResize(oldRightRect);
+            return false;
         }
 
         public DockingNode GetSubzone(Point position)

@@ -22,7 +22,8 @@ namespace Matcha_Editor.MVVM.View
 
         private void AddDefaultPanels()
         {
-            AddPanel(new ViewportView(), "World Viewer");
+            //AddPanel(new ViewportView(), "World Viewer");
+            AddPanel(new HierarchyView(), "Hierarchy");
             AddPanel(new HierarchyView(), "Hierarchy");
             AddPanel(new InspectorView(), "Inspector");
             AddPanel(new ConsoleView(), "DebugConsole");
