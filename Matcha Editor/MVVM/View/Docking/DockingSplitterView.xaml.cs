@@ -76,9 +76,14 @@ namespace Matcha_Editor.MVVM.View
             if ((newPosition - m_MouseDownPos).Length <= 0)
                 return;
 
-            double deltaX = newPosition.X - m_MouseDownPos.X;
-            double deltaY = newPosition.Y - m_MouseDownPos.Y;
-            DockingNode.ShiftSplitter(deltaX, deltaY);
+            int deltaX = (int)(newPosition.X - m_MouseDownPos.X);
+            int deltaY = (int)(newPosition.Y - m_MouseDownPos.Y);
+
+            while (!DockingNode.ShiftSplitter(deltaX, deltaY))
+            {
+                deltaX /= 2;
+                deltaY /= 2;
+            }
         }
     }
 }
