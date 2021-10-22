@@ -42,58 +42,58 @@
 
                             <StackPanel>
 
-                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" BorderThickness="0,0,0,1" Margin="0" Padding="0">
                                     <StackPanel>
                                         <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Engine  ]</Label>
                                         <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Starting Ether v0.1.0</Label>
                                     </StackPanel>
                                 </Border>
-                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" BorderThickness="0,0,0,1" Margin="0" Padding="0">
                                     <StackPanel>
                                         <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Engine  ]</Label>
                                     <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Initializing Application: Ether Toolmode</Label>
                                     </StackPanel>
                                 </Border>
-                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" BorderThickness="0,0,0,1" Margin="0" Padding="0">
                                     <StackPanel>
                                     <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
                                     <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Initializing IPC Manager</Label>
                                     </StackPanel>
                                 </Border>
-                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" BorderThickness="0,0,0,1" Margin="0" Padding="0">
                                     <StackPanel>
                                     <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
                                     <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Initializing network socket for IPC</Label>
                                     </StackPanel>
                                 </Border>
-                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" BorderThickness="0,0,0,1" Margin="0" Padding="0">
                                     <StackPanel>
                                     <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
                                     <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">IPC network socket listening on port 2134</Label>
                                     </StackPanel>
                                 </Border>
-                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" BorderThickness="0,0,0,1" Margin="0" Padding="0">
                                     <StackPanel>
                                     <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Graphics  ]</Label>
                                     <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Starting Shader Daemon thread</Label>
                                     </StackPanel>
                                 </Border>
 
-                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" BorderThickness="0,0,0,1" Margin="0" Padding="0">
                                     <StackPanel>
                                         <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
                                     <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Waiting for incoming editor connection</Label>
                                     </StackPanel>
                                 </Border>
 
-                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" BorderThickness="0,0,0,1" Margin="0" Padding="0">
                                     <StackPanel>
                                         <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Toolmode  ]</Label>
                                     <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">IPC network socket connected on port 2134</Label>
                                     </StackPanel>
                                 </Border>
 
-                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" Background="{StaticResource Editor.Window.GrayBrush3}" BorderThickness="1" Margin="0" Padding="0">
+                                <Border BorderBrush="{StaticResource Editor.Window.GrayBrush4}" BorderThickness="0,0,0,1" Margin="0" Padding="0">
                                     <StackPanel>
                                         <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">[ 2021/10/19 02:28:37 ] [  Graphics  ]</Label>
                                         <Label Margin="0,-10,0,0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Compiling Shaders</Label>
