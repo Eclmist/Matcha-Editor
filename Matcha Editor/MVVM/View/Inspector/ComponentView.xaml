@@ -25,105 +25,49 @@
                     </StackPanel>
                 </Expander.Header>
 
-                <StackPanel>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30*"></ColumnDefinition>
-                            <ColumnDefinition Width="70*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Position</Label>
-                        <Grid Grid.Column="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0">
-                                <DockPanel>
-                                    <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">X</Label>
-                                    <TextBox></TextBox>
-                                </DockPanel>
-                            </Grid>
-                            <Grid Grid.Column="1">
-                                <DockPanel>
-                                    <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">Y</Label>
-                                    <TextBox></TextBox>
-                                </DockPanel>
-                            </Grid>
-                            <Grid Grid.Column="2">
-                                <DockPanel>
-                                    <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">Z</Label>
-                                    <TextBox></TextBox>
-                                </DockPanel>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30*"></ColumnDefinition>
-                            <ColumnDefinition Width="70*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Rotation</Label>
-                        <Grid Grid.Column="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0">
-                                <DockPanel>
-                                    <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">X</Label>
-                                    <TextBox></TextBox>
-                                </DockPanel>
-                            </Grid>
-                            <Grid Grid.Column="1">
-                                <DockPanel>
-                                    <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">Y</Label>
-                                    <TextBox></TextBox>
-                                </DockPanel>
-                            </Grid>
-                            <Grid Grid.Column="2">
-                                <DockPanel>
-                                    <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">Z</Label>
-                                    <TextBox></TextBox>
-                                </DockPanel>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30*"></ColumnDefinition>
-                            <ColumnDefinition Width="70*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Foreground="{StaticResource Editor.Window.SystemFontBrush}">Scale</Label>
-                        <Grid Grid.Column="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0">
-                                <DockPanel>
-                                    <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">X</Label>
-                                    <TextBox></TextBox>
-                                </DockPanel>
-                            </Grid>
-                            <Grid Grid.Column="1">
-                                <DockPanel>
-                                    <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">Y</Label>
-                                    <TextBox></TextBox>
-                                </DockPanel>
-                            </Grid>
-                            <Grid Grid.Column="2">
-                                <DockPanel>
-                                    <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">Z</Label>
-                                    <TextBox></TextBox>
-                                </DockPanel>
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                <ListBox 
+                    ItemsSource="{Binding Properties}"
+                    BorderBrush="Transparent"
+                    BorderThickness="0"
+                    Background="Transparent" 
+                    HorizontalContentAlignment="Stretch"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    Padding="0" 
+                    Margin="0">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                        <ContentPresenter />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.Resources>
+                        <DataTemplate x:Key="field">
+                            <local:Vector3/>
+                        </DataTemplate>
+                    </ListBox.Resources>
 
-                </StackPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30*"></ColumnDefinition>
+                                    <ColumnDefinition Width="70*" MaxWidth="400"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0"  Foreground="{StaticResource Editor.Window.SystemFontBrush}">
+                                    <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Name}"></TextBlock>
+                                </Label>
+                              <ContentPresenter ContentTemplate="{StaticResource field}"  Grid.Column="2"/>
+                          </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Expander>
         </Border>
     </Grid>

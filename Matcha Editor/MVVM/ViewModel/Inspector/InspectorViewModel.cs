@@ -76,7 +76,6 @@ namespace Matcha_Editor.MVVM.ViewModel
         }
 
         public int j = 0;
-
         public void UpdateComponents(ComponentModel[] components)
         {
             for (int i = 0; i < components.Length; ++i)
@@ -88,6 +87,7 @@ namespace Matcha_Editor.MVVM.ViewModel
                     Components[i].Guid = components[i].Guid;
                     Components[i].Enabled = components[i].Enabled;
                     Components[i].IsFixed = components[i].IsFixed;
+                    Components[i].UpdateProperties(components[i].Properties);
                 }
                 else
                 {

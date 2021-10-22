@@ -53,6 +53,7 @@
                             BorderThickness="0"
                             Background="Transparent" 
                             HorizontalContentAlignment="Stretch"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             Padding="0" 
                             Margin="0">
                             <ListBox.ItemContainerStyle>

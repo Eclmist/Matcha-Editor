@@ -64,7 +64,7 @@ namespace Matcha_Editor.Core.IPC.Command
 
         public override string ToJson()
         {
-            return JsonSerializer.Serialize(m_Command).ToLower();
+            return JsonSerializer.Serialize(m_Command);
         }
     }
 }

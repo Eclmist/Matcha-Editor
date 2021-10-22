@@ -13,8 +13,7 @@ namespace Matcha_Editor.MVVM.ViewModel
         public bool Enabled { get; set; }
         public bool IsFixed { get; set; }
 
-        //public ObservableCollection<>
-        //public ComponentPropertyModel[] Properties { get; set; }
+        public ObservableCollection<ComponentPropertyViewModel> Properties { get; set; }
 
         public ComponentViewModel(ComponentModel component)
         {
@@ -22,6 +21,21 @@ namespace Matcha_Editor.MVVM.ViewModel
             Guid = component.Guid;
             Enabled = component.Enabled;
             IsFixed = component.IsFixed;
+
+            Properties = new ObservableCollection<ComponentPropertyViewModel>();
+            UpdateProperties(component.Properties);
+        }
+
+        public void UpdateProperties(ComponentPropertyModel[] properties)
+        {
+            if (properties == null)
+                return;
+
+            Properties.Clear();
+            foreach (ComponentPropertyModel property in properties)
+            {
+                Properties.Add(new ComponentPropertyViewModel(property));
+            }
         }
     }
 }

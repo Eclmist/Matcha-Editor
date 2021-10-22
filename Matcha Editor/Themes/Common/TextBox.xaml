@@ -12,7 +12,7 @@
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Editor.Window.PrimaryDarkBrush}"/>
                         </Trigger>
-                        <Trigger Property="IsFocused" Value="true">
+                        <Trigger Property="IsKeyboardFocused" Value="true">
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Editor.Window.PrimaryBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
