@@ -58,17 +58,19 @@ namespace Matcha_Editor.Core
             }
             catch (Exception)
             {
-                ExitWithError("Unable to establish connection with the engine", "Connection Error");
+                var res = MessageBox.Show(
+                    "Unable to establish connection with the engine. Try again?", 
+                    "Connection Error", 
+                    MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.No);
+
+                if (res == MessageBoxResult.Yes) // Retry
+                    return ConnectToEngine();
+
+                App.Current.Dispatcher.Invoke(Application.Current.Shutdown);
                 return false;
             }
 
             return true;
-        }
-
-        private void ExitWithError(string error, string caption)
-        {
-            MessageBox.Show(error, caption, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
-            App.Current.Dispatcher.Invoke(Application.Current.Shutdown);
         }
     }
 }
