@@ -25,7 +25,7 @@
     <Resource Include="Icons\matcha.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Splash.png" />
+    <SplashScreen Include="Resources\Splash.png" />
   </ItemGroup>
 
 </Project>

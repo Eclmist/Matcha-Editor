@@ -8,9 +8,10 @@
              WindowStyle="None"
              AllowsTransparency="True"
              WindowStartupLocation="CenterScreen"
-             Width="748"
-             Height="424"
-             mc:Ignorable="d">
+             Width="748" Height="424"
+             MaxWidth="748" MaxHeight="424"
+             MinWidth="748" MinHeight="424"
+             mc:Ignorable="d" LocationChanged="Window_LocationChanged">
     <Window.DataContext>
         <viewmodel:SplashViewModel/>
     </Window.DataContext>
