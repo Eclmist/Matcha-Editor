@@ -8,7 +8,7 @@
         xmlns:custom="clr-namespace:Matcha_Editor.MVVM.View"
         mc:Ignorable="d"
         Title="Matcha Editor" Height="1080" Width="1920"
-        Background="#1E1E1E"
+        Background="{StaticResource Editor.Window.GrayBrush1}"
         Icon="/Icons/matcha.ico"
         WindowStartupLocation="CenterScreen"
         Deactivated="Window_Deactivated"
@@ -19,19 +19,30 @@
 
     <DockPanel>
         <Menu Height="20" Background="White" DockPanel.Dock="Top">
-            <MenuItem Header="File" Height="20" HorizontalAlignment="Left">
-                <MenuItem Header="New" HorizontalAlignment="Left"></MenuItem>
-            </MenuItem>
-            <MenuItem Header="Edit" HorizontalAlignment="Left">
-                <MenuItem Header="Undo" HorizontalAlignment="Left"></MenuItem>
-                <MenuItem Header="Redo" HorizontalAlignment="Left"></MenuItem>
-            </MenuItem>
+            <MenuItem Header="File" Height="20"/>
+            <MenuItem Header="Edit" HorizontalAlignment="Left"/>
             <MenuItem Header="View" HorizontalAlignment="Left"/>
             <MenuItem Header="Tools" HorizontalAlignment="Left"/>
             <MenuItem Header="Window" HorizontalAlignment="Left"/>
             <MenuItem Header="Help" HorizontalAlignment="Left"/>
         </Menu>
-
+        <Border DockPanel.Dock="Top" 
+                Height="28"
+                Margin="5,5,5,0"
+                HorizontalAlignment="Stretch" 
+                Background="{StaticResource Editor.Window.GrayBrush1}">
+            <Grid>
+                <StackPanel DockPanel.Dock="Left" HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Button Width="32" Margin="2">▶</Button>
+                    <Button Width="32" Margin="2">
+                        <TextBlock FontSize="11" FontWeight="ExtraBold" Margin="0,-4,0,0">| |</TextBlock>
+                    </Button>
+                    <Button Width="32" Margin="2">
+                        <TextBlock FontSize="30" Margin="0,-12,0,0">»</TextBlock>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
         <!-- Main Window -->
         <custom:DockingContainerView x:Name="LayoutRoot"/>
     </DockPanel>

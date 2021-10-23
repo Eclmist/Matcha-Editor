@@ -15,7 +15,7 @@
         <Border 
             DockPanel.Dock="Bottom" 
             Panel.ZIndex="1" 
-            Margin="0,-2,0,0" Style="{StaticResource PanelContentStyle}">
+            Margin="0,-1,0,0" Style="{StaticResource PanelContentStyle}">
         </Border>
     </DockPanel>
 </Window>

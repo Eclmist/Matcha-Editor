@@ -26,6 +26,7 @@
                 </Expander.Header>
 
                 <ListBox 
+                    x:Name="ExpanderContent"
                     ItemsSource="{Binding Properties}"
                     BorderBrush="Transparent"
                     BorderThickness="0"
@@ -34,6 +35,7 @@
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     Padding="0" 
                     Margin="0">
+
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Margin" Value="0" />

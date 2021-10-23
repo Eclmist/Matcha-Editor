@@ -8,7 +8,7 @@
              d:DesignHeight="500" d:DesignWidth="500">
     <DockPanel Margin="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <custom:DockingTabView x:Name="Tab" DockPanel.Dock="Top" Panel.ZIndex="2" HorizontalAlignment="Left" Margin="0"/>
-        <Border DockPanel.Dock="Bottom" Panel.ZIndex="1" Margin="0,-2,0,0" Style="{StaticResource PanelContentStyle}">
+        <Border DockPanel.Dock="Bottom" Panel.ZIndex="1" Margin="0,-1,0,0" Style="{StaticResource PanelContentStyle}">
                 <ContentControl 
                     BorderThickness="0" 
                     BorderBrush="Transparent" 

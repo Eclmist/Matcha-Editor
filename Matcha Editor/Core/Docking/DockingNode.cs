@@ -392,7 +392,7 @@ namespace Matcha_Editor.Core.Docking
                         validZones.Add(subzones[i]);
 
 
-            double shortestDist = MinimumSize;
+            double shortestDist = double.MaxValue;
             DockingNode result = null;
             foreach (DockingNode node in validZones)
             {

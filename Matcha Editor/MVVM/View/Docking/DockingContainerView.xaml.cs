@@ -24,9 +24,9 @@ namespace Matcha_Editor.MVVM.View
         {
             AddPanel(new ViewportView(), "World Viewer");
             AddPanel(new InspectorView(), "Inspector", new Point(1800, 500));
-            AddPanel(new ConsoleView(), "Debug Console", new Point(900, 1000));
+            AddPanel(new ConsoleView(), "Debug Console", new Point(900, 800));
             //AddPanel(new HierarchyView(), "Hierarchy");
-            AddPanel(new HierarchyView(), "Hierarchy", new Point(0, 500));
+            AddPanel(new HierarchyView(), "Hierarchy", new Point(100, 500));
         }
 
         private void AddPanel<T>(T contentView, string tabtitle, Point pos = new Point()) where T : UserControl

@@ -3,9 +3,10 @@
     <Color x:Key="Editor.Window.GrayColor1">#1E1E1E</Color>
     <Color x:Key="Editor.Window.GrayColor2">#252526</Color>
     <Color x:Key="Editor.Window.GrayColor3">#2D2D30</Color>
-    <Color x:Key="Editor.Window.GrayColor4">#3E3E40</Color>
+    <Color x:Key="Editor.Window.GrayColor4">#363639</Color>
     <Color x:Key="Editor.Window.GrayColor5">#686868</Color>
     <Color x:Key="Editor.Window.GrayColor6">#9E9E9E</Color>
+
     <Color x:Key="Editor.Window.FontColor">#dddddd</Color>
     <Color x:Key="Editor.Window.FontColorDark">#aaaaaa</Color>
 

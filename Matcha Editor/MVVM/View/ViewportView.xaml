@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000">
     <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <Border DockPanel.Dock="Bottom" Panel.ZIndex="1" BorderThickness="0" Padding="2,2,2,3" Margin="0,-1,0,0" Style="{StaticResource PanelContentStyle}">
+        <Border DockPanel.Dock="Bottom" Panel.ZIndex="1" BorderThickness="0" Padding="0,0,0,1" Margin="0" Style="{StaticResource PanelContentStyle}">
             <Grid>
                 <Grid.RowDefinitions>
                     <!--<RowDefinition Height="23"/>-->
