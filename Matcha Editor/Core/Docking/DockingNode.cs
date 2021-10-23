@@ -1,5 +1,7 @@
 ﻿using Matcha_Editor.MVVM.View;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -382,12 +384,28 @@ namespace Matcha_Editor.Core.Docking
                 GetLeftSubzone(), GetRightSubzone(), GetTopSubzone(), GetBottomSubzone()
             };
 
+            IList<DockingNode> validZones = new List<DockingNode>();
+
             for (int i = 0; i < 4; ++i)
                 if (subzones[i].Rect.Contains(position))
                     if (subzones[i].Width >= MinimumSize && subzones[i].Height >= MinimumSize)
-                        return subzones[i];
+                        validZones.Add(subzones[i]);
 
-            return null;
+
+            double shortestDist = MinimumSize;
+            DockingNode result = null;
+            foreach (DockingNode node in validZones)
+            {
+                Point center = new Point(node.Left + node.Width / 2, node.Top + node.Height / 2);
+                double dist = (position - center).Length;
+                if (dist < shortestDist)
+                {
+                    result = node;
+                    shortestDist = dist;
+                }
+            }
+
+            return result;
         }
 
         private DockingNode GetLeftSubzone()
