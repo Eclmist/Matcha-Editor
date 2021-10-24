@@ -8,6 +8,9 @@
         WindowStyle="None"
         Background="{StaticResource Editor.Window.GrayBrush1}"
         Title="DockingExternalWindowView" Height="450" Width="300">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
     <DockPanel>
         <Border DockPanel.Dock="Top" Background="{StaticResource Editor.Window.GrayBrush1}" Margin="0,0,0,-20" Height="20" MouseDown="Border_MouseDown"></Border>
         <local:DockingContainerView x:Name="DockingContainer"/>

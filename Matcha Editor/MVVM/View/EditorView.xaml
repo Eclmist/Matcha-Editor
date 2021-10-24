@@ -10,15 +10,29 @@
         Title="Matcha Editor" Height="1080" Width="1920"
         Background="{StaticResource Editor.Window.GrayBrush1}"
         Icon="/Icons/matcha.ico"
-        WindowStartupLocation="CenterScreen"
-        Deactivated="Window_Deactivated" Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen" 
+        Loaded="Window_Loaded"
+        StateChanged="Window_StateChanged"
         >
     <Window.DataContext>
         <viewmodel:MainViewModel/>
     </Window.DataContext>
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0,0,0,1"
+                      CornerRadius="11" 
+                      CaptionHeight="32" 
+                      ResizeBorderThickness="8"/>
+    </WindowChrome.WindowChrome>
 
     <DockPanel>
-        <Menu Height="20" Background="White" DockPanel.Dock="Top">
+        <custom:WindowChrome x:Name="WindowChrome" DockPanel.Dock="Top"/>
+        <Menu Height="20" 
+              Margin="2,0,2,0"
+              Foreground="{StaticResource Editor.Window.SystemFontBrush}"
+              Background="{StaticResource Editor.Window.GrayBrush1}" 
+              DockPanel.Dock="Top"
+              WindowChrome.IsHitTestVisibleInChrome="True"
+              >
             <MenuItem Header="File" Height="20"/>
             <MenuItem Header="Edit" HorizontalAlignment="Left"/>
             <MenuItem Header="View" HorizontalAlignment="Left"/>
@@ -32,9 +46,9 @@
         </Menu>
         <Border DockPanel.Dock="Top" 
                 Height="28"
-                Margin="5,5,5,0"
+                Margin="5,-20,0,0"
                 HorizontalAlignment="Stretch" 
-                Background="{StaticResource Editor.Window.GrayBrush1}">
+                Background="Transparent" IsHitTestVisible="False">
             <Grid>
                 <StackPanel DockPanel.Dock="Left" HorizontalAlignment="Center" Orientation="Horizontal">
                     <Button Width="32" Margin="2">▶</Button>

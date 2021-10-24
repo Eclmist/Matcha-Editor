@@ -12,11 +12,7 @@ namespace Matcha_Editor.MVVM.View
             InitializeComponent();
             Show();
             Application.Current.MainWindow = this;
-        }
-
-        private void Window_Deactivated(object sender, System.EventArgs e)
-        {
-            //LayoutRoot.AbortDockingPreview();
+            WindowChrome.RefreshButtons();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -25,8 +21,8 @@ namespace Matcha_Editor.MVVM.View
             //LayoutRoot.AddPanel(new InspectorView(), "Inspector", new Point(1800, 200));
             //LayoutRoot.AddPanel(new ConsoleView(), "Debug Console", new Point(900, 800));
             //LayoutRoot.AddPanel(new HierarchyView(), "Hierarchy", new Point(100, 500));
-            //DockingPanel viewport = DockingLayoutRoot.TEMP_DockPanel(new ViewportView(), "World Viewer");
-            DockingPanel viewport = DockingLayoutRoot.TEMP_DockPanel(new InspectorView(), "Inspector");
+            DockingPanel viewport = DockingLayoutRoot.TEMP_DockPanel(new ViewportView(), "World Viewer");
+            //DockingPanel viewport = DockingLayoutRoot.TEMP_DockPanel(new InspectorView(), "Inspector");
             DockingPanel inspectorPanel = DockingLayoutRoot.TEMP_DockPanel(new InspectorView(), "Inspector", viewport, DockingLayoutManager.DockPosition.Right);
             DockingPanel hierarchyPanel = DockingLayoutRoot.TEMP_DockPanel(new HierarchyView(), "Hierarchy", viewport, DockingLayoutManager.DockPosition.Left);
             DockingPanel debugPanel = DockingLayoutRoot.TEMP_DockPanel(new ConsoleView(), "Debug Console", viewport, DockingLayoutManager.DockPosition.Bottom);
@@ -42,6 +38,11 @@ namespace Matcha_Editor.MVVM.View
             DockingPanel debugPanel = DockingLayoutRoot.TEMP_DockPanel(new ConsoleView(), "Debug Console", viewport, DockingLayoutManager.DockPosition.Bottom);
             //DockingPanel debugPanel = DockingLayoutRoot.DockPanel(new ConsoleView(), "Debug Console", inspectorPanel);
             //DockingLayoutRoot.DockPanel(new HierarchyView(), "Hierarchy", debugPanel);
+        }
+
+        private void Window_StateChanged(object sender, System.EventArgs e)
+        {
+            WindowChrome.RefreshButtons();
         }
     }
 }

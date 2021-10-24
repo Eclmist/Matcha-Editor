@@ -14,6 +14,9 @@
     <Color x:Key="Editor.Window.PrimaryColorDark">#85AE5B</Color>
     <Color x:Key="Editor.Window.PrimaryColorDarkest">#668943</Color>
 
+    <Color x:Key="Editor.Window.DangerColor">#ED4245</Color>
+    <Color x:Key="Editor.Window.DangerColorDark">#BA3336</Color>
+
     <SolidColorBrush Color="{StaticResource Editor.Window.GrayColor1}" x:Key="Editor.Window.GrayBrush1"/>
     <SolidColorBrush Color="{StaticResource Editor.Window.GrayColor2}" x:Key="Editor.Window.GrayBrush2"/>
     <SolidColorBrush Color="{StaticResource Editor.Window.GrayColor3}" x:Key="Editor.Window.GrayBrush3"/>
@@ -22,8 +25,12 @@
     <SolidColorBrush Color="{StaticResource Editor.Window.GrayColor6}" x:Key="Editor.Window.GrayBrush6"/>
     <SolidColorBrush Color="{StaticResource Editor.Window.FontColor}" x:Key="Editor.Window.SystemFontBrush"/>
     <SolidColorBrush Color="{StaticResource Editor.Window.FontColorDark}" x:Key="Editor.Window.InputFontBrush"/>
+
     <SolidColorBrush Color="{StaticResource Editor.Window.PrimaryColor}" x:Key="Editor.Window.PrimaryBrush"/>
     <SolidColorBrush Color="{StaticResource Editor.Window.PrimaryColorDark}" x:Key="Editor.Window.PrimaryDarkBrush"/>
     <SolidColorBrush Color="{StaticResource Editor.Window.PrimaryColorDarkest}" x:Key="Editor.Window.PrimaryDarkestBrush"/>
+
+    <SolidColorBrush Color="{StaticResource Editor.Window.DangerColor}" x:Key="Editor.Window.DangerBrush"/>
+    <SolidColorBrush Color="{StaticResource Editor.Window.DangerColorDark}" x:Key="Editor.Window.DangerDarkBrush"/>
 
 </ResourceDictionary>
