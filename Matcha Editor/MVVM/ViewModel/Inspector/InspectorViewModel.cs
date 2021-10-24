@@ -75,15 +75,13 @@ namespace Matcha_Editor.MVVM.ViewModel
             Components = new ObservableCollection<ComponentViewModel>();
         }
 
-        public int j = 0;
         public void UpdateComponents(ComponentModel[] components)
         {
             for (int i = 0; i < components.Length; ++i)
             {
-                j++;
                 if (Components.Count > i)
                 {
-                    Components[i].Name = components[i].Name + j;
+                    Components[i].Name = components[i].Name;
                     Components[i].Guid = components[i].Guid;
                     Components[i].Enabled = components[i].Enabled;
                     Components[i].IsFixed = components[i].IsFixed;

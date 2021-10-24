@@ -9,7 +9,8 @@
         Background="Transparent"
         AllowsTransparency="True"
         Opacity="0.9"
-        Title="DockingPreviewWindowView" Height="150" Width="200">
+        Title="DockingPreviewWindowView" 
+        Height="150" Width="200">
     <DockPanel Margin="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <custom:DockingTabView x:Name="Tab" DockPanel.Dock="Top" Panel.ZIndex="2" Grid.Row="0" HorizontalAlignment="Left" Margin="0"/>
         <Border 

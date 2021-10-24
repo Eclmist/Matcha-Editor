@@ -5,7 +5,7 @@ using System.Windows.Interop;
 
 namespace Matcha_Editor.MVVM.View
 {
-    public partial class ViewportView : UserControl
+    public partial class ViewportView : ViewBase
     {
         public ViewportView()
         {

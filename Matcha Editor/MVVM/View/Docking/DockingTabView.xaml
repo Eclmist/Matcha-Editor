@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Matcha_Editor.MVVM.View"
              mc:Ignorable="d" 
+             MouseDown="UserControl_MouseDown" 
              >
     <Border Style="{StaticResource PanelTabStyle}" Width="Auto" Padding="8,2,8,2">
         <Grid Width="Auto">

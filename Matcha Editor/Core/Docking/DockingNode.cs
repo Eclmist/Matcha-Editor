@@ -230,6 +230,11 @@ namespace Matcha_Editor.Core.Docking
             return minSize.Width <= size.Width && minSize.Height <= size.Height;
         }
 
+        public bool RecursiveResize()
+        {
+            return RecursiveResize(Rect);
+        }
+
         public bool RecursiveResize(Rect newRect)
         {
             if (!CanBeOfSize(newRect.Size))
@@ -408,14 +413,14 @@ namespace Matcha_Editor.Core.Docking
             return result;
         }
 
-        private DockingNode GetLeftSubzone()
+        public DockingNode GetLeftSubzone()
         {
             Rect subzone = Rect;
             double idealWidth = Width * SubzoneRatio;
             subzone.Width = Math.Min(Math.Max(idealWidth, MinimumSize), Width / 2);
             return new DockingNode { Rect = subzone, Parent = this };
         }
-        private DockingNode GetRightSubzone()
+        public DockingNode GetRightSubzone()
         {
             Rect subzone = Rect;
             double idealWidth = Width * SubzoneRatio;
@@ -423,14 +428,14 @@ namespace Matcha_Editor.Core.Docking
             subzone.Offset(Rect.Width - subzone.Width, 0);
             return new DockingNode { Rect = subzone, Parent = this };
         }
-        private DockingNode GetTopSubzone()
+        public DockingNode GetTopSubzone()
         {
             Rect subzone = Rect;
             double idealHeight = Height * SubzoneRatio;
             subzone.Height = Math.Min(Math.Max(idealHeight, MinimumSize), Height / 2);
             return new DockingNode { Rect = subzone, Parent = this };
         }
-        private DockingNode GetBottomSubzone()
+        public DockingNode GetBottomSubzone()
         {
             Rect subzone = Rect;
             double idealHeight = Height * SubzoneRatio;

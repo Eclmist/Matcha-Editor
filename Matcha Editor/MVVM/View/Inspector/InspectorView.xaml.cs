@@ -2,11 +2,12 @@
 using Matcha_Editor.Core.IPC.Command;
 using Matcha_Editor.MVVM.ViewModel;
 using System.Windows.Controls;
+using Matcha_Editor.Core;
 using Matcha_Editor.MVVM.Model;
 
 namespace Matcha_Editor.MVVM.View
 {
-    public partial class InspectorView : UserControl
+    public partial class InspectorView : ViewBase
     {
 
         public InspectorViewModel ViewModel { get; set; }
@@ -14,8 +15,10 @@ namespace Matcha_Editor.MVVM.View
         public InspectorView()
         {
             InitializeComponent();
+            EditorWindowManager.Instance.RegisterWindow(this);
+
             ViewModel = new InspectorViewModel();
-            Show("");
+            Show(null);
         }
 
         private void ScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)

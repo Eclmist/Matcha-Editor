@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace Matcha_Editor.MVVM.View
 {
-    public partial class HierarchyView : UserControl
+    public partial class HierarchyView : ViewBase
     {
         readonly HierarchyTreeViewModel m_TreeViewModel;
 

@@ -11,7 +11,7 @@
         Background="{StaticResource Editor.Window.GrayBrush1}"
         Icon="/Icons/matcha.ico"
         WindowStartupLocation="CenterScreen"
-        Deactivated="Window_Deactivated"
+        Deactivated="Window_Deactivated" Loaded="Window_Loaded"
         >
     <Window.DataContext>
         <viewmodel:MainViewModel/>
@@ -23,7 +23,11 @@
             <MenuItem Header="Edit" HorizontalAlignment="Left"/>
             <MenuItem Header="View" HorizontalAlignment="Left"/>
             <MenuItem Header="Tools" HorizontalAlignment="Left"/>
-            <MenuItem Header="Window" HorizontalAlignment="Left"/>
+            <MenuItem Header="Window" HorizontalAlignment="Left">
+                <MenuItem Header="Layouts" HorizontalAlignment="Left">
+                    <MenuItem Header="Default" Click="MenuItem_Window_Layout_Default_Click"></MenuItem>
+                </MenuItem>
+            </MenuItem>
             <MenuItem Header="Help" HorizontalAlignment="Left"/>
         </Menu>
         <Border DockPanel.Dock="Top" 
@@ -44,6 +48,6 @@
             </Grid>
         </Border>
         <!-- Main Window -->
-        <custom:DockingContainerView x:Name="LayoutRoot"/>
+        <custom:DockingContainerView x:Name="DockingLayoutRoot"/>
     </DockPanel>
 </Window>

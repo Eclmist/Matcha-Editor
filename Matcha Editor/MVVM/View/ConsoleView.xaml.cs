@@ -2,7 +2,7 @@
 
 namespace Matcha_Editor.MVVM.View
 {
-    public partial class ConsoleView : UserControl
+    public partial class ConsoleView : ViewBase
     {
         public ConsoleView()
         {
