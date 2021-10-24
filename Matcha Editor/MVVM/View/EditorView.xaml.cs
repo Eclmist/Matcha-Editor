@@ -25,7 +25,8 @@ namespace Matcha_Editor.MVVM.View
             //LayoutRoot.AddPanel(new InspectorView(), "Inspector", new Point(1800, 200));
             //LayoutRoot.AddPanel(new ConsoleView(), "Debug Console", new Point(900, 800));
             //LayoutRoot.AddPanel(new HierarchyView(), "Hierarchy", new Point(100, 500));
-            DockingPanel viewport = DockingLayoutRoot.TEMP_DockPanel(new ViewportView(), "World Viewer");
+            //DockingPanel viewport = DockingLayoutRoot.TEMP_DockPanel(new ViewportView(), "World Viewer");
+            DockingPanel viewport = DockingLayoutRoot.TEMP_DockPanel(new InspectorView(), "Inspector");
             DockingPanel inspectorPanel = DockingLayoutRoot.TEMP_DockPanel(new InspectorView(), "Inspector", viewport, DockingLayoutManager.DockPosition.Right);
             DockingPanel hierarchyPanel = DockingLayoutRoot.TEMP_DockPanel(new HierarchyView(), "Hierarchy", viewport, DockingLayoutManager.DockPosition.Left);
             DockingPanel debugPanel = DockingLayoutRoot.TEMP_DockPanel(new ConsoleView(), "Debug Console", viewport, DockingLayoutManager.DockPosition.Bottom);
@@ -34,7 +35,8 @@ namespace Matcha_Editor.MVVM.View
 
         private void MenuItem_Window_Layout_Default_Click(object sender, RoutedEventArgs e)
         {
-            DockingPanel viewport = DockingLayoutRoot.TEMP_DockPanel(new ViewportView(), "World Viewer");
+            //DockingPanel viewport = DockingLayoutRoot.TEMP_DockPanel(new ViewportView(), "World Viewer");
+            DockingPanel viewport = DockingLayoutRoot.TEMP_DockPanel(new InspectorView(), "Inspector");
             DockingPanel inspectorPanel = DockingLayoutRoot.TEMP_DockPanel(new InspectorView(), "Inspector", viewport, DockingLayoutManager.DockPosition.Right);
             DockingPanel hierarchyPanel = DockingLayoutRoot.TEMP_DockPanel(new HierarchyView(), "Hierarchy", viewport, DockingLayoutManager.DockPosition.Left);
             DockingPanel debugPanel = DockingLayoutRoot.TEMP_DockPanel(new ConsoleView(), "Debug Console", viewport, DockingLayoutManager.DockPosition.Bottom);

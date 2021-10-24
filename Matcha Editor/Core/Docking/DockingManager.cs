@@ -81,7 +81,7 @@ namespace Matcha_Editor.CoreDocking
 
         private void DestroySplitter(DockingPanel panel)
         {
-            if (panel.Node.IsAncestor())
+            if (panel.Node.IsAncestor()) 
                 return;
 
             panel.ContainerView.LayoutRoot.Children.Remove(m_NodeToSplitterMap[panel.Node.Parent]);
@@ -154,25 +154,24 @@ namespace Matcha_Editor.CoreDocking
 
         private void DockIntoPanel(DockingPanel panel, DockingNode targetNode)
         {
-            DockingContainerView targetContainer = DockingLayoutManager.Instance.GetRootContainer(targetNode) as DockingContainerView;
             ClosePanel(panel);
+            DockingContainerView targetContainer = DockingLayoutManager.Instance.GetRootContainer(targetNode) as DockingContainerView;
             targetContainer.TEMP_DockPanel(panel.Content, panel.Title, new DockingPanel{Node = targetNode.Parent}, m_TargetPosition);
         }
 
         private void DetachIntoExternalWindow(DockingPanel panel, Point screenPoint)
         {
+            ClosePanel(panel);
             DockingExternalWindowView newWindow = new DockingExternalWindowView();
             newWindow.ShowInTaskbar = false;
             newWindow.Focusable = false;
             newWindow.Owner = App.Current.MainWindow;
-            newWindow.Left = screenPoint.X - panel.Node.Width / 2;
-            newWindow.Top = screenPoint.Y - panel.Node.Height / 2;
+            newWindow.Left = screenPoint.X - DockingPreviewWindowView.DefaultWidth / 2;
+            newWindow.Top = screenPoint.Y - DockingPreviewWindowView.DefaultHeight / 2;
             newWindow.Width = panel.Node.Width;
             newWindow.Height = panel.Node.Height;
             newWindow.Show();
             newWindow.DockingContainer.TEMP_DockPanel(panel.Content, panel.Title);
-
-            ClosePanel(panel);
         }
 
         private DockingPreviewWindowView CreatePreviewWindow(DockingPanel panel)
@@ -184,7 +183,7 @@ namespace Matcha_Editor.CoreDocking
             window.IsEnabled = true;
             window.Owner = App.Current.MainWindow;
             window.Tab.TitleText = panel.Title;
-            window.PreviewMouseMove += (s, e) => ContinueDrag(panel, e.GetScreenPoint(s));
+            window.PreviewMouseMove += (s, e) => { if (e.LeftButton == MouseButtonState.Pressed) ContinueDrag(panel, e.GetScreenPoint(s)); };
             window.PreviewMouseUp += (s, e) => { if (e.ChangedButton == MouseButton.Left) EndDrag(panel, e.GetScreenPoint(s)); };
             return window;
         }
