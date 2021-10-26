@@ -190,6 +190,8 @@ namespace Matcha_Editor.CoreDocking
 
         DockingContainerView GetTopmostContainer(Point mouseScreenPos)
         {
+            int topmostZ = 0;
+            DockingContainerView topmostContainer = null;
 
             foreach (var dockingContainer in DockingLayoutManager.Instance.GetRootContainers())
             {
@@ -199,9 +201,18 @@ namespace Matcha_Editor.CoreDocking
                 while (visual != null && !(visual is DockingContainerView))
                     visual = VisualTreeHelper.GetParent(visual);
 
-                return visual as DockingContainerView;
+                if (visual != null)
+                {
+                    int zOrder = WindowsUtils.GetWindowZ(Window.GetWindow(visual));
+                    if (zOrder > topmostZ)
+                    {
+                        topmostContainer = visual as DockingContainerView;
+                        topmostZ = zOrder;
+                    }
+                }
             }
-            return null;
+
+            return topmostContainer;
         }
 
         private DockingNode GetSubzone(UIElement container, Point mouseScreenPos)
