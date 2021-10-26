@@ -12,9 +12,6 @@ using System.Windows.Shapes;
 
 namespace Matcha_Editor.MVVM.View
 {
-    /// <summary>
-    /// Interaction logic for DockingExternalWindowView.xaml
-    /// </summary>
     public partial class DockingExternalWindowView : Window
     {
         public DockingExternalWindowView()
@@ -26,6 +23,19 @@ namespace Matcha_Editor.MVVM.View
         {
             if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
+        }
+
+        private void MaximizeBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            else
+                WindowState = WindowState.Maximized;
+        }
+
+        private void CloseBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

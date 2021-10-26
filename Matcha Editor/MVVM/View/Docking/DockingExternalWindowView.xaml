@@ -12,7 +12,34 @@
         <WindowChrome CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
     <DockPanel>
-        <Border DockPanel.Dock="Top" Background="{StaticResource Editor.Window.GrayBrush1}" Margin="0,0,0,-20" Height="20" MouseDown="Border_MouseDown"></Border>
+        <Border DockPanel.Dock="Top" Background="{StaticResource Editor.Window.GrayBrush1}" Margin="0,0,0,-20" Height="20" MouseDown="Border_MouseDown">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button 
+                Click="MaximizeBtn_OnClick"
+                    Width="20"
+                    Height="20"
+                    x:Name="MaximizeBtn" Style="{StaticResource TitleBarButtonStyle}">
+                    <Path
+                        Margin="0,3,0,0"
+                        Data="M 0,0 H 7 V 6 H 0 Z"
+                        Stroke="{Binding Path=Foreground,
+							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                        StrokeThickness="1" />
+                </Button>
+                <Button 
+                Click="CloseBtn_OnClick"
+                    Width="22"
+                    Height="20"
+                    Style="{StaticResource TitleBarCloseButtonStyle}">
+                    <Path
+                        Margin="-2,3,0,0"
+                        Data="M 0,0 7,7 M 0,7 7,0"
+                        Stroke="{Binding Path=Foreground,
+							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                        StrokeThickness="1.2" />
+                </Button>
+            </StackPanel>
+        </Border>
         <local:DockingContainerView x:Name="DockingContainer"/>
     </DockPanel>
 </Window>

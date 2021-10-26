@@ -37,7 +37,7 @@
                     Data="M 18.5,10.5 H 27.5 V 19.5 H 18.5 Z"
                     Stroke="{Binding Path=Foreground,
 							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
-                    StrokeThickness="1" />
+                    StrokeThickness="0.9" />
             </Button>
             <Button 
                 x:Name="MinimizeBtn"
@@ -48,7 +48,7 @@
                     Data="M 18.5,12.5 H 25.5 V 19.5 H 18.5 Z M 20.5,12.5 V 10.5 H 27.5 V 17.5 H 25.5"
                     Stroke="{Binding Path=Foreground,
 							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
-                    StrokeThickness="1" />
+                    StrokeThickness="0.9" />
             </Button>
             <Button Style="{StaticResource TitleBarCloseButtonStyle}" Click="Btn_Close_Click">
                 <Path
