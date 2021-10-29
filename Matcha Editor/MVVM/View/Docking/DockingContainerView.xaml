@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:Matcha_Editor.MVVM.View"
              mc:Ignorable="d" 
              Padding="1"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Loaded="DockingContainerView_OnLoaded"
+             >
     <Canvas x:Name="LayoutRoot" SizeChanged="LayoutRoot_SizeChanged">
     </Canvas>
 </UserControl>

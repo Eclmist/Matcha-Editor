@@ -24,6 +24,11 @@ namespace Matcha_Editor.MVVM.View
             m_DockingManager = new DockingManager();
         }
 
+        private void DockingContainerView_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Window.GetWindow(this).Deactivated += (sender, args) => m_DockingManager.Reset();
+        }
+
         private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             DockingNode rootNode = DockingLayoutManager.Instance.GetRootNode(this);

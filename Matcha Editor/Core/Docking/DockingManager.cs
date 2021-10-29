@@ -54,6 +54,16 @@ namespace Matcha_Editor.CoreDocking
             return panel;
         }
 
+        public void Reset()
+        {
+            if (m_PreviewWindow != null)
+                m_PreviewWindow.Close();
+
+            m_PreviewWindow = null;
+            m_TargetNode = null;
+            m_ThresholdCleared = false;
+        }
+
         private void ClosePanel(DockingPanel panel)
         {
             DockingLayoutManager.Instance.RemoveNode(panel.Node);
@@ -142,16 +152,6 @@ namespace Matcha_Editor.CoreDocking
             Reset();
         }
 
-        private void Reset()
-        {
-            if (m_PreviewWindow != null)
-                m_PreviewWindow.Close();
-
-            m_PreviewWindow = null;
-            m_TargetNode = null;
-            m_ThresholdCleared = false;
-        }
-
         private void DockIntoPanel(DockingPanel panel, DockingNode targetNode)
         {
             ClosePanel(panel);
@@ -188,7 +188,7 @@ namespace Matcha_Editor.CoreDocking
             return window;
         }
 
-        DockingContainerView GetTopmostContainer(Point mouseScreenPos)
+        private DockingContainerView GetTopmostContainer(Point mouseScreenPos)
         {
             int topmostZ = 0;
             DockingContainerView topmostContainer = null;
