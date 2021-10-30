@@ -34,15 +34,57 @@
               WindowChrome.IsHitTestVisibleInChrome="True"
               >
             <MenuItem Header="File" Height="20"/>
-            <MenuItem Header="Edit" HorizontalAlignment="Left"/>
-            <MenuItem Header="View" HorizontalAlignment="Left"/>
-            <MenuItem Header="Tools" HorizontalAlignment="Left"/>
-            <MenuItem Header="Window" HorizontalAlignment="Left">
-                <MenuItem Header="Layouts" HorizontalAlignment="Left">
+            <MenuItem Header="_Edit">
+                <MenuItem Command="Undo" />
+                <MenuItem Command="Redo" />
+                <Separator />
+                <MenuItem Command="Cut" />
+                <MenuItem Command="Copy" />
+                <MenuItem Command="Paste" />
+            </MenuItem>
+            <MenuItem Header="View" />
+            <MenuItem Header="Tools" />
+            <MenuItem Header="Window" >
+                <MenuItem Header="Layouts" >
                     <MenuItem Header="Default" Click="MenuItem_Window_Layout_Default_Click"></MenuItem>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Help" HorizontalAlignment="Left"/>
+            <MenuItem Header="Help" />
+            <MenuItem Header="Menu Test" >
+                <MenuItem Header="Dummy Header" IsChecked="True">
+                    <MenuItem Header="Dummy Item">
+
+                        <MenuItem Header="Dummy Header" IsChecked="True">
+                            <MenuItem Header="Dummy Item"></MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="Dummy Header">
+                            <MenuItem Header="Dummy Item"></MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="Dummy Header" >
+                            <MenuItem Header="Dummy Item"></MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="Dummy Item"></MenuItem>
+                        <MenuItem Header="Dummy Item"></MenuItem>
+                        <MenuItem Header="Dummy Item"></MenuItem>
+
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Dummy Header">
+                    <MenuItem Header="Dummy Item"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Dummy Header" >
+                    <MenuItem Header="Dummy Item"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Dummy Item"></MenuItem>
+                <MenuItem Header="Dummy Item"></MenuItem>
+                <MenuItem Header="Dummy Item"></MenuItem>
+                <MenuItem Header="Dummy Item" Command="Redo" />
+                <MenuItem Header="Dummy Item" IsChecked="True"/>
+                <MenuItem Header="Dummy Item"></MenuItem>
+                <MenuItem Header="Dummy Item"></MenuItem>
+                <Separator />
+                <MenuItem Header="Dummy Item"></MenuItem>
+            </MenuItem>
         </Menu>
         <Border DockPanel.Dock="Top" 
                 Height="28"

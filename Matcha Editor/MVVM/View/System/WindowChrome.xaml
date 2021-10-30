@@ -16,7 +16,9 @@
         <TextBlock Style="{StaticResource TitleBarText}" Margin="29,8,0,0">
             Matcha Editor
         </TextBlock>
-        <TextBlock Text="Ether Connected - Default World" HorizontalAlignment="Center" Foreground="{StaticResource Editor.Window.InputFontBrush}" FontSize="12" Padding="0" Margin="0,8,0,0"/>
+        <TextBlock Style="{StaticResource TitleBarSubtext}" HorizontalAlignment="Center" Margin="0,8,0,0">
+            Ether Connected - Default World
+        </TextBlock>
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
             <Button 
                 Style="{StaticResource TitleBarButtonStyle}" Click="Btn_Minimize_Click">

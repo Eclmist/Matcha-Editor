@@ -40,7 +40,7 @@
                             <Setter Property="Data" TargetName="Collapsed" Value="M 0 1 L 4 8 L 8 1 Z"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Fill" TargetName="Collapsed" Value="{StaticResource Editor.Window.GrayBrush5}"/>
+                            <Setter Property="Fill" TargetName="Collapsed" Value="{StaticResource Editor.Window.GrayBrush4}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -8,11 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border
-					x:Name="border"
-					Background="Transparent"
-					BorderThickness="0"
-					SnapsToDevicePixels="true">
+                    <Border x:Name="border" Background="Transparent" BorderThickness="0" SnapsToDevicePixels="true">
                         <ContentPresenter
 						x:Name="contentPresenter"
 						Margin="0"
@@ -29,7 +25,7 @@
                             <Setter TargetName="border" Property="Background" Value="{StaticResource Editor.Window.PrimaryDarkBrush}" />
                         </Trigger>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=IsActive}" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource Editor.Window.InputFontBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource Editor.Window.DisabledFontBrush}"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -66,7 +62,7 @@
                             <Setter TargetName="border" Property="Background" Value="{StaticResource Editor.Window.DangerBrush}" />
                         </Trigger>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=IsActive}" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource Editor.Window.InputFontBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource Editor.Window.DisabledFontBrush}"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -79,8 +75,19 @@
         <Setter Property="Padding" Value="0"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=IsActive}" Value="false">
-                <Setter Property="Foreground" Value="{StaticResource Editor.Window.InputFontBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource Editor.Window.DisabledFontBrush}"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    <Style x:Key="TitleBarSubtext" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource Editor.Window.InputFontBrush}" />
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Padding" Value="0"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=IsActive}" Value="false">
+                <Setter Property="Foreground" Value="{StaticResource Editor.Window.DisabledFontBrush}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>
