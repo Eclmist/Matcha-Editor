@@ -89,7 +89,7 @@ namespace Matcha_Editor.Core.Docking
 
             if (node.IsAncestor())
             {
-                Debug.Assert(m_RootNodes.Remove(m_RootContainers[node]));
+                RemoveRootNode(node);
                 return;
             }
 
@@ -111,6 +111,13 @@ namespace Matcha_Editor.Core.Docking
                 node.GetRootNode().Collapse();
                 node.GetRootNode().RecursiveResize();
             }
+        }
+
+        public void RemoveRootNode(DockingNode node)
+        {
+            Debug.Assert(node.IsAncestor());
+            Debug.Assert(m_RootNodes.Remove(m_RootContainers[node]));
+            Debug.Assert(m_RootContainers.Remove(node));
         }
 
         public UIElement[] GetRootContainers()

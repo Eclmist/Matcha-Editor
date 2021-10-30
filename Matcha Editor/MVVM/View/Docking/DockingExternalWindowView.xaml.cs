@@ -36,6 +36,7 @@ namespace Matcha_Editor.MVVM.View
         private void CloseBtn_OnClick(object sender, RoutedEventArgs e)
         {
             Close();
+            DockingContainer.Close();
         }
     }
 }

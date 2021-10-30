@@ -57,5 +57,11 @@ namespace Matcha_Editor.MVVM.View
 
             return panel;
         }
+
+        public void Close()
+        {
+            DockingNode rootNode = DockingLayoutManager.Instance.GetRootNode(this);
+            DockingLayoutManager.Instance.RemoveRootNode(rootNode);
+        }
     }
 }
