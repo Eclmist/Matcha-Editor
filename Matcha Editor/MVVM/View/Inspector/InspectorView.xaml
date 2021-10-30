@@ -31,10 +31,12 @@
                             <CheckBox IsChecked="{Binding Mode=TwoWay, Path=SelectedItemEnabled}" Margin="4,0.5,4,0" DockPanel.Dock="Right"/>
                             <TextBox DockPanel.Dock="Right" Text="{Binding Mode=TwoWay, Path=SelectedItemName}"></TextBox>
                         </DockPanel>
-                        <StackPanel Margin="30,0,0,0" Orientation="Horizontal">
+                        <DockPanel Margin="30,0,0,0">
                             <Label Content="GUID:" Foreground="{StaticResource Editor.Window.InputFontBrush}"/>
-                            <Label Margin="-5,0,0,0" Content="{Binding SelectedItemID}" Foreground="{StaticResource Editor.Window.InputFontBrush}"/> 
-                        </StackPanel>
+                            <Label Margin="-5,0,0,0" Foreground="{StaticResource Editor.Window.InputFontBrush}">
+                                <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding SelectedItemID}" ></TextBlock>
+                            </Label>
+                        </DockPanel>
                     </StackPanel>
                 </Border>
 
