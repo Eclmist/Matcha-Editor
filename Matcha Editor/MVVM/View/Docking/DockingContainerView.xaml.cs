@@ -50,7 +50,7 @@ namespace Matcha_Editor.MVVM.View
             desc.Content = content;
             desc.Title = title;
             desc.Container = this;
-            desc.Parent = parent == null ? new DockingPanel() : parent;
+            desc.Parent = parent ?? new DockingPanel();
             desc.Position = pos;
 
             DockingPanel panel = m_DockingManager.AddPanel(desc);

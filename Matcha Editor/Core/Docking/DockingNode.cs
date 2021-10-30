@@ -251,30 +251,40 @@ namespace Matcha_Editor.Core.Docking
             Rect newLeftRect, newRightRect;
             GetNewChildRects(newRect, out newLeftRect, out newRightRect);
 
-            Size minLeftSize = LeftChild.GetMinimumSize();
-            Size minRightSize = RightChild.GetMinimumSize();
-
-            // This is black magic. first try to shift right if necessary, then shift left if necessary. This will guarantee
-            // but in the case of a high delta i.e. during lag, (that both children are shrinked), also need to compensate
-            // for the shrinking of the other child, hence the second factor.
-
-            double rsx = Math.Max(0, minLeftSize.Width - newLeftRect.Width);
-            double rsy = Math.Max(0, minLeftSize.Height - newLeftRect.Height);
-            double lsx = -Math.Max(0, minRightSize.Width - newRightRect.Width);
-            double lsy = -Math.Max(0, minRightSize.Height - newRightRect.Height);
-
-            double dxr = Math.Max(0, RightChild.Width - newRightRect.Width);
-            double dyr = Math.Max(0, RightChild.Height - newRightRect.Height);
-            double dxl = Math.Max(0, LeftChild.Width - newLeftRect.Width);
-            double dyl = Math.Max(0, LeftChild.Height - newLeftRect.Height);
-
-            ShiftSplitter(rsx + (rsx > 0 ? dxr : 0), rsy + (rsy > 0 ? dyr : 0));
-            ShiftSplitter(lsx - (lsx < 0 ? dxl : 0), lsy - (lsy < 0 ? dyl : 0));
+            double leftShiftX, leftShiftY, rightShiftX, rightShiftY;
+            GetSizeCompensationShiftAmount(newLeftRect, newRightRect, out rightShiftX, out rightShiftY, out leftShiftX, out leftShiftY);
+            ShiftSplitter(rightShiftX, rightShiftY);
+            ShiftSplitter(leftShiftX, leftShiftY);
 
             GetNewChildRects(newRect, out newLeftRect, out newRightRect);
+
             LeftChild.RecursiveResize(newLeftRect);
             RightChild.RecursiveResize(newRightRect);
             return true;
+        }
+
+        private void GetSizeCompensationShiftAmount(
+            Rect left, Rect right,
+            out double rightShiftX, out double rightShiftY,
+            out double leftShiftX, out double leftShiftY)
+        {
+            Size minLeftSize = LeftChild.GetMinimumSize();
+            Size minRightSize = RightChild.GetMinimumSize();
+
+            double rsx = Math.Max(0, minLeftSize.Width - left.Width);
+            double rsy = Math.Max(0, minLeftSize.Height - left.Height);
+            double lsx = -Math.Max(0, minRightSize.Width - right.Width);
+            double lsy = -Math.Max(0, minRightSize.Height - right.Height);
+
+            double dxr = Math.Max(0, RightChild.Width - right.Width);
+            double dyr = Math.Max(0, RightChild.Height - right.Height);
+            double dxl = Math.Max(0, LeftChild.Width - left.Width);
+            double dyl = Math.Max(0, LeftChild.Height - left.Height);
+
+            rightShiftX = rsx + (rsx > 0 ? dxr : 0);
+            rightShiftY = rsy + (rsy > 0 ? dyr : 0);
+            leftShiftX = lsx - (lsx < 0 ? dxl : 0);
+            leftShiftY = lsy - (lsy < 0 ? dyl : 0);
         }
 
         private void GetNewChildRects(Rect newParentRect, out Rect newLeftRect, out Rect newRightRect)
