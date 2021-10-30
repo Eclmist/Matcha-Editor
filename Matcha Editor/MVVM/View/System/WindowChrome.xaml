@@ -13,8 +13,9 @@
     <Grid Height="32" HorizontalAlignment="Stretch" Background="{StaticResource Editor.Window.GrayBrush1}">
         <Image Source="/Icons/matcha.ico" Width="16" Margin="9,2,0,0" HorizontalAlignment="Left"></Image>
 
-        <TextBlock 
-            Text="Matcha Editor" Foreground="{StaticResource Editor.Window.SystemFontBrush}" FontSize="12" Padding="0" Margin="29,8,0,0"/>
+        <TextBlock Style="{StaticResource TitleBarText}" Margin="29,8,0,0">
+            Matcha Editor
+        </TextBlock>
         <TextBlock Text="Ether Connected - Default World" HorizontalAlignment="Center" Foreground="{StaticResource Editor.Window.InputFontBrush}" FontSize="12" Padding="0" Margin="0,8,0,0"/>
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
             <Button 
@@ -22,7 +23,7 @@
                 <Path
                     Width="46"
                     Height="32"
-                    Data="M 18,15 H 28"
+                    Data="M 18,16 H 28"
                     Stroke="{Binding Path=Foreground,
 							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
                     StrokeThickness="1" />
@@ -34,7 +35,7 @@
                 <Path
                     Width="46"
                     Height="32"
-                    Data="M 18.5,10.5 H 27.5 V 19.5 H 18.5 Z"
+                    Data="M 18.5,11 H 27.5 V 20 H 18.5 Z"
                     Stroke="{Binding Path=Foreground,
 							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
                     StrokeThickness="0.9" />
@@ -45,7 +46,7 @@
                 <Path
                     Width="46"
                     Height="32"
-                    Data="M 18.5,12.5 H 25.5 V 19.5 H 18.5 Z M 20.5,12.5 V 10.5 H 27.5 V 17.5 H 25.5"
+                    Data="M 18.5,13 H 25.5 V 20 H 18.5 Z M 20.5,13 V 11 H 27.5 V 18 H 25.5"
                     Stroke="{Binding Path=Foreground,
 							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
                     StrokeThickness="0.9" />

@@ -28,6 +28,9 @@
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="border" Property="Background" Value="{StaticResource Editor.Window.PrimaryDarkBrush}" />
                         </Trigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=IsActive}" Value="false">
+                            <Setter Property="Foreground" Value="{StaticResource Editor.Window.InputFontBrush}"/>
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -62,9 +65,22 @@
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="border" Property="Background" Value="{StaticResource Editor.Window.DangerBrush}" />
                         </Trigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=IsActive}" Value="false">
+                            <Setter Property="Foreground" Value="{StaticResource Editor.Window.InputFontBrush}"/>
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+    <Style x:Key="TitleBarText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource Editor.Window.SystemFontBrush}" />
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Padding" Value="0"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=IsActive}" Value="false">
+                <Setter Property="Foreground" Value="{StaticResource Editor.Window.InputFontBrush}"/>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>
