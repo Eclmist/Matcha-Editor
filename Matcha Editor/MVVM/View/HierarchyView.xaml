@@ -21,7 +21,7 @@
                         Background="{StaticResource Editor.Window.GrayBrush3}">
 
                     <DockPanel>
-                        <Button DockPanel.Dock="Left">Create</Button>
+                        <Button DockPanel.Dock="Left">New</Button>
                         <Separator Opacity="0" Width="4"/>
                         <TextBox Style="{StaticResource RoundedTextBox}"></TextBox>
                     </DockPanel>

@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove="Icons\Labels\cube.png" />
+    <None Remove="Icons\Labels\folder.png" />
     <None Remove="Icons\matcha.ico" />
     <None Remove="Icons\matcha.png" />
     <None Remove="Resources\Splash.png" />
@@ -22,10 +23,24 @@
 
   <ItemGroup>
     <Resource Include="Icons\Labels\cube.png" />
+    <Resource Include="Icons\Labels\folder.png" />
     <Resource Include="Icons\matcha.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <SplashScreen Include="Resources\Splash.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="MVVM\View\ContentBrowserView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="MVVM\View\ContentBrowserView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

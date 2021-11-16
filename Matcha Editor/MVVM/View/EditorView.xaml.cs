@@ -26,7 +26,7 @@ namespace Matcha_Editor.MVVM.View
             //DockingPanel viewport = DockingLayoutRoot.TEMP_DockPanel(new InspectorView(), "Inspector");
             DockingPanel inspectorPanel = DockingLayoutRoot.TEMP_DockPanel(new InspectorView(), "Inspector", viewport, DockingLayoutManager.DockPosition.Right);
             DockingPanel hierarchyPanel = DockingLayoutRoot.TEMP_DockPanel(new HierarchyView(), "Hierarchy", viewport, DockingLayoutManager.DockPosition.Left);
-            DockingPanel debugPanel = DockingLayoutRoot.TEMP_DockPanel(new ConsoleView(), "Debug Console", viewport, DockingLayoutManager.DockPosition.Bottom);
+            DockingPanel contentBrowser = DockingLayoutRoot.TEMP_DockPanel(new ContentBrowserView(), "Content Browser", viewport, DockingLayoutManager.DockPosition.Bottom);
             SplashView.Instance.Close();
         }
 
@@ -36,7 +36,7 @@ namespace Matcha_Editor.MVVM.View
             DockingPanel viewport = DockingLayoutRoot.TEMP_DockPanel(new InspectorView(), "Inspector");
             DockingPanel inspectorPanel = DockingLayoutRoot.TEMP_DockPanel(new InspectorView(), "Inspector", viewport, DockingLayoutManager.DockPosition.Right);
             DockingPanel hierarchyPanel = DockingLayoutRoot.TEMP_DockPanel(new HierarchyView(), "Hierarchy", viewport, DockingLayoutManager.DockPosition.Left);
-            DockingPanel debugPanel = DockingLayoutRoot.TEMP_DockPanel(new ConsoleView(), "Debug Console", viewport, DockingLayoutManager.DockPosition.Bottom);
+            DockingPanel contentBrowser = DockingLayoutRoot.TEMP_DockPanel(new ContentBrowserView(), "Content Browser", viewport, DockingLayoutManager.DockPosition.Bottom);
             //DockingPanel debugPanel = DockingLayoutRoot.DockPanel(new ConsoleView(), "Debug Console", inspectorPanel);
             //DockingLayoutRoot.DockPanel(new HierarchyView(), "Hierarchy", debugPanel);
         }
