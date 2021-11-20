@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Matcha_Editor" 
         xmlns:viewmodel="clr-namespace:Matcha_Editor.MVVM.ViewModel"
         xmlns:custom="clr-namespace:Matcha_Editor.MVVM.View"
+        xmlns:commands="clr-namespace:Matcha_Editor.MVVM.ViewModel.Commands"
         mc:Ignorable="d"
         Title="Matcha Editor" Height="1080" Width="1920"
         Background="{StaticResource Editor.Window.GrayBrush1}"
@@ -42,7 +43,9 @@
                 <MenuItem Command="Copy" />
                 <MenuItem Command="Paste" />
             </MenuItem>
-            <MenuItem Header="View" />
+            <MenuItem Header="Assets">
+                <MenuItem Header="Import New Asset" Command="{Binding ImportAssetCommand}"/>
+            </MenuItem>
             <MenuItem Header="Tools" />
             <MenuItem Header="Window" >
                 <MenuItem Header="Layouts" >
