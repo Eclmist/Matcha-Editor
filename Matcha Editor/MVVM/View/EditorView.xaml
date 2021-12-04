@@ -47,6 +47,9 @@
                 <MenuItem Header="Import New Asset" Command="{Binding ImportAssetCommand}"/>
             </MenuItem>
             <MenuItem Header="Tools" />
+            <MenuItem Header="Engine">
+                <MenuItem Header="Connect" Command="{Binding ConnectToEngineCommand}"></MenuItem>
+            </MenuItem>
             <MenuItem Header="Window" >
                 <MenuItem Header="Layouts" >
                     <MenuItem Header="Default" Click="MenuItem_Window_Layout_Default_Click"></MenuItem>
@@ -91,21 +94,20 @@
         </Menu>
         <Border DockPanel.Dock="Top" 
                 Height="28"
-                Margin="5,-20,0,0"
+                Margin="0,-20,0,0"
                 HorizontalAlignment="Stretch" 
                 Background="Transparent" IsHitTestVisible="False">
-            <Grid>
-                <StackPanel DockPanel.Dock="Left" HorizontalAlignment="Center" Orientation="Horizontal">
-                    <Button Width="32" Margin="2">▶</Button>
-                    <Button Width="32" Margin="2">
-                        <TextBlock FontSize="11" FontWeight="ExtraBold" Margin="0,-4,0,0">| |</TextBlock>
-                    </Button>
-                    <Button Width="32" Margin="2">
-                        <TextBlock FontSize="30" Margin="0,-12,0,0">»</TextBlock>
-                    </Button>
-                </StackPanel>
-            </Grid>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button Width="32" Margin="2">▶</Button>
+                <Button Width="32" Margin="2">
+                    <TextBlock FontSize="11" FontWeight="ExtraBold" Margin="0,-4,0,0">| |</TextBlock>
+                </Button>
+                <Button Width="32" Margin="2">
+                    <TextBlock FontSize="30" Margin="0,-12,0,0">»</TextBlock>
+                </Button>
+            </StackPanel>
         </Border>
+
         <!-- Main Window -->
         <custom:DockingContainerView x:Name="DockingLayoutRoot"/>
     </DockPanel>

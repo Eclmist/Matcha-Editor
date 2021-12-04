@@ -15,7 +15,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- The hosted window exists in the border -->
-                <custom:RenderSurfaceView/>
+                <custom:RenderSurfaceView x:Name="RenderSurface"/>
             </Grid>
         </Border>
     </DockPanel>

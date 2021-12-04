@@ -16,6 +16,11 @@ namespace Matcha_Editor.MVVM.View
         private void OnRenderSurfaceViewLoaded(object sender, RoutedEventArgs e)
         {
             Loaded -= OnRenderSurfaceViewLoaded;
+            Initialize();
+        }
+
+        public void Initialize()
+        {
             m_Host = new RenderSurfaceHost();
             Content = m_Host;
         }

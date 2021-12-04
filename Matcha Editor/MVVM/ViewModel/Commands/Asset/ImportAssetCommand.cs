@@ -1,8 +1,6 @@
 ﻿using Matcha_Editor.Core.IPC;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 
 namespace Matcha_Editor.MVVM.ViewModel.Commands

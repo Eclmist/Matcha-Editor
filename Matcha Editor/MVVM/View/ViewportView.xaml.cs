@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Interop;
+﻿using Matcha_Editor.Core;
 
 namespace Matcha_Editor.MVVM.View
 {
@@ -10,6 +7,7 @@ namespace Matcha_Editor.MVVM.View
         public ViewportView()
         {
             InitializeComponent();
+            EditorWindowManager.Instance.RegisterWindow(this);
         }
     }
 }

@@ -40,14 +40,13 @@ namespace Matcha_Editor.Core
                 ((SplashViewModel)SplashView.Instance.DataContext).Splash.Status = "Initializing engine...";
             });
 
-            System.Threading.Thread.Sleep(500);
             App.Current.Dispatcher.Invoke(() =>
             {
                 new EditorView();
             });
         }
 
-        private bool ConnectToEngine()
+        public bool ConnectToEngine()
         {
             App.Current.Dispatcher.Invoke(() => 
                 ((SplashViewModel)SplashView.Instance.DataContext).Splash.Status = "Establishing connection with engine...");
