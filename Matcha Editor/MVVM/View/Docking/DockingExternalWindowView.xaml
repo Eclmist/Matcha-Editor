@@ -40,6 +40,6 @@
                 </Button>
             </StackPanel>
         </Border>
-        <local:DockingContainerView x:Name="DockingContainer"/>
+        <local:DockingContainerView x:Name="DockingContainer" Margin="2"/>
     </DockPanel>
 </Window>

@@ -31,15 +31,14 @@ namespace Matcha_Editor.MVVM.View
 
         private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            DockingNode rootNode = DockingLayoutManager.Instance.GetRootNode(this);
-            if (rootNode == null)
-                return;
+            DockingLayoutManager.Instance.Resize(e.NewSize, this);
 
-            rootNode.Rect = new Rect(e.NewSize);
-            rootNode.RecursiveResize();
-            Size minSize = rootNode.GetMinimumSize();
-            Window.GetWindow(this).MinWidth = Math.Max(DockingNode.MinimumSize, minSize.Width + 16); //TODO: Remove padding hack
-            Window.GetWindow(this).MinHeight = Math.Max(DockingNode.MinimumSize, minSize.Height + 59);
+            if (DockingLayoutManager.Instance.HasNodes(this))
+            {
+                Size minSize = DockingLayoutManager.Instance.GetRootNode(this).GetMinimumSize();
+                Window.GetWindow(this).MinWidth = Math.Max(DockingNode.MinimumSize, minSize.Width + 16); //TODO: Remove padding hack
+                Window.GetWindow(this).MinHeight = Math.Max(DockingNode.MinimumSize, minSize.Height + 59);
+            }
         }
 
         public DockingPanel TEMP_DockPanel(
@@ -61,7 +60,7 @@ namespace Matcha_Editor.MVVM.View
         public void Close()
         {
             DockingNode rootNode = DockingLayoutManager.Instance.GetRootNode(this);
-            DockingLayoutManager.Instance.RemoveRootNode(rootNode);
+            DockingLayoutManager.Instance.RemoveNode(rootNode);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Matcha_Editor.MVVM.ViewModel.Commands
 
         public bool CanExecute(object parameter)
         {
-            return IPCManager.Instance.HasActiveConnection;
+            return true;
         }
 
         public void Execute(object parameter)

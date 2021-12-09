@@ -40,29 +40,6 @@ namespace Matcha_Editor.Core.Docking
             m_RootContainers = new Dictionary<DockingNode, UIElement>();
         }
 
-        public DockingNode AddNewNode(UIElement rootContainer, Point position = new Point())
-        {
-            DockingNode rootNode;
-            m_RootNodes.TryGetValue(rootContainer, out rootNode);
-
-            if (rootNode == null)
-            {
-                DockingNode newRootNode = new DockingNode(new Rect(rootContainer.RenderSize));
-                m_RootNodes.Add(rootContainer, newRootNode);
-                m_RootContainers.Add(newRootNode, rootContainer);
-                return newRootNode;
-            }
-
-            DockingNode newNode = GetPreviewNode(position, rootContainer);
-            if (newNode != null)
-            {
-                DockNode(newNode, newNode.Parent);
-                newNode.GetRootNode().RecursiveResize();
-            }
-
-            return newNode;
-        }
-
         public DockingNode AddNode(UIElement rootContainer, DockingNode parent = null, DockPosition position = DockPosition.Left)
         {
             if (parent == null)
@@ -89,7 +66,8 @@ namespace Matcha_Editor.Core.Docking
 
             if (node.IsAncestor())
             {
-                RemoveRootNode(node);
+                Debug.Assert(m_RootNodes.Remove(m_RootContainers[node]));
+                Debug.Assert(m_RootContainers.Remove(node));
                 return;
             }
 
@@ -111,13 +89,6 @@ namespace Matcha_Editor.Core.Docking
                 node.GetRootNode().Collapse();
                 node.GetRootNode().RecursiveResize();
             }
-        }
-
-        public void RemoveRootNode(DockingNode node)
-        {
-            Debug.Assert(node.IsAncestor());
-            Debug.Assert(m_RootNodes.Remove(m_RootContainers[node]));
-            Debug.Assert(m_RootContainers.Remove(node));
         }
 
         public UIElement[] GetRootContainers()
@@ -164,11 +135,14 @@ namespace Matcha_Editor.Core.Docking
             }
         }
 
-        public void Resize(Size newSize, DockingNode node)
+        public void Resize(Size newSize, UIElement rootContainer)
         {
-            Rect newRect = new Rect(newSize);
-            node.Rect = newRect;
-            node.RecursiveResize();
+            DockingNode rootNode = GetRootNode(rootContainer);
+            if (rootNode == null)
+                return;
+
+            rootNode.Rect = new Rect(newSize);
+            rootNode.RecursiveResize();
         }
 
         private void SetRootNode(DockingNode node, UIElement rootContainer)

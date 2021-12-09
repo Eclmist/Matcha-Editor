@@ -109,6 +109,6 @@
         </Border>
 
         <!-- Main Window -->
-        <custom:DockingContainerView x:Name="DockingLayoutRoot"/>
+        <custom:DockingContainerView x:Name="DockingLayoutRoot" Margin="2"/>
     </DockPanel>
 </Window>
