@@ -5,9 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Matcha_Editor.MVVM.View"
              mc:Ignorable="d" 
-             MouseDown="UserControl_MouseDown" 
              >
-    <Border Style="{StaticResource PanelTabStyle}" Width="Auto" Padding="8,2,8,2">
+    <Border x:Name="Main" Style="{StaticResource PanelTabStyle}" Width="Auto" Padding="8,2,8,2" Margin="0,0,1,0">
         <Grid Width="Auto">
             <StackPanel Orientation="Horizontal">
                 <Border CornerRadius="5" Width="12" Height="12" Background="{StaticResource Editor.Window.PrimaryBrush}">

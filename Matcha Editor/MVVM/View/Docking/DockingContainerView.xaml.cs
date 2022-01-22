@@ -42,19 +42,15 @@ namespace Matcha_Editor.MVVM.View
         }
 
         public DockingPanel TEMP_DockPanel(
-            UIElement content, string title, DockingPanel parent = null,
-            DockingLayoutManager.DockPosition pos = DockingLayoutManager.DockPosition.Left)
+            UIElement content, string title, DockingPanel relativeTo = null,
+            DockingLayoutManager.DockPosition relativePos = DockingLayoutManager.DockPosition.Left)
         {
-            DockingPanelDescriptor desc = new DockingPanelDescriptor();
-            desc.Content = content;
-            desc.Title = title;
-            desc.Container = this;
-            desc.Parent = parent ?? new DockingPanel();
-            desc.Position = pos;
 
-            DockingPanel panel = m_DockingManager.AddPanel(desc);
+            DockingPanelTab tab = new DockingPanelTab();
+            tab.Content = content;
+            tab.Title = title;
 
-            return panel;
+            return m_DockingManager.AddTab(tab, relativeTo, relativePos, this);
         }
 
         public void Close()

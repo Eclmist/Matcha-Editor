@@ -13,7 +13,6 @@ namespace Matcha_Editor.MVVM.View
         {
             InitializeComponent();
             DockingNode = dockingNode;
-            Tab.ParentPanel = this;
 
             Binding canvasTopBinding = new Binding("Top");
             Binding canvasLeftBinding = new Binding("Left");
@@ -29,6 +28,21 @@ namespace Matcha_Editor.MVVM.View
             SetBinding(Canvas.LeftProperty, canvasLeftBinding);
             SetBinding(WidthProperty, widthBinding);
             SetBinding(HeightProperty, heightBinding);
+        }
+
+        public DockingTabView AddTab(DockingPanelTab tab)
+        {
+            DockingTabView tabView = new DockingTabView(tab);
+            tabView.ParentPanel = this;
+            tabView.TitleText = tab.Title;
+            TabList.Children.Add(tabView);
+
+            return tabView;
+        }
+
+        public void RemoveTab(DockingPanelTab tab)
+        {
+            TabList.Children.Remove(tab.TabView);
         }
     }
 }

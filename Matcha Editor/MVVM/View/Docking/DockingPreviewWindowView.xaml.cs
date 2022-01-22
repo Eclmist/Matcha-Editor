@@ -1,9 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Interop;
 
 namespace Matcha_Editor.MVVM.View
 {
@@ -35,14 +32,24 @@ namespace Matcha_Editor.MVVM.View
         {
             Width = size.Width;
             Height = size.Height;
-            Left = pos.X;
-            Top = pos.Y;
+            MainWindow.Visibility = Visibility.Visible;
             Show();
+
+            MoveTo(pos);
         }
 
-        public void ShowAsTab()
+        public void ShowAsTab(Point pos)
         {
+            MainWindow.Visibility = Visibility.Collapsed;
             Show();
+            pos.Y -= 1; // To account for the margin for window view so that the tab aligns with other tabs
+            MoveTo(pos);
+        }
+
+        private void MoveTo(Point pos)
+        {
+            Left = pos.X;
+            Top = pos.Y;
         }
 
         [DllImport("user32.dll")]

@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows;
+﻿using Matcha_Editor.Core.Docking;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Matcha_Editor.MVVM.View
 {
@@ -18,21 +8,34 @@ namespace Matcha_Editor.MVVM.View
     {
         public DockingPanelView ParentPanel { get; set; }
         public string TitleText { get; set; }
+        public DockingPanelTab Tab { get; set; }
+
+        private SolidColorBrush activeBrush = new SolidColorBrush(Color.FromRgb(0x25, 0x25, 0x29));
+        private SolidColorBrush inactiveBrush = new SolidColorBrush(Color.FromRgb(0x1e, 0x1e, 0x21));
 
         public DockingTabView()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
         }
-        
+
+        public DockingTabView(DockingPanelTab tab)
+        {
+            InitializeComponent();
+            DataContext = this;
+
+            tab.TabView = this;
+            PreviewMouseUp += (s, e) => tab.Select();
+        }
+
         public void ToggleVisibility(bool visible)
         {
             this.Opacity = visible ? 1 : 0;
         }
 
-        private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
+        public void SetActiveStyle(bool active)
         {
-            //DragDrop.DoDragDrop(this, this, DragDropEffects.Move);
+            Main.Background = active ? activeBrush : inactiveBrush;
         }
     }
 }

@@ -27,6 +27,8 @@ namespace Matcha_Editor.MVVM.View
             DockingPanel inspectorPanel = DockingLayoutRoot.TEMP_DockPanel(new InspectorView(), "Inspector", viewport, DockingLayoutManager.DockPosition.Right);
             DockingPanel hierarchyPanel = DockingLayoutRoot.TEMP_DockPanel(new HierarchyView(), "Hierarchy", viewport, DockingLayoutManager.DockPosition.Left);
             DockingPanel contentBrowser = DockingLayoutRoot.TEMP_DockPanel(new ContentBrowserView(), "Content Browser", viewport, DockingLayoutManager.DockPosition.Bottom);
+            DockingLayoutRoot.TEMP_DockPanel(new InspectorView(), "Inspector", contentBrowser, DockingLayoutManager.DockPosition.Stacked);
+            DockingLayoutRoot.TEMP_DockPanel(new HierarchyView(), "Hierarchy", contentBrowser, DockingLayoutManager.DockPosition.Stacked);
             SplashView.Instance.Close();
         }
 

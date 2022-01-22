@@ -9,11 +9,12 @@
         Background="Transparent"
         AllowsTransparency="True"
         Opacity="0.9"
-        Title="DockingPreviewWindowView" 
-        Height="150" Width="200">
-    <DockPanel Margin="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        Title="DockingPreviewWindowView"
+        >
+    <DockPanel Margin="1" VerticalAlignment="Stretch">
         <custom:DockingTabView x:Name="Tab" DockPanel.Dock="Top" Panel.ZIndex="2" Grid.Row="0" HorizontalAlignment="Left" Margin="0"/>
         <Border 
+            x:Name="MainWindow"
             DockPanel.Dock="Bottom" 
             Panel.ZIndex="1" 
             Margin="0,-1,0,0" Style="{StaticResource PanelContentStyle}">

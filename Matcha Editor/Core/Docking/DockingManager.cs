@@ -18,40 +18,47 @@ namespace Matcha_Editor.CoreDocking
         private DockingNode m_TargetNode;
         private DockingLayoutManager.DockPosition m_TargetPosition;
 
-        private bool m_ThresholdCleared;
-        private double m_Threshold = 60;
+
+        #region User Controls
+        private Point m_TabDragStartPoint;
+
+        private bool m_TabReordered;
+        private bool m_TabDetached;
+
+        private double m_TabReorderThreshold = 30;
+        private double m_TabDetachThreshold = 30;
+        #endregion
 
         public DockingManager()
         {
             m_NodeToSplitterMap = new Dictionary<DockingNode, DockingSplitterView>();
         }
 
-        public void OnMouseDown(MouseButton button, Point mouseScreenPoint, DockingPanel panel)
+        public void OnMouseDown(MouseButton button, Point mouseScreenPoint, DockingPanelTab tab)
         {
             if (button == MouseButton.Middle)
-                ClosePanel(panel);
+                CloseTab(tab);
             if (button == MouseButton.Left)
-                StartDrag(panel, mouseScreenPoint);
+                StartDrag(tab, mouseScreenPoint);
         }
 
-        public DockingPanel AddPanel(DockingPanelDescriptor desc)
+        public DockingPanel AddTab(DockingPanelTab tab, DockingPanel relativeTo, DockingLayoutManager.DockPosition relativePos, UIElement rootContainer)
         {
-            DockingPanel panel = new DockingPanel();
-            panel.Title = desc.Title;
-            panel.Node = DockingLayoutManager.Instance.AddNode(desc.Container, desc.Parent.Node, desc.Position);
-            panel.PanelView = new DockingPanelView(panel.Node);
-            panel.PanelView.Tab.TitleText = desc.Title;
-            panel.PanelView.Container.Content = desc.Content;
-            panel.PanelView.Tab.PreviewMouseDown += (s, e) => OnMouseDown(e.ChangedButton, e.GetScreenPoint(s), panel);
-            panel.ContainerView = desc.Container as DockingContainerView;
-            panel.Content = desc.Content;
+            if (relativePos == DockingLayoutManager.DockPosition.Stacked)
+            {
+                Debug.Assert(relativeTo != null);
+                relativeTo.AddTab(tab);
+                DockingTabView tabView = relativeTo.PanelView.AddTab(tab);
+                tabView.PreviewMouseDown += (s, e) => OnMouseDown(e.ChangedButton, e.GetScreenPoint(s), tab);
+                return relativeTo;
+            }
 
-            CreateSplitter(panel);
-
-            if (panel.PanelView != null)
-                panel.ContainerView.LayoutRoot.Children.Add(panel.PanelView);
-
-            return panel;
+            DockingPanelDescriptor desc = new DockingPanelDescriptor();
+            desc.Container = rootContainer;
+            desc.RelativePanel = relativeTo ?? new DockingPanel();
+            desc.RelativePosition = relativePos;
+            desc.Tab = tab;
+            return AddPanel(desc);
         }
 
         public void Reset()
@@ -61,7 +68,36 @@ namespace Matcha_Editor.CoreDocking
 
             m_PreviewWindow = null;
             m_TargetNode = null;
-            m_ThresholdCleared = false;
+            m_TabDetached = false;
+        }
+
+        private DockingPanel AddPanel(DockingPanelDescriptor desc)
+        {
+            DockingPanel panel = new DockingPanel();
+            panel.Node = DockingLayoutManager.Instance.AddNode(desc.Container, desc.RelativePanel.Node, desc.RelativePosition);
+            panel.PanelView = new DockingPanelView(panel.Node);
+            panel.PanelView.Container.Content = desc.Tab.Content;
+            panel.ContainerView = desc.Container as DockingContainerView;
+
+            panel.AddTab(desc.Tab);
+            DockingTabView tabView = panel.PanelView.AddTab(desc.Tab);
+            tabView.PreviewMouseDown += (s, e) => OnMouseDown(e.ChangedButton, e.GetScreenPoint(s), desc.Tab);
+
+            CreateSplitter(panel);
+
+            if (panel.PanelView != null)
+                panel.ContainerView.LayoutRoot.Children.Add(panel.PanelView);
+
+            return panel;
+        }
+
+        private void CloseTab(DockingPanelTab tab)
+        {
+            tab.Parent.PanelView.RemoveTab(tab);
+            tab.Parent.RemoveTab(tab);
+
+            if (tab.Parent.GetNumTabs() == 0)
+                ClosePanel(tab.Parent);
         }
 
         private void ClosePanel(DockingPanel panel)
@@ -98,83 +134,113 @@ namespace Matcha_Editor.CoreDocking
             m_NodeToSplitterMap.Remove(panel.Node.Parent);
         }
 
-        private void StartDrag(DockingPanel panel, Point mouseScreenPoint)
+        private void StartDrag(DockingPanelTab tab, Point mouseScreenPoint)
         {
             Debug.Assert(m_PreviewWindow == null);
-            m_PreviewWindow = CreatePreviewWindow(panel);
-            m_PreviewWindow.ShowAsWindow(mouseScreenPoint);
+            m_TabDragStartPoint = mouseScreenPoint;
+            m_PreviewWindow = CreatePreviewWindow(tab);
+            m_PreviewWindow.Opacity = 0;
+            m_PreviewWindow.ShowAsTab(mouseScreenPoint - (m_TabDragStartPoint - tab.TabView.PointToScreen(new Point())));
+            m_PreviewWindow.CaptureMouse();
         }
 
-        private void ContinueDrag(DockingPanel panel, Point mouseScreenPoint)
+        private void ContinueDrag(DockingPanelTab tab, Point mouseScreenPoint)
         {
             Debug.Assert(m_PreviewWindow != null);
-            m_PreviewWindow.CaptureMouse();
-            m_ThresholdCleared = (mouseScreenPoint - panel.PanelView.PointToScreen(new Point())).Length > m_Threshold;
-            m_PreviewWindow.Opacity = m_ThresholdCleared ? 0.9 : 0;
 
-            DockingContainerView topmostContainer = GetTopmostContainer(mouseScreenPoint);
-            if (topmostContainer != null)
+            Vector dragDelta = mouseScreenPoint - m_TabDragStartPoint;
+
+            m_TabDetached = Math.Abs(dragDelta.Y) > m_TabDetachThreshold;
+            m_TabReordered = dragDelta.Length > m_TabReorderThreshold;
+
+            if (!m_TabReordered && !m_TabDetached)
             {
-                DockingNode subzoneNode = GetSubzone(topmostContainer, mouseScreenPoint);
-                if (subzoneNode != null && subzoneNode.Parent != panel.Node)
-                {
-                    m_PreviewWindow.ShowAsWindow(topmostContainer.PointToScreen(subzoneNode.Rect.TopLeft), subzoneNode.Rect.Size);
-                    m_TargetNode = subzoneNode;
-                    if (subzoneNode.Rect == subzoneNode.Parent.GetTopSubzone().Rect)
-                        m_TargetPosition = DockingLayoutManager.DockPosition.Top;
-                    if (subzoneNode.Rect == subzoneNode.Parent.GetRightSubzone().Rect)
-                        m_TargetPosition = DockingLayoutManager.DockPosition.Right;
-                    if (subzoneNode.Rect == subzoneNode.Parent.GetBottomSubzone().Rect)
-                        m_TargetPosition = DockingLayoutManager.DockPosition.Bottom;
-                    if (subzoneNode.Rect == subzoneNode.Parent.GetLeftSubzone().Rect)
-                        m_TargetPosition = DockingLayoutManager.DockPosition.Left;
-
-                    return;
-                }
+                tab.TabView.Opacity = 1;
+                m_PreviewWindow.Opacity = 0;
+                return;
             }
 
-            m_TargetNode = null;
-            m_PreviewWindow.ShowAsWindow(mouseScreenPoint);
+            m_PreviewWindow.Opacity = 0.9;
+            tab.TabView.Opacity = 0;
+
+            if (m_TabDetached)
+            {
+                DockingContainerView topmostContainer = GetTopmostContainer(mouseScreenPoint);
+                if (topmostContainer != null)
+                {
+                    DockingNode subzoneNode = GetSubzone(topmostContainer, mouseScreenPoint);
+                    if (subzoneNode != null && subzoneNode.Parent != tab.Parent.Node)
+                    {
+                        m_PreviewWindow.ShowAsWindow(topmostContainer.PointToScreen(subzoneNode.Rect.TopLeft), subzoneNode.Rect.Size);
+                        m_TargetNode = subzoneNode;
+                        if (subzoneNode.Rect == subzoneNode.Parent.GetTopSubzone().Rect)
+                            m_TargetPosition = DockingLayoutManager.DockPosition.Top;
+                        if (subzoneNode.Rect == subzoneNode.Parent.GetRightSubzone().Rect)
+                            m_TargetPosition = DockingLayoutManager.DockPosition.Right;
+                        if (subzoneNode.Rect == subzoneNode.Parent.GetBottomSubzone().Rect)
+                            m_TargetPosition = DockingLayoutManager.DockPosition.Bottom;
+                        if (subzoneNode.Rect == subzoneNode.Parent.GetLeftSubzone().Rect)
+                            m_TargetPosition = DockingLayoutManager.DockPosition.Left;
+
+                        return;
+                    }
+                }
+
+                m_TargetNode = null;
+                m_PreviewWindow.ShowAsWindow(mouseScreenPoint);
+            }
+            else
+            {
+                //m_PreviewWindow.ShowAsTab(mouseScreenPoint - (m_TabDragStartPoint - tab.TabView.PointToScreen(new Point())));
+                Point pos = tab.TabView.PointToScreen(new Point());
+                pos.X += dragDelta.X;
+                m_PreviewWindow.ShowAsTab(pos);
+            }
+
         }
 
-        private void EndDrag(DockingPanel panel, Point mouseScreenPoint)
+        private void EndDrag(DockingPanelTab tab, Point mouseScreenPoint)
         {
             Debug.Assert(m_PreviewWindow != null);
+            tab.TabView.Opacity = 1;
 
-            if (m_ThresholdCleared)
+            if (!m_TabReordered)
+                tab.Select();
+
+            if (m_TabDetached)
             {
                 if (m_TargetNode == null)
-                    DetachIntoExternalWindow(panel, mouseScreenPoint);
+                    DetachIntoExternalWindow(tab, mouseScreenPoint);
                 else
-                    DockIntoPanel(panel, m_TargetNode);
+                    DockIntoPanel(tab, m_TargetNode);
             }
 
             Reset();
         }
 
-        private void DockIntoPanel(DockingPanel panel, DockingNode targetNode)
+        private void DockIntoPanel(DockingPanelTab tab, DockingNode targetNode)
         {
-            ClosePanel(panel);
+            CloseTab(tab);
             DockingContainerView targetContainer = DockingLayoutManager.Instance.GetRootContainer(targetNode) as DockingContainerView;
-            targetContainer.TEMP_DockPanel(panel.Content, panel.Title, new DockingPanel{Node = targetNode.Parent}, m_TargetPosition);
+            targetContainer.TEMP_DockPanel(tab.Content, tab.Title, new DockingPanel{Node = targetNode.Parent}, m_TargetPosition);
         }
 
-        private void DetachIntoExternalWindow(DockingPanel panel, Point screenPoint)
+        private void DetachIntoExternalWindow(DockingPanelTab tab, Point screenPoint)
         {
-            ClosePanel(panel);
+            CloseTab(tab);
             DockingExternalWindowView newWindow = new DockingExternalWindowView();
             newWindow.ShowInTaskbar = false;
             newWindow.Focusable = false;
             newWindow.Owner = App.Current.MainWindow;
             newWindow.Left = screenPoint.X - DockingPreviewWindowView.DefaultWidth / 2;
             newWindow.Top = screenPoint.Y - DockingPreviewWindowView.DefaultHeight / 2;
-            newWindow.Width = panel.Node.Width;
-            newWindow.Height = panel.Node.Height;
+            newWindow.Width = tab.Parent.Node.Width;
+            newWindow.Height = tab.Parent.Node.Height;
             newWindow.Show();
-            newWindow.DockingContainer.TEMP_DockPanel(panel.Content, panel.Title);
+            newWindow.DockingContainer.TEMP_DockPanel(tab.Content, tab.Title);
         }
 
-        private DockingPreviewWindowView CreatePreviewWindow(DockingPanel panel)
+        private DockingPreviewWindowView CreatePreviewWindow(DockingPanelTab tab)
         {
             DockingPreviewWindowView window = new DockingPreviewWindowView();
             window.ShowActivated = false;
@@ -182,9 +248,9 @@ namespace Matcha_Editor.CoreDocking
             window.ShowInTaskbar = false;
             window.IsEnabled = true;
             window.Owner = App.Current.MainWindow;
-            window.Tab.TitleText = panel.Title;
-            window.PreviewMouseMove += (s, e) => { if (e.LeftButton == MouseButtonState.Pressed) ContinueDrag(panel, e.GetScreenPoint(s)); };
-            window.PreviewMouseUp += (s, e) => { if (e.ChangedButton == MouseButton.Left) EndDrag(panel, e.GetScreenPoint(s)); };
+            window.Tab.TitleText = tab.Title;
+            window.PreviewMouseMove += (s, e) => { if (e.LeftButton == MouseButtonState.Pressed) ContinueDrag(tab, e.GetScreenPoint(s)); };
+            window.PreviewMouseUp += (s, e) => { if (e.ChangedButton == MouseButton.Left) EndDrag(tab, e.GetScreenPoint(s)); };
             return window;
         }
 

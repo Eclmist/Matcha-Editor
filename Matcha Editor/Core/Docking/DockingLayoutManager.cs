@@ -15,7 +15,11 @@ namespace Matcha_Editor.Core.Docking
         }
         public enum DockPosition
         {
-            Top, Left, Bottom, Right
+            Top,
+            Left,
+            Bottom,
+            Right,
+            Stacked // Same docking node, different tab
         }
 
         private Dictionary<UIElement, DockingNode> m_RootNodes;
