@@ -11,6 +11,7 @@
 
                 <ResourceDictionary Source="./Themes/Common/Button.xaml"/>
                 <ResourceDictionary Source="./Themes/Common/CheckBox.xaml"/>
+                <ResourceDictionary Source="./Themes/Common/ComboBox.xaml"/>
                 <ResourceDictionary Source="./Themes/Common/Expander.xaml"/>
                 <ResourceDictionary Source="./Themes/Common/Menu.xaml"/>
                 <ResourceDictionary Source="./Themes/Common/Panel.xaml"/>
