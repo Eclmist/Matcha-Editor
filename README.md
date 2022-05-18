@@ -23,5 +23,18 @@ Matcha Editor was built to be used with the DX12 rendering engine <a href="https
 This project was only created few days ago (as of 19 Oct 2021) and still lacks many critical features, come back later!
 
 <h1 align="center">
-    <img src="https://github.com/Eclmist/Matcha-Editor/blob/41b00273b9b921c74da62ccec34ea48e58771ddb/Matcha%20Editor/Resources/Interface.png" alt="Image" width="700" />
+    <img src="https://raw.githubusercontent.com/Eclmist/Matcha-Editor/master/Matcha%20Editor/Resources/Interface.png" alt="Image" />
 </h1>
+
+## Features
+
+### Multi-viewport & Docking
+<h1 align="center">
+    <img src="https://github.com/Eclmist/Matcha-Editor/blob/master/Matcha%20Editor/Resources/docking.png" alt="Image" />
+</h1>
+
+### Data-driven Components
+<h1 align="center">
+    <img src="https://raw.githubusercontent.com/Eclmist/Matcha-Editor/master/Matcha%20Editor/Resources/components.png" alt="Image" />
+</h1>
+
