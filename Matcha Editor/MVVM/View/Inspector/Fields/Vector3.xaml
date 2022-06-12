@@ -15,19 +15,19 @@
         <Grid Grid.Column="0">
             <DockPanel>
                 <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">X</Label>
-                <TextBox Text="{Binding Mode=TwoWay, Path=Field.X}"></TextBox>
+                <TextBox Text="{Binding Mode=TwoWay, Path=X}"></TextBox>
             </DockPanel>
         </Grid>
         <Grid Grid.Column="1">
             <DockPanel>
                 <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">Y</Label>
-                <TextBox Text="{Binding Mode=TwoWay, Path=Field.Y}"></TextBox>
+                <TextBox Text="{Binding Mode=TwoWay, Path=Y}"></TextBox>
             </DockPanel>
         </Grid>
         <Grid Grid.Column="2">
             <DockPanel>
                 <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">Z</Label>
-                <TextBox Text="{Binding Mode=TwoWay, Path=Field.Z}"></TextBox>
+                <TextBox Text="{Binding Mode=TwoWay, Path=Z}"></TextBox>
             </DockPanel>
         </Grid>
     </Grid>

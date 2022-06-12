@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Matcha_Editor.MVVM.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,9 +9,9 @@ namespace Matcha_Editor.MVVM.ViewModel
     {
         public bool Enabled { get; set; }
 
-        public BooleanFieldViewModel(dynamic values)
+        public BooleanFieldViewModel(InspectorComponentFieldModel model) : base(model)
         {
-            Enabled = values[0].GetBoolean();
+            Enabled = model.Values[0].GetBoolean();
         }
     }
 }

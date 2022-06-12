@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="./Themes/Common/Menu.xaml"/>
                 <ResourceDictionary Source="./Themes/Common/Panel.xaml"/>
                 <ResourceDictionary Source="./Themes/Common/ScrollBar.xaml"/>
+                <ResourceDictionary Source="./Themes/Common/Slider.xaml"/>
                 <ResourceDictionary Source="./Themes/Common/TextBox.xaml"/>
                 <ResourceDictionary Source="./Themes/Common/TreeView.xaml"/>
 

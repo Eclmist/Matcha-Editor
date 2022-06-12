@@ -43,7 +43,7 @@ namespace Matcha_Editor.Core.IPC.Command
                 public class ArgumentLayout
                 {
                     [JsonPropertyName("components")]
-                    public ComponentModel[] Components { get; set; }
+                    public InspectorComponentModel[] Components { get; set; }
                 }
             }
         }

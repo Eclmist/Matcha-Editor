@@ -68,14 +68,14 @@ namespace Matcha_Editor.MVVM.ViewModel
             }
         }
 
-        public ObservableCollection<ComponentViewModel> Components { get; set; }
+        public ObservableCollection<InspectorComponentViewModel> Components { get; set; }
 
         public InspectorViewModel()
         {
-            Components = new ObservableCollection<ComponentViewModel>();
+            Components = new ObservableCollection<InspectorComponentViewModel>();
         }
 
-        public void UpdateComponents(ComponentModel[] components)
+        public void UpdateComponents(InspectorComponentModel[] components)
         {
             for (int i = 0; i < components.Length; ++i)
             {
@@ -89,7 +89,7 @@ namespace Matcha_Editor.MVVM.ViewModel
                 }
                 else
                 {
-                    Components.Add(new ComponentViewModel(components[i]));
+                    Components.Add(new InspectorComponentViewModel(components[i]));
                 }
             }
 

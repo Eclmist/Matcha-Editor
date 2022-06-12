@@ -33,7 +33,7 @@ namespace Matcha_Editor.MVVM.View
             if (guid == null) // TODO maybe do a GUID lookup instead?
             {
                 HeaderBar.Visibility = System.Windows.Visibility.Collapsed;
-                ViewModel.UpdateComponents(new ComponentModel[]{});
+                ViewModel.UpdateComponents(new InspectorComponentModel[]{});
                 return;
             }
 

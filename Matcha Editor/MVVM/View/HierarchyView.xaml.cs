@@ -18,10 +18,10 @@ namespace Matcha_Editor.MVVM.View
             InitializeComponent();
 
             HierarchyNode rootnode = new HierarchyNode { Name = "Default World" };
-            rootnode.Children.Add(new HierarchyNode { Name = "Dummy Nested Entity" });
+            //rootnode.Children.Add(new HierarchyNode { Name = "Dummy Nested Entity" });
 
-            rootnode.Children[0].Children.Add(new HierarchyNode { Name = "Deeply Nested Entity 1" });
-            rootnode.Children[0].Children.Add(new HierarchyNode { Name = "Deeply Nested Entity 2" });
+            //rootnode.Children[0].Children.Add(new HierarchyNode { Name = "Deeply Nested Entity 1" });
+            //rootnode.Children[0].Children.Add(new HierarchyNode { Name = "Deeply Nested Entity 2" });
 
             var result = new GetTopLevelEntitiesCommand.Response(IPCManager.Instance.Get(new GetTopLevelEntitiesCommand()));
             foreach (var entity in result.ResponseData.Args.Entities)
