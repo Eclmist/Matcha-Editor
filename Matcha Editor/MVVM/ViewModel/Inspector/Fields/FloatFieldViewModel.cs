@@ -17,6 +17,10 @@ namespace Matcha_Editor.MVVM.ViewModel
             set 
             {
                 m_Value = value;
+
+                if (HasRange)
+                    m_Value = Math.Clamp(m_Value, MinValue, MaxValue);
+
                 NotifyPropertyChanged();
             }
         }

@@ -26,7 +26,7 @@
                     </ColumnDefinition.Style>
                 </ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding Mode=TwoWay, Path=Value}" Grid.Column="0"></TextBox>
+            <TextBox x:Name="Value" Text="{Binding Mode=TwoWay, Path=Value}" Grid.Column="0"></TextBox>
             <Slider 
                 x:Name="valueSlider"
                 Value="{Binding Mode=TwoWay, Path=Value}" 
