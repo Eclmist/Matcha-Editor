@@ -34,7 +34,10 @@
     <Compile Update="MVVM\View\ContentBrowserView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MVVM\View\Inspector\Fields\Float.xaml.cs">
+    <Compile Update="MVVM\View\Inspector\Fields\FloatField.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\Inspector\Fields\Vector4Field.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -44,7 +47,11 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\View\Inspector\Fields\Float.xaml">
+    <Page Update="MVVM\View\Inspector\Fields\FloatField.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\Inspector\Fields\Vector4Field.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Matcha_Editor.MVVM.View.Float"
+﻿<UserControl x:Class="Matcha_Editor.MVVM.View.FloatField"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -18,7 +18,7 @@
                         <Style TargetType="ColumnDefinition">
                             <Setter Property="Width" Value="8*" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding hasRange}" Value="False">
+                                <DataTrigger Binding="{Binding HasRange}" Value="False">
                                     <Setter Property="Width" Value="0" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -26,15 +26,15 @@
                     </ColumnDefinition.Style>
                 </ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding Mode=TwoWay, Path=value}" Grid.Column="0"></TextBox>
+            <TextBox Text="{Binding Mode=TwoWay, Path=Value}" Grid.Column="0"></TextBox>
             <Slider 
                 x:Name="valueSlider"
-                Value="{Binding Mode=TwoWay, Path=value}" 
-                Minimum="{Binding Path=minValue}" 
-                Maximum="{Binding Path=maxValue}"
+                Value="{Binding Mode=TwoWay, Path=Value}" 
+                Minimum="{Binding Path=MinValue}" 
+                Maximum="{Binding Path=MaxValue}"
                 Grid.Column="1"
                 IsMoveToPointEnabled="True"
-                Visibility="{Binding Path=hasRange, Converter={StaticResource BoolToVisibilityConverter}}"
+                Visibility="{Binding Path=HasRange, Converter={StaticResource BoolToVisibilityConverter}}"
             />
         </Grid>
     </DockPanel>

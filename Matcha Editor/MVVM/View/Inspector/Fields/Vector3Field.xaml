@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="Matcha_Editor.MVVM.View.Vector3Field"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Matcha_Editor.MVVM.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="26" d:DesignWidth="400">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <DockPanel>
+                <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">X</Label>
+                <TextBox Text="{Binding Mode=TwoWay, Path=X}"></TextBox>
+            </DockPanel>
+        </Grid>
+        <Grid Grid.Column="1">
+            <DockPanel>
+                <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">Y</Label>
+                <TextBox Text="{Binding Mode=TwoWay, Path=Y}"></TextBox>
+            </DockPanel>
+        </Grid>
+        <Grid Grid.Column="2">
+            <DockPanel>
+                <Label Foreground="{StaticResource Editor.Window.SystemFontBrush}">Z</Label>
+                <TextBox Text="{Binding Mode=TwoWay, Path=Z}"></TextBox>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</UserControl>

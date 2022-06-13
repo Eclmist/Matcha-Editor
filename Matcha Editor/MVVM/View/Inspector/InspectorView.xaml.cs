@@ -4,6 +4,7 @@ using Matcha_Editor.MVVM.ViewModel;
 using System.Windows.Controls;
 using Matcha_Editor.Core;
 using Matcha_Editor.MVVM.Model;
+using Matcha_Editor.Core.IPC.Commands.DataSetCommands;
 
 namespace Matcha_Editor.MVVM.View
 {

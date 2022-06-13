@@ -11,8 +11,11 @@ namespace Matcha_Editor.MVVM.Model
         [JsonPropertyName("type")]
         public String Type { get; set; }
         [JsonPropertyName("values")]
-        public dynamic Values { get; set; }
+        public List<dynamic> Values { get; set; }
         [JsonPropertyName("properties")]
         public IDictionary<string, IDictionary<string, dynamic>> Properties { get; set; }
+
+        [JsonIgnore]
+        public InspectorComponentModel ComponentRef { get; set; }
     }
 }

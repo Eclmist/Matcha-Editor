@@ -9,12 +9,12 @@ namespace Matcha_Editor.MVVM.Model
         public string Name { get; set; }
         [JsonPropertyName("guid")]
         public string Guid { get; set; }
+        [JsonPropertyName("entity_guid")]
+        public string EntityGuid { get; set; }
         [JsonPropertyName("enabled")]
         public bool Enabled { get; set; }
-        [JsonPropertyName("isfixed")]
-        public bool IsFixed { get; set; }
 
-        [JsonPropertyName("properties")]
-        public InspectorComponentFieldModel[] Properties { get; set; }
+        [JsonPropertyName("fields")]
+        public InspectorComponentFieldModel[] Fields { get; set; }
     }
 }

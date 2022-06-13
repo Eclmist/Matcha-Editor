@@ -4,9 +4,9 @@ using System.Windows.Input;
 
 namespace Matcha_Editor.MVVM.View
 {
-    public partial class Float : UserControl
+    public partial class FloatField : UserControl
     {
-        public Float()
+        public FloatField()
         {
             InitializeComponent();
             valueSlider.ApplyTemplate();

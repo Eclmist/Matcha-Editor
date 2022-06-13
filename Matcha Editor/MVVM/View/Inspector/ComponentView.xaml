@@ -61,10 +61,16 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.Resources>
                         <DataTemplate DataType="{x:Type viewModel:Vector3FieldViewModel}">
-                            <view:Vector3 Grid.Column="2"/>
+                            <view:Vector3Field Grid.Column="2"/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type viewModel:Vector4FieldViewModel}">
+                            <view:Vector4Field Grid.Column="2"/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type viewModel:FloatFieldViewModel}">
-                            <view:Float Grid.Column="2"/>
+                            <view:FloatField Grid.Column="2"/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type viewModel:BooleanFieldViewModel}">
+                            <view:BooleanField Grid.Column="2"/>
                         </DataTemplate>
                     </ListBox.Resources>
                 </ListBox>

@@ -77,24 +77,31 @@ namespace Matcha_Editor.MVVM.ViewModel
 
         public void UpdateComponents(InspectorComponentModel[] components)
         {
-            for (int i = 0; i < components.Length; ++i)
-            {
-                if (Components.Count > i)
-                {
-                    Components[i].Name = components[i].Name;
-                    Components[i].Guid = components[i].Guid;
-                    Components[i].Enabled = components[i].Enabled;
-                    Components[i].IsFixed = components[i].IsFixed;
-                    Components[i].UpdateProperties(components[i].Properties);
-                }
-                else
-                {
-                    Components.Add(new InspectorComponentViewModel(components[i]));
-                }
-            }
+            Components.Clear();
 
-            while (Components.Count > components.Length)
-                Components.RemoveAt(Components.Count - 1);
+            for (int i = 0; i < components.Length; ++i)
+                Components.Add(new InspectorComponentViewModel(components[i]));
+
+            //for (int i = 0; i < components.Length; ++i)
+            //{
+            //    if (Components.Count > i)
+            //    {
+            //        Components[i].Name = components[i].Name;
+            //        Components[i].Guid = components[i].Guid;
+            //        Components[i].Enabled = components[i].Enabled;
+            //        Components[i].IsFixed = components[i].IsFixed;
+            //        Components[i].Mo = components[i].IsFixed;
+
+            //        Components[i].UpdateProperties(components[i].Properties);
+            //    }
+            //    else
+            //    {
+            //        Components.Add(new InspectorComponentViewModel(components[i]));
+            //    }
+            //}
+
+            //while (Components.Count > components.Length)
+            //    Components.RemoveAt(Components.Count - 1);
 
             NotifyPropertyChanged();
         }

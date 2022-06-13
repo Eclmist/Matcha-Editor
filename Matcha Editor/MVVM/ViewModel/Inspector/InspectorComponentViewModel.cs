@@ -11,19 +11,25 @@ namespace Matcha_Editor.MVVM.ViewModel
         public string Name { get; set; }
         public string Guid { get; set; }
         public bool Enabled { get; set; }
-        public bool IsFixed { get; set; }
 
         public ObservableCollection<FieldViewModel> Fields { get; set; }
 
+        private InspectorComponentModel Model { get; set; }
+
         public InspectorComponentViewModel(InspectorComponentModel component)
         {
+            UpdateDataWithModel(component);
+        }
+        
+        public void UpdateDataWithModel(InspectorComponentModel component)
+        {
+            Fields = new ObservableCollection<FieldViewModel>();
+            Model = component;
+
             Name = component.Name;
             Guid = component.Guid;
             Enabled = component.Enabled;
-            IsFixed = component.IsFixed;
-
-            Fields = new ObservableCollection<FieldViewModel>();
-            UpdateProperties(component.Properties);
+            UpdateProperties(component.Fields);
         }
 
         public void UpdateProperties(InspectorComponentFieldModel[] properties)
@@ -34,15 +40,18 @@ namespace Matcha_Editor.MVVM.ViewModel
             Fields.Clear();
             foreach (InspectorComponentFieldModel property in properties)
             {
+                property.ComponentRef = Model;
+
                 switch (property.Type)
                 {
                     case "Vector3":
                         Fields.Add(new Vector3FieldViewModel(property));
-
+                        break;
+                    case "Vector4":
+                        Fields.Add(new Vector4FieldViewModel(property));
                         break;
                     case "Float":
                         Fields.Add(new FloatFieldViewModel(property));
-
                         break;
                     case "Boolean":
                         Fields.Add(new BooleanFieldViewModel(property));
