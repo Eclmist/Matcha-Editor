@@ -24,11 +24,13 @@ namespace Matcha_Editor.MVVM.View
             //rootnode.Children[0].Children.Add(new HierarchyNode { Name = "Deeply Nested Entity 2" });
 
             var result = new GetTopLevelEntitiesCommand.Response(IPCManager.Instance.Get(new GetTopLevelEntitiesCommand()));
-            foreach (var entity in result.ResponseData.Args.Entities)
-                rootnode.Children.Add(new HierarchyNode { 
-                    Name = entity.Name, 
-                    Guid = entity.Guid
-                });
+
+            if (result.ResponseData.Args?.Entities != null)
+                foreach (var entity in result.ResponseData.Args.Entities)
+                    rootnode.Children.Add(new HierarchyNode { 
+                        Name = entity.Name, 
+                        Guid = entity.Guid
+                    });
 
             m_TreeViewModel = new HierarchyTreeViewModel(rootnode);
             base.DataContext = m_TreeViewModel;
