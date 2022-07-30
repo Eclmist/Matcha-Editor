@@ -71,14 +71,14 @@ namespace Matcha_Editor.Core.IPC
 
         public void Initialize()
         {
-            Console.WriteLine("Initializing IPC Manager");
+            Debug.WriteLine("Initializing IPC Manager");
             string hostname = ConfigurationManager.AppSettings.Get("EngineHostname");
             int port = int.Parse(ConfigurationManager.AppSettings.Get("EnginePort"));
 
             m_TCPClient = new TcpClient();
             m_TCPClient.Connect(hostname, port);
             m_NetworkStream = m_TCPClient.GetStream();
-            Console.WriteLine("IPC connection with engine established");
+            Debug.WriteLine("IPC connection with engine established");
             HasActiveConnection = true;
         }
 
@@ -88,7 +88,7 @@ namespace Matcha_Editor.Core.IPC
                 return;
 
             Send(command.ToBytes());
-            Console.WriteLine($"Command Sent { command.ToJson() }");
+            Debug.WriteLine($"Command Sent { command.ToJson() }");
         }
 
         public string Get(CommandBase command)
@@ -104,8 +104,9 @@ namespace Matcha_Editor.Core.IPC
         {
             try
             {
+                byte[] messageLength = BitConverter.GetBytes(data.Length);
+                m_NetworkStream.Write(messageLength, 0, 4);
                 m_NetworkStream.Write(data, 0, data.Length);
-                m_NetworkStream.Write(new byte[] { 0x0 }, 0, 1); // Delimiter (maybe move into command.tobytes?
             }
             catch (Exception)
             {
@@ -116,21 +117,27 @@ namespace Matcha_Editor.Core.IPC
         private string WaitForReply()
         {
             StringBuilder sb = new StringBuilder();
+            byte[] messageLengthRaw = new byte[4];
             byte[] data = new byte[2048];
-            while (true)
+
+            try
             {
-                try
+                m_NetworkStream.Read(messageLengthRaw, 0, 4);
+                int messageLength = BitConverter.ToInt32(messageLengthRaw);
+
+                while (messageLength > 0)
                 {
-                    int bytesRead = m_NetworkStream.Read(data, 0, data.Length);
-                    Console.WriteLine($"Received TCP packet of size {bytesRead}, with data {Encoding.ASCII.GetString(data, 0, bytesRead)}");
-                    if (bytesRead == 1 && data[0] == 0)
-                        break;
+                    int bytesRead = m_NetworkStream.Read(data, 0, Math.Min(2048, messageLength));
+                    messageLength -= bytesRead;
+                    Debug.Assert(messageLength >= 0);
+                    Debug.WriteLine($"Received TCP packet of size {bytesRead}, with data {Encoding.ASCII.GetString(data, 0, bytesRead)}");
+
                     sb.Append(Encoding.ASCII.GetString(data, 0, bytesRead));
                 }
-                catch (Exception)
-                {
-                    VerifyConnectionAlive();
-                }
+            }
+            catch (Exception)
+            {
+                VerifyConnectionAlive();
             }
 
             return sb.ToString();
