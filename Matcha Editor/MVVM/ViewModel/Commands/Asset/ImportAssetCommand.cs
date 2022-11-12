@@ -17,9 +17,15 @@ namespace Matcha_Editor.MVVM.ViewModel.Commands
         public void Execute(object parameter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Mesh (*.obj)|*.obj|All files (*.*)|*.*";
+            openFileDialog.Filter = "Mesh (*.obj)|*.obj|Textures(*.png;*.jpg;*.jpeg;*.hdri)|*.png;*.jpg;*.jpeg;*.hdri|All files (*.*)|*.*";
+            openFileDialog.Multiselect = true;
             if (openFileDialog.ShowDialog() == true)
-                IPCManager.Instance.Post(new Core.IPC.Commands.ImportAssetCommand(openFileDialog.FileName));
+            {
+                foreach (string filename in openFileDialog.FileNames)
+                {
+                    IPCManager.Instance.Post(new Core.IPC.Commands.ImportAssetCommand(filename));
+                }
+            }
         }
     }
 }

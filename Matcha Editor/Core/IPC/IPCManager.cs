@@ -88,7 +88,7 @@ namespace Matcha_Editor.Core.IPC
                 return;
 
             Send(command.ToBytes());
-            Debug.WriteLine($"Command Sent { command.ToJson() }");
+            //Debug.WriteLine($"Command Sent { command.ToJson() }");
         }
 
         public string Get(CommandBase command)
@@ -130,7 +130,7 @@ namespace Matcha_Editor.Core.IPC
                     int bytesRead = m_NetworkStream.Read(data, 0, Math.Min(2048, messageLength));
                     messageLength -= bytesRead;
                     Debug.Assert(messageLength >= 0);
-                    Debug.WriteLine($"Received TCP packet of size {bytesRead}, with data {Encoding.ASCII.GetString(data, 0, bytesRead)}");
+                    //Debug.WriteLine($"Received TCP packet of size {bytesRead}, with data {Encoding.ASCII.GetString(data, 0, bytesRead)}");
 
                     sb.Append(Encoding.ASCII.GetString(data, 0, bytesRead));
                 }

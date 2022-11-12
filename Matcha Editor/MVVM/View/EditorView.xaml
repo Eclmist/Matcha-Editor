@@ -56,7 +56,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Help" />
-            <MenuItem Header="Menu Test" >
+            <!--<MenuItem Header="Menu Test" >
                 <MenuItem Header="Dummy Header" IsChecked="True">
                     <MenuItem Header="Dummy Item">
 
@@ -90,7 +90,7 @@
                 <MenuItem Header="Dummy Item"></MenuItem>
                 <Separator />
                 <MenuItem Header="Dummy Item"></MenuItem>
-            </MenuItem>
+            </MenuItem>-->
         </Menu>
         <Border DockPanel.Dock="Top" 
                 Height="28"
