@@ -163,8 +163,10 @@
                             <ComboBoxItem >Shaded</ComboBoxItem>
                             <Separator></Separator>
                             <ComboBoxItem>Albedo</ComboBoxItem>
+                            <ComboBoxItem>Specular</ComboBoxItem>
                             <ComboBoxItem>Normal</ComboBoxItem>
                             <ComboBoxItem>Position</ComboBoxItem>
+                            <ComboBoxItem>Picker</ComboBoxItem>
                             <Separator></Separator>
                             <ComboBoxItem IsEnabled="False">Test: Disabled</ComboBoxItem>
                         </ComboBox>
